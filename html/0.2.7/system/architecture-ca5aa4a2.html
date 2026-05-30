@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Architecture | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">System</p>
+      <h1>Architecture</h1>
+      <p>Mianotes Web Service is a FastAPI application with filesystem-first note storage and a small relational index.</p>
+<h2>Core principles</h2>
+<ul><li>The filesystem stores user-facing note content.</li><li>Markdown is the durable note format.</li><li>SQLite stores indexes, metadata, relationships, sessions, tokens, and jobs.</li><li>API responses are JSON unless an endpoint explicitly returns a stored file.</li><li>The backend owns permissions, parsing, job state, and persistence decisions.</li><li>Browser users and AI agents use the same backend capability model.</li></ul>
+<h2>High-level components</h2>
+<div class="code-card"><pre><code class="language-text">Human browser
+    |
+    v
+Mianotes web app
+    |
+    v
+FastAPI web service  &lt;---- REST clients / agents
+    |
+    +--&gt; SQLite metadata index
+    |
+    +--&gt; Markdown note files and source files
+    |
+    +--&gt; Parser adapter / MarkItDown / OCR
+    |
+    +--&gt; Mia LLM provider boundary
+    |
+    +--&gt; MCP stdio server calls the same REST API</code></pre></div>
+<h2>Storage layout</h2>
+<p>Generated notes and source files live under the configured data directory:</p>
+<div class="code-card"><pre><code class="language-text">data/&lt;folder_slug&gt;/&lt;title_slug&gt;-&lt;note_id[:8]&gt;.md
+data/&lt;folder_slug&gt;/sources/&lt;note_id[:8]&gt;/original.&lt;ext&gt;</code></pre></div>
+<p>Folder rows store their filesystem path. Note rows store their Markdown filename. The full path is derived from those two values.</p>
+<p>Later title edits do not rename files. This keeps URLs and filesystem references stable.</p>
+<h2>Database responsibilities</h2>
+<p>SQLite tracks:</p>
+<ul><li>users;</li><li>folders;</li><li>notes;</li><li>source files;</li><li>comments;</li><li>tags;</li><li>sessions;</li><li>API tokens;</li><li>share tokens;</li><li>Mia jobs.</li></ul>
+<p>The repository and service boundaries keep storage concerns separate from the public API contract.</p>
+<h2>Jobs</h2>
+<p>Long-running work is represented with durable rows in the <code>mia_jobs</code> table.</p>
+<p>Status transitions:</p>
+<div class="code-card"><pre><code class="language-text">queued -&gt; running -&gt; succeeded
+queued -&gt; running -&gt; failed
+queued -&gt; cancelled</code></pre></div>
+<p>This gives the web app and agent clients a stable polling model for file and URL ingestion.</p>
+<h2>Search</h2>
+<p>Saved Markdown files are searched with <code>ripgrep</code>. The search service joins file matches back to note metadata before returning JSON results.</p>
+<p>This keeps Markdown files as the source of note text while still giving API clients structured note IDs, titles, users, folders, tags, and timestamps.</p>
+<h2>Authentication</h2>
+<p>The web app uses long-lived HTTP-only cookie sessions.</p>
+<p>Agents and automation scripts use bearer tokens:</p>
+<div class="code-card"><pre><code class="language-http">Authorization: Bearer mia_&lt;token&gt;</code></pre></div>
+<p>Token hashes are stored in the database. Raw token values are returned only once when created.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

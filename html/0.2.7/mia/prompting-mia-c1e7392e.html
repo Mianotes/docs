@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Prompting Mia | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">Mia</p>
+      <h1>Prompting Mia</h1>
+      <p>Mia is prompted through the comments endpoint.</p>
+<p>If a comment request body starts with <code>@mia</code>, Mianotes treats it as a private Mia prompt instead of a shared comment.</p>
+<h2>Endpoint</h2>
+<div class="code-card"><pre><code class="language-text">POST /api/notes/{note_id}/comments</code></pre></div>
+<p>Authentication:</p>
+<div class="code-card"><pre><code class="language-text">Session cookie or bearer token with comments:write or admin</code></pre></div>
+<h2>Request</h2>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;body&quot;</span>: <span class="tok-string">&quot;@mia summarise this note&quot;</span>
+}</code></pre></div>
+<p>Mianotes strips the <code>@mia</code> prefix, reads the current note Markdown, sends the prompt and note content to the configured LLM provider, and waits for the response.</p>
+<h2>Response</h2>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;type&quot;</span>: <span class="tok-string">&quot;prompt&quot;</span>,
+  <span class="tok-key">&quot;prompt&quot;</span>: <span class="tok-string">&quot;summarise this note&quot;</span>,
+  <span class="tok-key">&quot;note_id&quot;</span>: <span class="tok-string">&quot;4a95f146-9d27-4c79-b7d8-34739aef8998&quot;</span>,
+  <span class="tok-key">&quot;text&quot;</span>: <span class="tok-string">&quot;## Summary\n\nThe note explains the Mallorca trip plan...&quot;</span>,
+  <span class="tok-key">&quot;format&quot;</span>: <span class="tok-string">&quot;markdown&quot;</span>
+}</code></pre></div>
+<h2>Important behaviour</h2>
+<p>Mia prompts:</p>
+<ul><li>are synchronous;</li><li>do not create jobs;</li><li>are private;</li><li>are not saved as comments;</li><li>are not returned by <code>GET /api/notes/{note_id}/comments</code>;</li><li>do not update the note;</li><li>return Markdown only.</li></ul>
+<p>If you want Mia&#x27;s answer to become part of the note, copy the returned Markdown into an update request or paste it in the web app.</p>
+<h2>Example prompts</h2>
+<div class="code-card"><pre><code class="language-text">@mia summarise this note for a project manager
+@mia extract the tasks, owners, and dates
+@mia rewrite this as clear documentation
+@mia list unanswered questions in this note
+@mia turn this into revision notes with definitions and examples
+@mia find security-sensitive content in this note</code></pre></div>
+<h2>Errors</h2>
+<p>An empty Mia prompt returns <code>422</code>:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;detail&quot;</span>: <span class="tok-string">&quot;Mia prompt cannot be empty&quot;</span>
+}</code></pre></div>
+<p>If Mia is not configured, or the configured LLM provider is unavailable, the API returns <code>503</code>.</p>
+<h2>Prompting style</h2>
+<p>Good prompts are specific about the output format.</p>
+<p>Good:</p>
+<div class="code-card"><pre><code class="language-text">@mia rewrite this note as a concise implementation guide with headings: Goal, Setup, Steps, Common errors, Next steps.</code></pre></div>
+<p>Weak:</p>
+<div class="code-card"><pre><code class="language-text">@mia improve this</code></pre></div>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Core concepts | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">About</p>
+      <h1>Core concepts</h1>
+      <p>This page explains the words used throughout the documentation.</p>
+<h2><code>Workspace</code></h2>
+<p>A Mianotes workspace is a top-level knowledge area backed by a local folder. The private workspace SQLite database lives inside that folder at <code>.mianotes/mia.db</code>.</p>
+<p>Small groups can share a Mianotes app by using the same master password. Everyone can read shared notes, browse by folder, browse by user, and add notes to active folders.</p>
+<h2><code>User</code></h2>
+<p>A user is a human account in the current Mianotes folder. The first user becomes the admin for that folder.</p>
+<p>Browser users authenticate with a session cookie. Agents should use API tokens instead of browser sessions.</p>
+<h2><code>Folder</code></h2>
+<p>A folder is a shared workspace for related notes.</p>
+<p>Folder rows are stored in SQLite, while each folder also owns a top-level filesystem directory under <code>data/</code>. A folder can be archived. When archived, the folder is hidden from normal lists and moved under <code>data/.archived/</code> so active folders stay clean.</p>
+<h2><code>Note</code></h2>
+<p>A note is the main unit of knowledge.</p>
+<p>The note body is a Markdown file on disk. Metadata lives in SQLite. A note can have source files, tags, comments, share links, and job history.</p>
+<p>A note filename normally looks like:</p>
+<div class="code-card"><pre><code class="language-text">&lt;title_slug&gt;-&lt;note_id&gt;.md</code></pre></div>
+<p>Example:</p>
+<div class="code-card"><pre><code class="language-text">planning-trip-to-mallorca-4a95f146.md</code></pre></div>
+<h2><code>Source file</code></h2>
+<p>A source file is the original file or downloaded HTML used to create a note.</p>
+<p>For file uploads, Mianotes stores the uploaded file under:</p>
+<div class="code-card"><pre><code class="language-text">data/&lt;folder_slug&gt;/sources/&lt;note_id[:8]&gt;/original.&lt;ext&gt;</code></pre></div>
+<p>Source files are kept next to the generated Markdown note but ignored by the folder-level <code>.gitignore</code> so Git backups can store notes without committing original uploads.</p>
+<h2><code>Tag</code></h2>
+<p>Tags provide cross-folder grouping. Notes can be tagged with short labels such as <code>research</code>, <code>planning</code>, <code>client</code>, or <code>release</code>.</p>
+<p>Tags are useful for both humans and agents because they make related notes easier to discover.</p>
+<h2><code>Comment</code></h2>
+<p>A comment is a saved discussion item attached to a note.</p>
+<p>Comments are useful for review, handoff, or reminders. If a comment body starts with <code>@mia</code>, Mianotes treats it as a private prompt to Mia instead of saving it as a shared comment.</p>
+<h2><code>Job</code></h2>
+<p>A job represents background work, such as parsing an uploaded file or indexing a URL.</p>
+<p>Jobs move through clear status transitions:</p>
+<div class="code-card"><pre><code class="language-text">queued -&gt; running -&gt; succeeded
+queued -&gt; running -&gt; failed
+queued -&gt; cancelled</code></pre></div>
+<p>Clients should poll the job endpoint when a file or URL note is still being parsed.</p>
+<h2><code>Mia</code></h2>
+<p>Mia is the built-in AI assistant. Mia works through backend service boundaries, not frontend-only behaviour. The backend owns permissions, persistence, parsing, and the LLM provider calls.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

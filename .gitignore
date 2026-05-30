@@ -1,0 +1,7 @@
+.DS_Store
+.mianotes/
+.mianotes/mia.db
+system.db
+system.db-wal
+system.db-shm
+system.db-journal

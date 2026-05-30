@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Folders, notes, and tags | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">For humans</p>
+      <h1>Folders, notes, and tags</h1>
+      <p>Folders, notes, and tags are the main organisation tools in Mianotes.</p>
+<h2>Folders</h2>
+<p>Folders are group-visible. Any signed-in user can create a folder and add notes to any active folder.</p>
+<p>Only the folder creator or an admin can archive a folder.</p>
+<p>When a folder is archived, the folder directory is moved out of the active data area and into <code>data/.archived/</code>. The Markdown notes and source files are preserved.</p>
+<h2>Notes</h2>
+<p>Notes store the knowledge people and agents reuse. A note can be created from:</p>
+<ul><li>plain text</li><li>Markdown</li><li>file upload</li><li>URL</li><li>image</li><li>audio or video when dependencies are installed</li></ul>
+<p>The final note body is stored as a Markdown file on disk.</p>
+<h2>Source files</h2>
+<p>When a note is created from a file or URL, Mianotes keeps the source next to the generated note.</p>
+<p>Typical layout:</p>
+<div class="code-card"><pre><code class="language-text">data/&lt;folder_slug&gt;/&lt;title_slug&gt;-&lt;note_id&gt;.md
+data/&lt;folder_slug&gt;/sources/&lt;note_id&gt;/original.&lt;ext&gt;</code></pre></div>
+<p>This makes the note readable while keeping source material available for review.</p>
+<h2>Tags</h2>
+<p>Tags are global labels attached to notes.</p>
+<p>Use tags when a note belongs to more than one category. For example, a note can live in the <code>Client Alpha</code> folder while also being tagged <code>invoice</code>, <code>urgent</code>, and <code>legal</code>.</p>
+<p>Tags are also useful when publishing. You can classify notes before export, then publish only the notes that match the tags you choose.</p>
+<div class="code-card"><pre><code class="language-text">release-1.1
+research
+meeting
+decision
+todo
+api
+security</code></pre></div>
+<h2>Stars</h2>
+<p>Stars are private per user. Starring a note does not make it starred for everyone else. Use stars for notes you personally need to revisit.</p>
+<h2>Publishing and sharing</h2>
+<p>A note can be shared with a read-only link. Share links are note-level and revocable. A share link does not grant full workspace access.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Feature requests | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">System</p>
+      <h1>Feature requests</h1>
+      <p>This document collects product and architecture ideas that would make Mianotes better, but are not part of the current release scope.</p>
+<h2>Parallel job processing</h2>
+<p>Mianotes currently creates a database job for each upload or URL import, then schedules that job through the in-process job runner. Jobs are visible as queued, running, succeeded, or failed in the Console, but Mianotes does not yet have a dedicated worker pool that claims and processes multiple queued jobs at the same time.</p>
+<p>Parallel processing would be useful for larger installs, especially teams running Mianotes on machines with plenty of CPU and memory.</p>
+<h3>Proposed approach</h3>
+<p>Add a real <code>JobWorkerPool</code> that can run more than one job at a time.</p>
+<p>The worker count should be configurable with something like:</p>
+<div class="code-card"><pre><code class="language-text">MIANOTES_JOB_WORKERS=2</code></pre></div>
+<p>The default should stay at <code>1</code> so small local installs remain predictable.</p>
+<p>A later <code>auto</code> mode could choose a conservative worker count based on the host machine, for example using two workers on machines with 16 GB or more RAM, capped at a small number such as four.</p>
+<h3>Design requirements</h3>
+<ul><li>API requests should continue to create jobs as <code>queued</code>.</li><li>Workers should claim queued jobs atomically so two workers cannot process the same job.</li><li>Each job should run with its own SQLAlchemy session.</li><li>Each job should run with its own workspace context.</li><li>Parser temporary files should stay isolated per job.</li><li>Database transactions should stay short; ffmpeg, OCR, MarkItDown, and model calls should not hold long-running write transactions.</li><li>Shutdown should be graceful. Workers should stop accepting new jobs and any interrupted jobs should be marked clearly on next startup.</li></ul>
+<h3>SQLite considerations</h3>
+<p>SQLite can support this if writes are kept short and well scoped. Parsing work is slow, but most of that time should happen outside database transactions. Workers should only write when they need to update job status, append logs, or persist note text.</p>
+<h3>UI considerations</h3>
+<p>The Console should show the real number of active jobs, for example:</p>
+<div class="code-card"><pre><code class="language-text">2 active</code></pre></div>
+<p>This should reflect actual worker activity rather than just the number of jobs with a <code>running</code> status.</p>
+<h3>Acceptance criteria</h3>
+<ul><li>Admins can configure the number of job workers.</li><li>Two or more jobs can run concurrently when configured.</li><li>Workers cannot claim the same queued job twice.</li><li>Jobs stay scoped to the correct workspace.</li><li>Failed jobs still update the related note and Console logs correctly.</li><li>Existing single-worker behaviour remains the default.</li><li>Tests cover concurrent claiming, workspace isolation, successful jobs, failed jobs, and interrupted jobs.</li></ul>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>
