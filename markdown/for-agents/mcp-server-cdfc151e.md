@@ -52,6 +52,100 @@ The MCP server then uses the returned session token for tool calls. The session 
 
 Use scoped per-user API tokens when an agent should only read notes or work in a limited role.
 
+## Configure Codex
+
+Codex needs a stdio MCP server entry that starts `mianotes-mcp` with the Mianotes API URL, API key, and client name in its environment.
+
+1. Make sure Mianotes is running.
+2. Create an API key in Mianotes Settings.
+3. Check that the MCP command is available on the same machine where Codex runs:
+
+```bash
+command -v mianotes-mcp
+```
+
+If it is not in `PATH`, use the full path to the command, for example:
+
+```text
+/path/to/mianotes-web-service/.venv/bin/mianotes-mcp
+```
+
+4. Add the MCP server. If Codex runs on the same machine as Mianotes, use `http://127.0.0.1:8200`. If Codex runs somewhere else, use the Mianotes URL that machine can reach.
+
+```bash
+codex mcp add mianotes \
+  --env MIANOTES_API_URL=http://127.0.0.1:8200 \
+  --env MIANOTES_API_KEY=<mianotes-api-key> \
+  --env MIANOTES_CLIENT_NAME=Codex \
+  -- mianotes-mcp
+```
+
+5. Verify the server is configured:
+
+```bash
+codex mcp list
+```
+
+6. Start a new Codex session. Ask Codex to use Mia, for example:
+
+```text
+Search Mia(workspace: Mianotes, query: Getting started)
+```
+
+If you use the Codex app settings screen instead of the CLI, add a custom stdio MCP server with:
+
+```text
+Name: Mianotes
+Command to launch: mianotes-mcp
+Environment variables:
+  MIANOTES_API_URL=http://127.0.0.1:8200
+  MIANOTES_API_KEY=<mianotes-api-key>
+  MIANOTES_CLIENT_NAME=Codex
+```
+
+Restart the Codex session after saving the server.
+
+## Configure Claude Code
+
+Claude Code also needs a stdio MCP server entry. The most reliable setup is `claude mcp add-json`, because it keeps the command and environment variables together.
+
+1. Make sure Mianotes is running.
+2. Create an API key in Mianotes Settings.
+3. Check that the MCP command is available on the same machine where Claude Code runs:
+
+```bash
+command -v mianotes-mcp
+```
+
+If it is not in `PATH`, use the full path to the command in the JSON below.
+
+4. Add the MCP server. If Claude Code runs on the same machine as Mianotes, use `http://127.0.0.1:8200`. If Claude Code runs somewhere else, use the Mianotes URL that machine can reach.
+
+```bash
+claude mcp add-json mianotes \
+  '{"type":"stdio","command":"mianotes-mcp","env":{"MIANOTES_API_URL":"http://127.0.0.1:8200","MIANOTES_API_KEY":"<mianotes-api-key>","MIANOTES_CLIENT_NAME":"Claude Code"}}'
+```
+
+5. Verify the server is configured:
+
+```bash
+claude mcp get mianotes
+```
+
+6. Start a new Claude Code session. Run:
+
+```text
+/mcp
+```
+
+The Mianotes server should appear in the MCP server list. Then ask Claude Code to use Mia, for example:
+
+```text
+Search Mia(workspace: Mianotes, query: Getting started)
+```
+
+MCP clients do not automatically inherit the web service `.env` file. If Codex or Claude Code says Mianotes is unreachable or unauthenticated, check that the MCP server configuration includes both `MIANOTES_API_URL` and `MIANOTES_API_KEY`.
+
 ## MCP tools
 
 The MCP surface includes tools for:
