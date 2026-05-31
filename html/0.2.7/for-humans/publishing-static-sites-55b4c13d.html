@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Publishing static sites | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">For Humans</p>
+      <h1>Publishing static sites</h1>
+      <p>Mianotes can publish selected notes as a static documentation site. This is useful when a folder has become reference material, project documentation, or a small knowledge base that should be browsed outside the main app.</p>
+<p>Publishing creates HTML files under the active data folder. It does not replace the original Markdown notes or their source files.</p>
+<h2>Publish from the web app</h2>
+<ol><li>Open the Mianotes web app.</li><li>Click <strong>Publish</strong> in the sidebar.</li><li>Choose all folders, one folder, or another available scope.</li><li>Review the generated navigation.</li><li>Review the site configuration.</li><li>Click <strong>Publish</strong>.</li></ol>
+<p>After publishing, Mianotes shows actions to preview the static site in your browser or download the generated site as a ZIP file.</p>
+<h2>Navigation and new notes</h2>
+<p>The <strong>Navigation</strong> block always contains every note that will appear in the static site for the selected scope. It is regenerated from the current publishable notes each time you open the publish draft.</p>
+<p>The <strong>New notes</strong> block is only a change summary. It lists notes whose generated paths were not present in the previous publish navigation. If you publish again without adding notes, <strong>New notes</strong> should be empty.</p>
+<h2>Site configuration</h2>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;brand&quot;</span>: <span class="tok-string">&quot;Mianotes&quot;</span>,
+  <span class="tok-key">&quot;version&quot;</span>: <span class="tok-string">&quot;1.0.0&quot;</span>,
+  <span class="tok-key">&quot;headerLinks&quot;</span>: [
+    {
+      <span class="tok-key">&quot;title&quot;</span>: <span class="tok-string">&quot;GitHub&quot;</span>,
+      <span class="tok-key">&quot;url&quot;</span>: <span class="tok-string">&quot;https://github.com/Mianotes&quot;</span>
+    },
+    {
+      <span class="tok-key">&quot;title&quot;</span>: <span class="tok-string">&quot;Website&quot;</span>,
+      <span class="tok-key">&quot;url&quot;</span>: <span class="tok-string">&quot;https://www.mianotes.com/&quot;</span>
+    }
+  ],
+  <span class="tok-key">&quot;showPreviousVersions&quot;</span>: true,
+  <span class="tok-key">&quot;footerHtml&quot;</span>: <span class="tok-string">&quot;(c) Copyright Mianotes.&quot;</span>
+}</code></pre></div>
+<table class="doc-table"><colgroup><col><col></colgroup><thead><tr><th>Key</th><th>Description</th></tr></thead><tbody><tr><td><code>brand</code></td><td>Name shown in the static site header.</td></tr><tr><td><code>version</code></td><td>Version folder used for the generated site, such as <code>1.0.0</code>.</td></tr><tr><td><code>headerLinks</code></td><td>External links shown after version links.</td></tr><tr><td><code>showPreviousVersions</code></td><td>When <code>true</code>, show up to the latest 3 published versions in the header.</td></tr><tr><td><code>footerHtml</code></td><td>Footer HTML shown at the bottom of article pages.</td></tr></tbody></table>
+<h2>Themes</h2>
+<p>Mianotes ships two static publishing themes:</p>
+<table class="doc-table"><colgroup><col><col><col></colgroup><thead><tr><th>Theme ID</th><th>Name</th><th>Use</th></tr></thead><tbody><tr><td><code>mialight</code></td><td>Mialight</td><td>Default light documentation theme.</td></tr><tr><td><code>miadark</code></td><td>Miadark</td><td>Dark documentation theme.</td></tr></tbody></table>
+<p>Both themes render Markdown tables, fenced code blocks, admonitions, article navigation, search, and an <strong>On this page</strong> column generated from page headings.</p>
+<h2>Markdown rendering</h2>
+<p>The static renderer converts common Markdown into HTML before writing the site. This includes headings, paragraphs, bullet lists, fenced code blocks, Markdown tables, inline code, strong text, links, and GitHub-style admonitions such as <code>[!TIP]</code> and <code>[!WARNING]</code>.</p>
+<p>If the first Markdown heading repeats the note title, Mianotes removes the duplicate heading so article pages do not show the title twice.</p>
+<h2>Generated files</h2>
+<p>A published version is written under:</p>
+<div class="code-card"><pre><code class="language-text">data/html/&lt;version&gt;/</code></pre></div>
+<p>The public root redirect and version navigation live under:</p>
+<div class="code-card"><pre><code class="language-text">data/html/index.html
+data/html/navigation.js</code></pre></div>
+<p>Generated HTML includes:</p>
+<div class="code-card"><pre><code class="language-html">&lt;meta name=&quot;generator&quot; content=&quot;Mianotes - https://github.com/Mianotes&quot;&gt;</code></pre></div>
+<h2>Downloading the site</h2>
+<p>The publish response includes a <code>download_url</code>. The ZIP archive contains the version directory plus root files needed for version navigation.</p>
+<div class="code-card"><pre><code class="language-text">&lt;version&gt;-static-site/
+  index.html
+  navigation.js
+  &lt;version&gt;/
+    index.html
+    styles.css
+    site.js
+    search.js</code></pre></div>
+<h2>Serving published files</h2>
+<p>Static HTML is public under <code>/html/...</code>.</p>
+<p>Published Markdown is available under <code>/markdown/...</code>. Authenticated users and valid bearer-token clients can read stored Markdown files. Public callers can only read Markdown or source files that belong to notes marked as published.</p>
+<p>Database files such as <code>mia.db</code> are never served.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

@@ -1,6 +1,6 @@
 # Ollama, OpenAI, and local models
 
-Created: 2026-05-30T20:01:25Z
+Created: 2026-05-31T09:22:23Z
 
 ## Note
 
@@ -52,11 +52,11 @@ Ollama must also be configured to listen on the network before another machine c
 
 ```env
 MIANOTES_LLM_PROVIDER=openai
-MIANOTES_LLM_MODEL=gpt-4o-mini
-MIANOTES_LLM_API_KEY=sk-...
+MIANOTES_LLM_MODEL=gpt-5-nano
+MIANOTES_LLM_API_KEY=sk-*****
 ```
 
-With OpenAI configured, `gpt-4o-mini` can also be used as an image fallback when local OCR is not enough.
+With OpenAI configured, `gpt-5-nano` can also be used as an image fallback when local OCR is not enough.
 
 To use a different OpenAI model for image OCR:
 

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Comments, Mia prompts, and jobs API | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">API Reference</p>
+      <h1>Comments, Mia prompts, and jobs API</h1>
+      <p>This page covers comments, private Mia prompts, and background jobs.</p>
+<h2>List comments</h2>
+<div class="code-card"><pre><code class="language-text">GET /api/notes/{note_id}/comments</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>notes\:read</code> or <code>admin</code>.</p>
+<p>Returns saved comments for the note. Private Mia prompts are not returned.</p>
+<h2>Create comment</h2>
+<div class="code-card"><pre><code class="language-text">POST /api/notes/{note_id}/comments</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>comments\:write</code> or <code>admin</code>.</p>
+<p>Request:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;body&quot;</span>: <span class="tok-string">&quot;This is useful for the next call.&quot;</span>
+}</code></pre></div>
+<p>Response: a saved comment with <code>201 Created</code>.</p>
+<h2>Send a private Mia prompt</h2>
+<p>Use the same endpoint, but start the body with <code>@mia</code>:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;body&quot;</span>: <span class="tok-string">&quot;@mia summarise this text&quot;</span>
+}</code></pre></div>
+<p>Response: a prompt response with <code>200 OK</code>.</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;type&quot;</span>: <span class="tok-string">&quot;prompt&quot;</span>,
+  <span class="tok-key">&quot;prompt&quot;</span>: <span class="tok-string">&quot;summarise this text&quot;</span>,
+  <span class="tok-key">&quot;note_id&quot;</span>: <span class="tok-string">&quot;4a95f146-9d27-4c79-b7d8-34739aef8998&quot;</span>,
+  <span class="tok-key">&quot;text&quot;</span>: <span class="tok-string">&quot;## Summary\n\nThe note explains the Mallorca trip plan...&quot;</span>,
+  <span class="tok-key">&quot;format&quot;</span>: <span class="tok-string">&quot;markdown&quot;</span>
+}</code></pre></div>
+<p>Mia prompt responses do not create jobs, do not save a shared comment, and do not update the note.</p>
+<h2>Update comment</h2>
+<div class="code-card"><pre><code class="language-text">PATCH /api/notes/{note_id}/comments/{comment_id}</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>comments\:write</code> or <code>admin</code>.</p>
+<p>Admins can update any comment. Normal users can update only comments they created.</p>
+<h2>Delete comment</h2>
+<div class="code-card"><pre><code class="language-text">DELETE /api/notes/{note_id}/comments/{comment_id}</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>comments\:write</code> or <code>admin</code>.</p>
+<p>Response: <code>204 No Content</code>.</p>
+<h2>Job object</h2>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;id&quot;</span>: <span class="tok-string">&quot;dc6d54d2-f6ac-4a87-9d54-12e93243db4e&quot;</span>,
+  <span class="tok-key">&quot;user&quot;</span>: {
+    <span class="tok-key">&quot;id&quot;</span>: <span class="tok-string">&quot;c5ddebcc-e434-4e1a-bc8a-48263eb0095d&quot;</span>,
+    <span class="tok-key">&quot;email&quot;</span>: <span class="tok-string">&quot;matt@example.com&quot;</span>,
+    <span class="tok-key">&quot;name&quot;</span>: <span class="tok-string">&quot;Matt&quot;</span>,
+    <span class="tok-key">&quot;username&quot;</span>: <span class="tok-string">&quot;matt&quot;</span>,
+    <span class="tok-key">&quot;phone&quot;</span>: null,
+    <span class="tok-key">&quot;role&quot;</span>: null,
+    <span class="tok-key">&quot;photo_url&quot;</span>: null,
+    <span class="tok-key">&quot;is_admin&quot;</span>: true
+  },
+  <span class="tok-key">&quot;client&quot;</span>: {
+    <span class="tok-key">&quot;key&quot;</span>: <span class="tok-string">&quot;codex&quot;</span>,
+    <span class="tok-key">&quot;name&quot;</span>: <span class="tok-string">&quot;Codex&quot;</span>
+  },
+  <span class="tok-key">&quot;note_id&quot;</span>: <span class="tok-string">&quot;4a95f146-9d27-4c79-b7d8-34739aef8998&quot;</span>,
+  <span class="tok-key">&quot;job_type&quot;</span>: <span class="tok-string">&quot;parse_file&quot;</span>,
+  <span class="tok-key">&quot;status&quot;</span>: <span class="tok-string">&quot;queued&quot;</span>,
+  <span class="tok-key">&quot;input&quot;</span>: {
+    <span class="tok-key">&quot;note_id&quot;</span>: <span class="tok-string">&quot;4a95f146-9d27-4c79-b7d8-34739aef8998&quot;</span>,
+    <span class="tok-key">&quot;source_file_id&quot;</span>: <span class="tok-string">&quot;6aa09fd4-ef76-4cb4-88df-7136d2d85738&quot;</span>,
+    <span class="tok-key">&quot;operation&quot;</span>: <span class="tok-string">&quot;parse_file&quot;</span>
+  },
+  <span class="tok-key">&quot;result&quot;</span>: {},
+  <span class="tok-key">&quot;error&quot;</span>: null,
+  <span class="tok-key">&quot;created_at&quot;</span>: <span class="tok-string">&quot;2026-05-15T10:45:00Z&quot;</span>,
+  <span class="tok-key">&quot;updated_at&quot;</span>: <span class="tok-string">&quot;2026-05-15T10:45:00Z&quot;</span>,
+  <span class="tok-key">&quot;started_at&quot;</span>: null,
+  <span class="tok-key">&quot;finished_at&quot;</span>: null
+}</code></pre></div>
+<h2>List jobs</h2>
+<div class="code-card"><pre><code class="language-text">GET /api/jobs</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>notes\:read</code> or <code>admin</code>.</p>
+<p>Admins can see all jobs. Normal users see only their own jobs.</p>
+<p>Query parameters:</p>
+<table class="doc-table"><colgroup><col><col></colgroup><thead><tr><th>Parameter</th><th>Description</th></tr></thead><tbody><tr><td><code>note_id</code></td><td>Return jobs related to one note.</td></tr><tr><td><code>status</code></td><td>Return jobs with a specific status.</td></tr></tbody></table>
+<h2>Get job</h2>
+<div class="code-card"><pre><code class="language-text">GET /api/jobs/{job_id}</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>notes\:read</code> or <code>admin</code>.</p>
+<h2>Job statuses</h2>
+<div class="code-card"><pre><code class="language-text">queued
+running
+succeeded
+failed
+cancelled</code></pre></div>
+<p>Agents should poll the job endpoint when file or URL parsing is pending.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

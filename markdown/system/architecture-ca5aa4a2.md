@@ -1,6 +1,6 @@
 # Architecture
 
-Created: 2026-05-29T17:20:37Z
+Created: 2026-05-31T09:54:35Z
 
 ## Note
 
@@ -8,12 +8,12 @@ Mianotes Web Service is a FastAPI application with filesystem-first note storage
 
 ## Core principles
 
-- The filesystem stores user-facing note content.
-- Markdown is the durable note format.
-- SQLite stores indexes, metadata, relationships, sessions, tokens, and jobs.
-- API responses are JSON unless an endpoint explicitly returns a stored file.
-- The backend owns permissions, parsing, job state, and persistence decisions.
-- Browser users and AI agents use the same backend capability model.
+* The filesystem stores user-facing note content.
+* Markdown is the durable note format.
+* SQLite stores indexes, metadata, relationships, sessions, tokens, and jobs.
+* API responses are JSON unless an endpoint explicitly returns a stored file.
+* The backend owns permissions, parsing, job state, and persistence decisions.
+* Browser users and AI agents use the same backend capability model.
 
 ## High-level components
 
@@ -42,8 +42,8 @@ FastAPI web service  <---- REST clients / agents
 Generated notes and source files live under the configured data directory:
 
 ```text
-data/<folder_slug>/<title_slug>-<note_id[:8]>.md
-data/<folder_slug>/sources/<note_id[:8]>/original.<ext>
+data/<folder_slug>/<title_slug>-<note_id>.md
+data/<folder_slug>/sources/<note_id>/original.<ext>
 ```
 
 Folder rows store their filesystem path. Note rows store their Markdown filename. The full path is derived from those two values.
@@ -54,16 +54,16 @@ Later title edits do not rename files. This keeps URLs and filesystem references
 
 SQLite tracks:
 
-- users;
-- folders;
-- notes;
-- source files;
-- comments;
-- tags;
-- sessions;
-- API tokens;
-- share tokens;
-- Mia jobs.
+* users
+* folders
+* notes metadata
+* source files
+* comments
+* tags
+* sessions
+* API tokens
+* share tokens
+* jobs
 
 The repository and service boundaries keep storage concerns separate from the public API contract.
 

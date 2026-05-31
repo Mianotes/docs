@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>API overview | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">API Reference</p>
+      <h1>API overview</h1>
+      <p>The Mianotes web service exposes a local REST API. All endpoints return JSON unless the endpoint explicitly returns stored file bytes.</p>
+<h2>Base URL</h2>
+<p>Local development and local deployments use port <code>8200</code> by default:</p>
+<div class="code-card"><pre><code class="language-text">http://127.0.0.1:8200</code></pre></div>
+<h2>Authentication</h2>
+<p>Protected endpoints accept one of:</p>
+<ul><li>browser session cookie created by the auth flow;</li><li>service-wide API key configured with <code>MIANOTES_API_KEY</code>;</li><li>scoped per-user API token;</li><li>short-lived agent session token returned by <code>POST /api/auth/agent-session</code>.</li></ul>
+<p>Bearer token shape:</p>
+<div class="code-card"><pre><code class="language-http">Authorization: Bearer mia_&lt;token&gt;</code></pre></div>
+<p>The service-wide bearer token acts as the first admin user in the current folder. Scoped bearer tokens must include the required scope or <code>admin</code>.</p>
+<p>Agent clients should exchange their API key for a short-lived agent session and send a client name for attribution:</p>
+<div class="code-card"><pre><code class="language-http">POST /api/auth/agent-session
+Authorization: Bearer mia_&lt;token&gt;
+X-Mianotes-Client: Codex</code></pre></div>
+<p>The returned session token is also sent as <code>Authorization: Bearer &amp;lt;token&amp;gt;</code>.</p>
+<h2>Common errors</h2>
+<h3>Not authenticated</h3>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;detail&quot;</span>: <span class="tok-string">&quot;Not signed in&quot;</span>
+}</code></pre></div>
+<h3>Permission denied</h3>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;detail&quot;</span>: <span class="tok-string">&quot;API token requires notes:read scope&quot;</span>
+}</code></pre></div>
+<h3>Validation error</h3>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;detail&quot;</span>: [
+    {
+      <span class="tok-key">&quot;type&quot;</span>: <span class="tok-string">&quot;missing&quot;</span>,
+      <span class="tok-key">&quot;loc&quot;</span>: [&quot;body&quot;, &quot;email&quot;],
+      <span class="tok-key">&quot;msg&quot;</span>: <span class="tok-string">&quot;Field required&quot;</span>,
+      <span class="tok-key">&quot;input&quot;</span>: {}
+    }
+  ]
+}</code></pre></div>
+<h2>API endpoints</h2>
+<h3>Health and storage</h3>
+<ul><li><code>GET /api/health</code></li><li><code>GET /api/storage</code></li></ul>
+<h3>Auth</h3>
+<ul><li><code>POST /api/auth/check-email</code></li><li><code>POST /api/auth/join</code></li><li><code>POST /api/auth/login</code></li><li><code>GET /api/auth/session</code></li><li><code>POST /api/auth/logout</code></li></ul>
+<h3>Tokens</h3>
+<ul><li><code>POST /api/tokens</code></li><li><code>GET /api/tokens</code></li><li><code>DELETE /api/tokens/{token_id}</code></li><li><code>POST /api/settings/api-key</code></li></ul>
+<h3>Users</h3>
+<ul><li><code>POST /api/users</code></li><li><code>GET /api/users</code></li><li><code>GET /api/users/{user_id}</code></li><li><code>PATCH /api/users/{user_id}</code></li><li><code>POST /api/users/{user_id}/photo</code></li><li><code>DELETE /api/users/{user_id}</code></li></ul>
+<h3>Folders</h3>
+<ul><li><code>POST /api/folders</code></li><li><code>GET /api/folders</code></li><li><code>GET /api/folders/{folder_id}</code></li><li><code>PATCH /api/folders/{folder_id}</code></li><li><code>DELETE /api/folders/{folder_id}</code></li></ul>
+<h3>Notes</h3>
+<ul><li><code>POST /api/notes/from-text</code></li><li><code>POST /api/notes/from-file</code></li><li><code>POST /api/notes/from-url</code></li><li><code>GET /api/notes</code></li><li><code>GET /api/notes/{note_id}</code></li><li><code>PATCH /api/notes/{note_id}</code></li><li><code>PATCH /api/notes/{note_id}/star</code></li><li><code>DELETE /api/notes/{note_id}</code></li></ul>
+<h3>Sharing</h3>
+<ul><li><code>POST /api/notes/{note_id}/share</code></li><li><code>DELETE /api/notes/{note_id}/share</code></li><li><code>GET /api/notes/shared/{token}</code></li><li><code>GET /api/notes/shared/{token}/files/{source_file_id}</code></li></ul>
+<h3>Tags</h3>
+<ul><li><code>GET /api/tags</code></li><li><code>PUT /api/notes/{note_id}/tags</code></li></ul>
+<h3>Comments and Mia</h3>
+<ul><li><code>GET /api/notes/{note_id}/comments</code></li><li><code>POST /api/notes/{note_id}/comments</code></li><li><code>PATCH /api/notes/{note_id}/comments/{comment_id}</code></li><li><code>DELETE /api/notes/{note_id}/comments/{comment_id}</code></li></ul>
+<h3>Search and context</h3>
+<ul><li><code>GET /api/search</code></li><li><code>GET /api/context</code></li></ul>
+<h3>Jobs</h3>
+<ul><li><code>GET /api/jobs</code></li><li><code>GET /api/jobs/{job_id}</code></li></ul>
+<h3>Publishing</h3>
+<ul><li><code>GET /api/publish/themes</code></li><li><code>GET /api/publish/draft</code></li><li><code>POST /api/publish</code></li><li><code>GET /api/publish/{site_id}/download</code></li></ul>
+<h3>Settings</h3>
+<ul><li><code>GET /api/settings/storage</code></li><li><code>POST /api/settings/storage/locations</code></li><li><code>PATCH /api/settings/storage/active</code></li><li><code>POST /api/settings/api-key</code></li></ul>
+<h3>Stored files</h3>
+<ul><li><code>GET /{file_path}</code></li></ul>
+<h2>Health check</h2>
+<div class="code-card"><pre><code class="language-text">GET /api/health</code></pre></div>
+<p>Authentication: none.</p>
+<p>Example response:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;status&quot;</span>: <span class="tok-string">&quot;ok&quot;</span>,
+  <span class="tok-key">&quot;service&quot;</span>: <span class="tok-string">&quot;mianotes-web-service&quot;</span>,
+  <span class="tok-key">&quot;version&quot;</span>: <span class="tok-string">&quot;0.1.0&quot;</span>,
+  <span class="tok-key">&quot;storage&quot;</span>: {
+    <span class="tok-key">&quot;data_dir&quot;</span>: <span class="tok-string">&quot;data&quot;</span>,
+    <span class="tok-key">&quot;database_url&quot;</span>: <span class="tok-string">&quot;sqlite:///data/.mianotes/mia.db&quot;</span>,
+    <span class="tok-key">&quot;storage_config_path&quot;</span>: <span class="tok-string">&quot;workspaces.json&quot;</span>
+  }
+}</code></pre></div>
+<h2>Storage capacity</h2>
+<div class="code-card"><pre><code class="language-text">GET /api/storage</code></pre></div>
+<p>Authentication: browser session or API token with <code>notes\:read</code>.</p>
+<p>Returns cached capacity information for the drive that stores Mianotes data. The service refreshes this snapshot at most once per hour.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

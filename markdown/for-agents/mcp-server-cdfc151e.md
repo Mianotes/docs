@@ -1,6 +1,6 @@
 # MCP server
 
-Created: 2026-05-30T18:15:08Z
+Created: 2026-05-31T13:02:25Z
 
 ## Note
 
@@ -36,7 +36,7 @@ By default, MCP clients use the service-wide `MIANOTES_API_KEY`.
 
 ```env
 MIANOTES_API_URL=http://127.0.0.1:8200
-MIANOTES_API_KEY=mia_or_service_key_here
+MIANOTES_API_KEY=<generated_in_settings>
 MIANOTES_CLIENT_NAME=Codex
 ```
 
@@ -70,23 +70,23 @@ If it is not in `PATH`, use the full path to the command, for example:
 /path/to/mianotes-web-service/.venv/bin/mianotes-mcp
 ```
 
-4. Add the MCP server. If Codex runs on the same machine as Mianotes, use `http://127.0.0.1:8200`. If Codex runs somewhere else, use the Mianotes URL that machine can reach.
+1. Add the MCP server. If Codex runs on the same machine as Mianotes, use [`http://127.0.0.1:8200`.](http://127.0.0.1:8200.) If Codex runs somewhere else, use the Mianotes URL that machine can reach.
 
 ```bash
 codex mcp add mianotes \
   --env MIANOTES_API_URL=http://127.0.0.1:8200 \
-  --env MIANOTES_API_KEY=<mianotes-api-key> \
+  --env MIANOTES_API_KEY=<generated_in_settings> \
   --env MIANOTES_CLIENT_NAME=Codex \
   -- mianotes-mcp
 ```
 
-5. Verify the server is configured:
+1. Verify the server is configured:
 
 ```bash
 codex mcp list
 ```
 
-6. Start a new Codex session. Ask Codex to use Mia, for example:
+1. Start a new Codex session. Ask Codex to use Mia, for example:
 
 ```text
 Search Mia(workspace: Mianotes, query: Getting started)
@@ -99,7 +99,7 @@ Name: Mianotes
 Command to launch: mianotes-mcp
 Environment variables:
   MIANOTES_API_URL=http://127.0.0.1:8200
-  MIANOTES_API_KEY=<mianotes-api-key>
+  MIANOTES_API_KEY=<generated_in_settings>
   MIANOTES_CLIENT_NAME=Codex
 ```
 
@@ -119,20 +119,20 @@ command -v mianotes-mcp
 
 If it is not in `PATH`, use the full path to the command in the JSON below.
 
-4. Add the MCP server. If Claude Code runs on the same machine as Mianotes, use `http://127.0.0.1:8200`. If Claude Code runs somewhere else, use the Mianotes URL that machine can reach.
+1. Add the MCP server. If Claude Code runs on the same machine as Mianotes, use [`http://127.0.0.1:8200`.](http://127.0.0.1:8200.) If Claude Code runs somewhere else, use the Mianotes URL that machine can reach.
 
 ```bash
 claude mcp add-json mianotes \
-  '{"type":"stdio","command":"mianotes-mcp","env":{"MIANOTES_API_URL":"http://127.0.0.1:8200","MIANOTES_API_KEY":"<mianotes-api-key>","MIANOTES_CLIENT_NAME":"Claude Code"}}'
+  '{"type":"stdio","command":"mianotes-mcp","env":{"MIANOTES_API_URL":"http://127.0.0.1:8200","MIANOTES_API_KEY":"<generated_in_settings>","MIANOTES_CLIENT_NAME":"Claude Code"}}'
 ```
 
-5. Verify the server is configured:
+1. Verify the server is configured:
 
 ```bash
 claude mcp get mianotes
 ```
 
-6. Start a new Claude Code session. Run:
+1. Start a new Claude Code session. Run:
 
 ```text
 /mcp

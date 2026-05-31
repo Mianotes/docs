@@ -15,7 +15,7 @@ const SITE_CONFIGURATION = {
       "url": "https://tally.so/r/xXvQbk"
     }
   ],
-  "showPreviousVersions": true,
+  "showPreviousVersions": false,
   "footerHtml": "© 2026 Mianotes. Open source and local-first."
 };
 const DOCS = {
@@ -25,94 +25,94 @@ const DOCS = {
       "items": [
         {
           "title": "What is Mianotes?",
-          "path": "about/what-is-mianotes-c08cbf08.html"
+          "path": "about/what-is-mianotes-eae08671.html"
         },
         {
           "title": "Use cases",
-          "path": "about/use-cases-7bbfe99e.html"
+          "path": "about/use-cases-73626998.html"
         },
         {
           "title": "Core concepts",
-          "path": "about/core-concepts-4a49d004.html"
+          "path": "about/core-concepts-ca799f8f.html"
         }
       ]
     },
     {
-      "title": "Getting started",
+      "title": "Getting Started",
       "items": [
         {
           "title": "Installation",
-          "path": "getting-started/installation-c29f0f65.html"
+          "path": "getting-started/installation-cee981f1.html"
         },
         {
           "title": "Installing from GitHub",
-          "path": "getting-started/installing-from-github-7e2f8c35.html"
+          "path": "getting-started/installing-from-github-d22c4f44.html"
         },
         {
           "title": "Installing from package",
-          "path": "getting-started/installing-from-package-d2e61f8a.html"
+          "path": "getting-started/installing-from-package-32e583cc.html"
         },
         {
           "title": "First run",
-          "path": "getting-started/first-run-6ac5b242.html"
+          "path": "getting-started/first-run-b18fb985.html"
         },
         {
           "title": "Configuration options",
-          "path": "getting-started/configuration-options-74e79efa.html"
+          "path": "getting-started/configuration-options-2a0c5347.html"
         },
         {
           "title": "Ollama, OpenAI, and local models",
-          "path": "getting-started/ollama-openai-and-local-models-c21930f4.html"
+          "path": "getting-started/ollama-openai-and-local-models-e18d740e.html"
         },
         {
           "title": "Troubleshooting",
-          "path": "getting-started/troubleshooting-b9eafe5e.html"
+          "path": "getting-started/troubleshooting-098fbe52.html"
         }
       ]
     },
     {
-      "title": "For humans",
+      "title": "For Humans",
       "items": [
         {
           "title": "Human workflow",
-          "path": "for-humans/human-workflow-b6846f16.html"
+          "path": "for-humans/human-workflow-6271c5da.html"
         },
         {
           "title": "Folders, notes, and tags",
-          "path": "for-humans/folders-notes-and-tags-76c04ae9.html"
+          "path": "for-humans/folders-notes-and-tags-2a58bd40.html"
         },
         {
           "title": "Sharing and comments",
-          "path": "for-humans/sharing-and-comments-89a77860.html"
+          "path": "for-humans/sharing-and-comments-133509d5.html"
         },
         {
           "title": "Publishing static sites",
-          "path": "for-humans/publishing-static-sites-ab6421d9.html"
+          "path": "for-humans/publishing-static-sites-55b4c13d.html"
         }
       ]
     },
     {
-      "title": "For agents",
+      "title": "For Agents",
       "items": [
         {
           "title": "Agent overview",
-          "path": "for-agents/agent-overview-c651d147.html"
+          "path": "for-agents/agent-overview-45896e8a.html"
         },
         {
           "title": "API token",
-          "path": "for-agents/api-token-83a5016a.html"
+          "path": "for-agents/api-token-8cf72171.html"
         },
         {
           "title": "MCP server",
-          "path": "for-agents/mcp-server-cdfc151e.html"
+          "path": "for-agents/mcp-server-1de5df7f.html"
         },
         {
           "title": "Codex, Claude, Cursor, and other agents",
-          "path": "for-agents/codex-claude-cursor-and-other-agents-ca54a688.html"
+          "path": "for-agents/codex-claude-cursor-and-other-agents-424ea9a7.html"
         },
         {
           "title": "Agent playbook",
-          "path": "for-agents/agent-playbook-d4bcc356.html"
+          "path": "for-agents/agent-playbook-0dd3f7af.html"
         }
       ]
     },
@@ -121,44 +121,44 @@ const DOCS = {
       "items": [
         {
           "title": "Meet Mia",
-          "path": "mia/meet-mia-2000d38e.html"
+          "path": "mia/meet-mia-eef07d25.html"
         },
         {
           "title": "Prompting Mia",
-          "path": "mia/prompting-mia-c1e7392e.html"
+          "path": "mia/prompting-mia-cb05236e.html"
         },
         {
           "title": "Parser and ingestion pipeline",
-          "path": "mia/parser-and-ingestion-pipeline-9c335e48.html"
+          "path": "mia/parser-and-ingestion-pipeline-b7ce958f.html"
         }
       ]
     },
     {
-      "title": "API reference",
+      "title": "API Reference",
       "items": [
         {
           "title": "API overview",
-          "path": "api-reference/api-overview-2bb39d4a.html"
+          "path": "api-reference/api-overview-aa4fc408.html"
         },
         {
           "title": "Authentication and users",
-          "path": "api-reference/authentication-and-users-8842bc9d.html"
+          "path": "api-reference/authentication-and-users-be15f56d.html"
         },
         {
           "title": "Folders, notes, and tags API",
-          "path": "api-reference/folders-notes-and-tags-api-2c972490.html"
+          "path": "api-reference/folders-notes-and-tags-api-8e8e2b7a.html"
         },
         {
           "title": "Comments, Mia prompts, and jobs API",
-          "path": "api-reference/comments-mia-prompts-and-jobs-api-e25657a5.html"
+          "path": "api-reference/comments-mia-prompts-and-jobs-api-a05c187a.html"
         },
         {
           "title": "Search, context, sharing, and stored files API",
-          "path": "api-reference/search-context-sharing-and-stored-files-api-0010bf86.html"
+          "path": "api-reference/search-context-sharing-and-stored-files-api-ebb8370a.html"
         },
         {
           "title": "Publishing and settings API",
-          "path": "api-reference/publishing-and-settings-api-24d0b7bf.html"
+          "path": "api-reference/publishing-and-settings-api-96cf506f.html"
         }
       ]
     },
@@ -167,44 +167,44 @@ const DOCS = {
       "items": [
         {
           "title": "Architecture",
-          "path": "system/architecture-ca5aa4a2.html"
+          "path": "system/architecture-df6e4654.html"
         },
         {
           "title": "Storage folders and database",
-          "path": "system/storage-folders-and-database-3af026b6.html"
+          "path": "system/storage-folders-and-database-a6fc7f27.html"
         },
         {
           "title": "Security",
-          "path": "system/security-eba1603e.html"
+          "path": "system/security-f4e332c7.html"
         },
         {
           "title": "Feature requests",
-          "path": "system/feature-requests-531098f5.html"
+          "path": "system/feature-requests-3e46e9f4.html"
         }
       ]
     },
     {
-      "title": "Open source",
+      "title": "Contribute",
       "items": [
         {
           "title": "Development",
-          "path": "open-source/development-dd9280b5.html"
-        },
-        {
-          "title": "Testing",
-          "path": "open-source/testing-ed217db4.html"
-        },
-        {
-          "title": "Theming and customisation",
-          "path": "open-source/theming-and-customisation-2f08fc26.html"
+          "path": "contribute/development-a221d01b.html"
         },
         {
           "title": "Maintainer checklist",
-          "path": "open-source/maintainer-checklist-605e959a.html"
+          "path": "contribute/maintainer-checklist-dc4a28a9.html"
+        },
+        {
+          "title": "Testing",
+          "path": "contribute/testing-620bac7d.html"
+        },
+        {
+          "title": "Theming and customisation",
+          "path": "contribute/theming-and-customisation-3120957f.html"
         },
         {
           "title": "Troubleshooting",
-          "path": "open-source/troubleshooting-6fc8f804.html"
+          "path": "contribute/troubleshooting-60ffcaf9.html"
         }
       ]
     }

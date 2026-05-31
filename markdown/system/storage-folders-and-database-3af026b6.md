@@ -1,6 +1,6 @@
 # Storage folders and database
 
-Created: 2026-05-29T17:20:37Z
+Created: 2026-05-31T09:57:31Z
 
 ## Note
 
@@ -59,18 +59,6 @@ Each location points to a workspace folder that contains, or can contain, a `.mi
 
 Users, sessions, API keys, and global settings live in `data/system.db`.
 
-## `storage.example.json`
-
-The repository includes `storage.example.json` as a safe example configuration. It does not represent a real user machine and can be committed.
-
-The real `workspaces.json` is created and updated by each installation. It is ignored by Git because it can contain local filesystem paths that only make sense on that computer or server.
-
-`workspaces.json` must not contain raw API keys or other secrets. Service API keys
-are shown once, copied into the environment that needs them, and verified
-through a public hash stored in `data/system.db`.
-
-Do not commit the real `workspaces.json`.
-
 ## Switching workspaces
 
 All signed-in users can switch workspace from the workspace switcher next to the breadcrumb. Admins can add workspaces from Settings.
@@ -99,14 +87,6 @@ To force a database URL:
 ```env
 MIANOTES_DATABASE_URL=sqlite:////absolute/path/to/.mianotes/mia.db
 ```
-
-To force a data folder:
-
-```env
-MIANOTES_DATA_DIR=/absolute/path/to/mianotes-data
-```
-
-When `MIANOTES_DATA_DIR` is set and `MIANOTES_STORAGE_CONFIG_PATH` is not set, Mianotes uses that folder as the default workspace folder and creates `data/system.db` for global state. This is mainly useful for tests and scripted deployments.
 
 ## Private files
 

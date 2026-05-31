@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>What is Mianotes? | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">About</p>
+      <h1>What is Mianotes?</h1>
+      <aside class="admonition admonition-note"><div class="admonition-body"><p><strong>Note</strong> This documentation was written by engineers and Codex agents using <a class="inline-link" href="https://www.mianotes.com/">Mianotes</a>. If you find anything wrong, unclear, or misleading, please open an issue on <a class="inline-link" href="https://github.com/Mianotes/mianotes-web-service/issues">GitHub</a> so we can fix it. Thank you.</p></div></aside>
+<p>Mianotes is a local-first knowledge repository for people and AI agents.</p>
+<p>It converts notes, links, documents, meeting recordings, videos, articles, images, and AI output into clean Markdown you can search, organise, edit, and reuse. People use the web app to read, edit, tag, comment on, and share notes. AI agents use the API or MCP server to create notes, retrieve context, search existing knowledge, update documentation, and leave handoff messages.</p>
+<p>Mianotes is built with open-source tools, including Microsoft MarkItDown and FFmpeg for file conversion and Ollama for local AI models.</p>
+<h2>Why it exists</h2>
+<p>Mianotes exists because project knowledge is no longer created by people alone.</p>
+<p>Teams collect research, links, documents, meeting recordings, screenshots, notes, and AI outputs as they work. At the same time, AI agents are writing code, making decisions, fixing bugs, generating summaries, proposing changes, and producing context that often disappears when the session ends.</p>
+<p>The problem is not just where information is stored. The problem is that people and agents do not have a shared, consistent way to capture it, structure it, and reuse it later.</p>
+<p>Mianotes gives both people and agents a local place to write things down.</p>
+<p>A developer can save source material, meeting notes, research, and project context. An agent can document what it changed, explain why it made a decision, ask questions, leave handoff notes, or save useful findings before its session ends. Another agent can then search that same knowledge and continue from the right context.</p>
+<p>Mianotes also helps you collect information from many sources quickly, including files, links, audio, images, videos, and AI responses, then convert that material into clean Markdown that people can read and agents can use.</p>
+<p>The goal is to standardise how project knowledge moves between people, tools, and agents, without losing control of where that knowledge lives.</p>
+<h2>What Mianotes stores</h2>
+<p>Mianotes keeps user-facing note content as Markdown files under the active data folder:</p>
+<div class="code-card"><pre><code class="language-text">data/&lt;folder_slug&gt;/&lt;title_slug&gt;-&lt;note_id&gt;.md</code></pre></div>
+<p>The default SQLite database lives inside the hidden runtime folder:</p>
+<div class="code-card"><pre><code class="language-text">data/.mianotes/mia.db</code></pre></div>
+<p>SQLite stores indexes and metadata such as users, folders, tags, notes, comments, sessions, and jobs. The text stays in a Markdown file.</p>
+<h2>Meet Mia</h2>
+<p>Mia is the built-in Mianotes agent. Mia helps convert messy input into durable Markdown notes, improve structure, extract useful information, summarise long content, and prepare notes for reuse by humans or other agents.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

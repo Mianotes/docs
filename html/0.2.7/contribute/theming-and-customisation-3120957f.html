@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Theming and customisation | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">Contribute</p>
+      <h1>Theming and customisation</h1>
+      <p>Mianotes has two kinds of customisation:</p>
+<ul><li>runtime configuration for the web service, parser, storage, and model providers;</li><li>static publishing themes used when notes are exported as documentation sites.</li></ul>
+<p>Treat the main web app visual design as application code. Static site publishing themes use a small theme boundary.</p>
+<h2>Static publishing themes</h2>
+<p>Mianotes ships two static publishing themes:</p>
+<table class="doc-table"><colgroup><col><col><col></colgroup><thead><tr><th>Theme ID</th><th>Name</th><th>Purpose</th></tr></thead><tbody><tr><td><code>mialight</code></td><td>Mialight</td><td>Default light documentation theme.</td></tr><tr><td><code>miadark</code></td><td>Miadark</td><td>Dark documentation theme.</td></tr><tr><td><code>miadev</code></td><td>Miadev</td><td>A theme for developers.</td></tr><tr><td><code>miadocs</code></td><td>Miadocs</td><td>A calm light blue theme.</td></tr></tbody></table>
+<p>Theme assets live in:</p>
+<div class="code-card"><pre><code class="language-text">src/mianotes_web_service/publishing/themes/&lt;theme-id&gt;/</code></pre></div>
+<p>Each theme directory contains:</p>
+<div class="code-card"><pre><code class="language-text">theme.json
+styles.css
+site.js</code></pre></div>
+<p>The <code>theme.json</code> file defines the theme metadata returned by <code>GET /api/publish/themes,</code> <code>styles.css</code> controls the published site appearance. <code>site.js</code> handles static site behaviour such as navigation, search wiring, article state, and previous version links.</p>
+<p>Static themes should render these Markdown features well:</p>
+<ul><li>headings and article title hierarchy</li><li>paragraphs, ordered lists, and unordered lists</li><li>inline code and fenced code blocks</li><li>Markdown tables</li><li>links</li><li>GitHub-style admonitions such as <code>[!TIP]</code>, <code>[!NOTE]</code>, and <code>[!WARNING]</code></li><li>the generated <strong>On this page</strong> column</li><li>previous-version links when <code>showPreviousVersions</code> is enabled</li></ul>
+<p>When adding or changing a theme, run the publishing tests and manually publish a small site that includes code blocks, tables, admonitions, and enough headings to populate the right-hand article navigation.</p>
+<div class="code-card"><pre><code class="language-bash">pytest tests/test_api_publish.py</code></pre></div>
+<h2>Runtime customisation</h2>
+<p>Supported configuration areas:</p>
+<ul><li>service host and port</li><li>data directory</li><li>database URL</li><li>allowed storage locations</li><li>LLM provider and model</li><li>image OCR fallback model</li><li>service-wide API key</li><li>scoped agent tokens</li><li>parser adapters</li></ul>
+<h2>Ports</h2>
+<div class="code-card"><pre><code class="language-text">8200  web service
+8201  alternate local service</code></pre></div>
+<h2>Storage customisation</h2>
+<p>Default:</p>
+<div class="code-card"><pre><code class="language-text">data/
+data/.mianotes/mia.db</code></pre></div>
+<p>Advanced:</p>
+<div class="code-card"><pre><code class="language-env">MIANOTES_DATA_DIR=/absolute/path/to/mianotes-data
+MIANOTES_DATABASE_URL=sqlite:////absolute/path/to/.mianotes/mia.db</code></pre></div>
+<p>Admins can switch between allowed local folders from the Settings screen.</p>
+<h2>LLM customisation</h2>
+<p>Mia supports:</p>
+<div class="code-card"><pre><code class="language-text">openai
+local
+openai-compatible</code></pre></div>
+<p>Example local setup:</p>
+<div class="code-card"><pre><code class="language-env">MIANOTES_LLM_PROVIDER=local
+MIANOTES_LLM_MODEL=llama3.2:3b
+MIANOTES_LLM_BASE_URL=http://127.0.0.1:11434/v1
+MIANOTES_LLM_API_KEY=ollama</code></pre></div>
+<h2>Web app theme conventions</h2>
+<p>Keep these decisions documented when changing the web app visual system:</p>
+<ul><li>colour tokens</li><li>typography scale</li><li>spacing scale</li><li>dark mode behaviour</li><li>logo and app icon placement</li><li>Markdown rendering styles</li><li>note status badges</li><li>accessibility contrast rules</li><li>whether themes are per-user, per-workspace, or build-time only</li></ul>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

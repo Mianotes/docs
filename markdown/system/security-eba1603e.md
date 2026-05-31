@@ -1,6 +1,6 @@
 # Security
 
-Created: 2026-05-29T17:20:37Z
+Created: 2026-05-31T10:03:07Z
 
 ## Note
 
@@ -10,9 +10,9 @@ Mianotes is local-first, but local-first does not mean risk-free. Treat any user
 
 Protected APIs can be accessed by:
 
-- browser users with a cookie-based session;
-- local agents using the service-wide `MIANOTES_API_KEY` from `.env`;
-- narrower automations using scoped per-user API tokens.
+* browser users with a cookie-based session
+* local agents using the service-wide `MIANOTES_API_KEY` from `.env`
+* narrower automations using scoped per-user API tokens
 
 Bearer tokens are sent as:
 
@@ -32,14 +32,14 @@ Mianotes can audit who sent data. It cannot prove where uploaded bytes originall
 
 ## Best practices for agents
 
-- Do not give untrusted agents filesystem access to sensitive files.
-- Run agents with the least filesystem access they need.
-- Give agents project-specific working directories instead of access to a whole home directory.
-- Use `MIANOTES_API_KEY` only for trusted local agents.
-- Use scoped per-user tokens when an automation needs narrower access.
-- Revoke agent tokens when agents no longer need access.
-- Avoid giving hosted or third-party agents direct access to local folders unless you trust the agent and its operator.
-- Review activity logs after allowing a new agent or automation to use Mianotes.
+* Do not give untrusted agents filesystem access to sensitive files.
+* Run agents with the least filesystem access they need.
+* Give agents project-specific working directories instead of access to a whole home directory.
+* Use `MIANOTES_API_KEY` only for trusted local agents.
+* Use scoped per-user tokens when an automation needs narrower access.
+* Revoke agent tokens when agents no longer need access.
+* Avoid giving hosted or third-party agents direct access to local folders unless you trust the agent and its operator.
+* Review activity logs after allowing a new agent or automation to use Mianotes.
 
 ## File uploads and parsing
 
@@ -55,29 +55,23 @@ URL ingestion fetches data from the network. Admins can configure blocked domain
 
 Recommended blocked targets include:
 
-- internal metadata services;
-- private administration panels;
-- internal-only hostnames;
-- domains that should never be indexed into shared knowledge.
+* internal metadata services
+* private administration panels
+* internal-only hostnames
+* domains that should never be indexed into shared knowledge
 
 Hosted deployments should also consider blocking private network ranges unless the workspace is intentionally allowed to index internal resources.
 
-## Path blocklist
-
-Admins can configure blocked file paths to reduce accidental or agent-driven uploads from sensitive locations.
-
-Path blocklists are a safety net, not a complete sandbox. A trusted local agent that can read a blocked file may still copy the contents elsewhere and upload them under a different name.
-
-## Activity auditing
+## Activity auditing (coming soon)
 
 The Activity screen lets admins audit:
 
-- who uploaded a file;
-- when the upload happened;
-- the original filename;
-- the source type;
-- which note or folder the upload belongs to;
-- which user or agent token performed the action.
+* who uploaded a file
+* when the upload happened
+* the original filename
+* the source type
+* which note or folder the upload belongs to
+* which user or agent token performed the action
 
 Audit logs help with accountability and investigation, but they do not prevent a trusted caller from sending data it can already access.
 
@@ -93,27 +87,27 @@ Only bind Mianotes to `0.0.0.0` or another network interface when you understand
 
 Recommended deployment practices:
 
-- use a dedicated operating system user for the Mianotes service;
-- store Mianotes data in a directory owned by that service user;
-- do not run Mianotes as `root`;
-- use a firewall when exposing Mianotes on a network;
-- use HTTPS when hosting beyond a trusted local network;
-- keep API tokens private and rotate them if exposed.
+* use a dedicated operating system user for the Mianotes service
+* store Mianotes data in a directory owned by that service user
+* do not run Mianotes as `root`
+* use a firewall when exposing Mianotes on a network
+* use HTTPS when hosting beyond a trusted local network
+* keep API tokens private and rotate them if exposed
 
 ## What Mianotes can protect
 
 Mianotes can:
 
-- require authentication for protected APIs;
-- require bearer API tokens for agents;
-- store source metadata for auditability;
-- restrict parsing to Mianotes-controlled files;
-- block configured file paths and domains;
-- let admins review activity.
+* require authentication for protected APIs
+* require bearer API tokens for agents
+* store source metadata for auditability
+* restrict parsing to Mianotes-controlled files
+* block configured file paths and domains
+* let admins review activity
 
 Mianotes cannot:
 
-- sandbox an agent that already has access to sensitive local files;
-- prove that uploaded content did not come from a secret file;
-- stop a trusted local process from copying data it can already read;
-- replace operating system permissions, firewall rules, or agent sandboxing.
+* sandbox an agent that already has access to sensitive local files
+* prove that uploaded content did not come from a secret file
+* stop a trusted local process from copying data it can already read
+* replace operating system permissions, firewall rules, or agent sandboxing

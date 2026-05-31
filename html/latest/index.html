@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Latest documentation</title>
+    <script>
+      const latestBase = "../0.2.7/";
+      const hash = window.location.hash || "";
+      let latestPath = `${latestBase}index.html`;
+      if (hash.startsWith("#/")) {
+        const requestedPath = hash.slice(2).replace(/^\/+/, "");
+        if (requestedPath) {
+          latestPath = `${latestBase}${requestedPath}`;
+        }
+      }
+      window.location.replace(latestPath);
+    </script>
+  </head>
+  <body><a href="../0.2.7/index.html">Latest version</a></body>
+</html>

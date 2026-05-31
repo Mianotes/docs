@@ -1,6 +1,6 @@
 # Installing from GitHub
 
-Created: 2026-05-30T17:16:45Z
+Created: 2026-05-31T09:11:10Z
 
 ## Note
 
@@ -86,8 +86,8 @@ For OpenAI:
 
 ```env
 MIANOTES_LLM_PROVIDER=openai
-MIANOTES_LLM_MODEL=gpt-4o-mini
-MIANOTES_LLM_API_KEY=sk-...
+MIANOTES_LLM_MODEL=gpt-5-nano
+MIANOTES_LLM_API_KEY=sk-**********
 MIANOTES_API_KEY=replace-with-a-long-random-secret
 ```
 
