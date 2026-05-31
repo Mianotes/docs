@@ -59,3 +59,5 @@ This should reflect actual worker activity rather than just the number of jobs w
 - Failed jobs still update the related note and Console logs correctly.
 - Existing single-worker behaviour remains the default.
 - Tests cover concurrent claiming, workspace isolation, successful jobs, failed jobs, and interrupted jobs.
+
+## Vision extraction fallback for images and scanned PDFs.
