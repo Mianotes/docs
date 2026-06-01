@@ -22,7 +22,7 @@ Browser users authenticate with a session cookie. Agents should use API tokens i
 
 A folder is a shared workspace for related notes.
 
-Folder rows are stored in SQLite, while each folder also owns a top-level filesystem directory under `data/`. A folder can be archived. When archived, the folder is hidden from normal lists and moved under `data/.archived/` so active folders stay clean.
+Folder rows are stored in SQLite, while each folder also owns a filesystem directory under the workspace `markdown/` directory. A folder can be archived. When archived, the folder is hidden from normal lists and moved under the workspace archive area so active folders stay clean.
 
 ## `Note`
 
@@ -49,7 +49,7 @@ A source file is the original file or downloaded HTML used to create a note.
 For file uploads, Mianotes stores the uploaded file under:
 
 ```text
-data/<folder_slug>/sources/<note_id[:8]>/original.<ext>
+<workspace>/markdown/<folder_slug>/sources/<note_id[:8]>/original.<ext>
 ```
 
 Source files are kept next to the generated Markdown note but ignored by the folder-level `.gitignore` so Git backups can store notes without committing original uploads.

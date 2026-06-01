@@ -34,8 +34,8 @@ When a note is created from a file or URL, Mianotes keeps the source next to the
 Typical layout:
 
 ```text
-data/<folder_slug>/<title_slug>-<note_id>.md
-data/<folder_slug>/sources/<note_id>/original.<ext>
+<workspace>/markdown/<folder_slug>/<title_slug>-<note_id[:8]>.md
+<workspace>/markdown/<folder_slug>/sources/<note_id[:8]>/original.<ext>
 ```
 
 This makes the note readable while keeping source material available for review.

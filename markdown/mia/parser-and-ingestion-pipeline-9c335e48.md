@@ -35,6 +35,7 @@ The file upload endpoint supports these extensions:
 .md
 .markdown
 .mp3
+.mp4
 .odt
 .pdf
 .png

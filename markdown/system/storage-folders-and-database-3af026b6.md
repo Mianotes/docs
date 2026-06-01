@@ -78,16 +78,6 @@ Admins can add a new local workspace from Settings.
 
 Mianotes creates `.mianotes/mia.db` inside that workspace and initialises the workspace schema. Users remain global and can use the new workspace without signing up again.
 
-## Advanced configuration
-
-Most installs should leave `MIANOTES_DATABASE_URL` empty.
-
-To force a database URL:
-
-```env
-MIANOTES_DATABASE_URL=sqlite:////absolute/path/to/.mianotes/mia.db
-```
-
 ## Private files
 
 Do not commit these to a public repository:

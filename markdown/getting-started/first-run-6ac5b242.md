@@ -79,7 +79,7 @@ curl -sS \
 
 ## First file upload
 
-After text notes work, try a small file such as a `.txt`, `.md`, `.pdf`, `.jpg`, or `.png`.
+After text notes work, try a small file such as a `.txt`, `.md`, `.pdf`, `.jpg`, `.png`, or `.mp4`.
 
 File and URL ingestion return a pending note plus a job. The conversion runs in the background. Clients should poll the job URL until the job reaches `succeeded`, then fetch the note.
 

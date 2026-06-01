@@ -36,11 +36,11 @@ MIANOTES_HOST=127.0.0.1 MIANOTES_PORT=8201 ./start-dev.sh
 
 ## Storage defaults
 
-Generated notes and source files live under the configured data directory:
+Generated notes and source files live inside each workspace folder:
 
 ```text
-data/<folder_slug>/<title_slug>-<note_id[:8]>.md
-data/<folder_slug>/sources/<note_id[:8]>/original.<ext>
+<workspace>/markdown/<folder_slug>/<title_slug>-<note_id[:8]>.md
+<workspace>/markdown/<folder_slug>/sources/<note_id[:8]>/original.<ext>
 ```
 
 Folder directories are filesystem-safe slugs and are unique inside a workspace. Source files live under each folder's `sources/` directory.

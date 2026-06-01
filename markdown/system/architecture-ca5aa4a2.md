@@ -39,11 +39,11 @@ FastAPI web service  <---- REST clients / agents
 
 ## Storage layout
 
-Generated notes and source files live under the configured data directory:
+Generated notes and source files live inside each workspace folder:
 
 ```text
-data/<folder_slug>/<title_slug>-<note_id>.md
-data/<folder_slug>/sources/<note_id>/original.<ext>
+<workspace>/markdown/<folder_slug>/<title_slug>-<note_id[:8]>.md
+<workspace>/markdown/<folder_slug>/sources/<note_id[:8]>/original.<ext>
 ```
 
 Folder rows store their filesystem path. Note rows store their Markdown filename. The full path is derived from those two values.

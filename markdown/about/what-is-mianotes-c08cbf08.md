@@ -36,13 +36,13 @@ The goal is to standardise how project knowledge moves between people, tools, an
 Mianotes keeps user-facing note content as Markdown files under the active data folder:
 
 ```text
-data/<folder_slug>/<title_slug>-<note_id>.md
+<workspace>/markdown/<folder_slug>/<title_slug>-<note_id[:8]>.md
 ```
 
-The default SQLite database lives inside the hidden runtime folder:
+The workspace SQLite database lives inside the hidden runtime folder:
 
 ```text
-data/.mianotes/mia.db
+<workspace>/.mianotes/mia.db
 ```
 
 SQLite stores indexes and metadata such as users, folders, tags, notes, comments, sessions, and jobs. The text stays in a Markdown file.

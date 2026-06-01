@@ -60,8 +60,6 @@ pytest tests/test_api_publish.py
 Supported configuration areas:
 
 * service host and port
-* data directory
-* database URL
 * allowed storage locations
 * LLM provider and model
 * image OCR fallback model
@@ -76,20 +74,13 @@ Supported configuration areas:
 8201  alternate local service
 ```
 
-## Storage customisation
+## Workspace customisation
 
 Default:
 
 ```text
 data/
 data/.mianotes/mia.db
-```
-
-Advanced:
-
-```env
-MIANOTES_DATA_DIR=/absolute/path/to/mianotes-data
-MIANOTES_DATABASE_URL=sqlite:////absolute/path/to/.mianotes/mia.db
 ```
 
 Admins can switch between allowed local folders from the Settings screen.

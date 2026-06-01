@@ -8,8 +8,7 @@ This page is for people working on the Python web service locally.
 
 ## Install system dependencies
 
-Mianotes currently supports Python 3.11, 3.12, and 3.13 for source installs.
-Python 3.14 is not supported yet because some parser dependencies do not publish compatible packages for it.
+Mianotes currently supports Python 3.11, 3.12, 3.13, and 3.14 for source installs.
 
 macOS:
 
@@ -107,7 +106,7 @@ systemctl start mianotes-web-service
 
 ## Development configuration
 
-To run multimodal models locally on a 16GB Mac mini, we recommend [Qwen2-VL](https://ollama.com/library/qwen2.5vl) (or the newer [Qwen3-VL](https://ollama.com/library/qwen3-vl)) and [Llama 3.2 Vision](https://ollama.com/library/llama3.2-vision) (11B). Get the Ollama installer directly from their [site](https://ollama.com/download), open your terminal, and run: `ollama run qwen2-vl`.&#x20;
+To run multimodal models locally on a 16GB Mac mini, we recommend [Qwen3-VL](https://ollama.com/library/qwen3-vl), [Qwen2.5-VL](https://ollama.com/library/qwen2.5vl), or [Llama 3.2 Vision](https://ollama.com/library/llama3.2-vision) (11B). Get the Ollama installer directly from their [site](https://ollama.com/download), open your terminal, and run: `ollama run qwen3-vl`.
 
 ```env
 MIANOTES_HOST=0.0.0.0

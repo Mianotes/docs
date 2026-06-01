@@ -139,8 +139,8 @@ Request:
 }
 ```
 
-The response includes `session_ended: true`. The browser session is ended
-because each folder has its own users and password state.
+The response includes `session_ended: false`. Workspace switching is stored on
+the current session, so the user stays signed in.
 
 If Mia has queued or running jobs, the API returns `409` and asks the user to
 try again after those jobs finish.
