@@ -1,10 +1,10 @@
 const SITE_NAVIGATION = {
-  "latest": "0.2.7",
+  "latest": "0.3.0",
   "navigation": [
     {
-      "label": "mianotes 0.2.7",
-      "path": "0.2.7/index.html",
-      "key": "0.2.7"
+      "label": "mianotes 0.3.0",
+      "path": "0.3.0/index.html",
+      "key": "0.3.0"
     }
   ]
 };

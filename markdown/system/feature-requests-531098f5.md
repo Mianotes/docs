@@ -1,63 +1,67 @@
 # Feature requests
 
-Created: 2026-05-29T17:20:37Z
+Created: 2026-05-31T19:08:10Z
 
 ## Note
 
 This document collects product and architecture ideas that would make Mianotes better, but are not part of the current release scope.
 
-## Parallel job processing
+## Workspace membership
 
-Mianotes currently creates a database job for each upload or URL import, then schedules that job through the in-process job runner. Jobs are visible as queued, running, succeeded, or failed in the Console, but Mianotes does not yet have a dedicated worker pool that claims and processes multiple queued jobs at the same time.
+**Big Gaps**
 
-Parallel processing would be useful for larger installs, especially teams running Mianotes on machines with plenty of CPU and memory.
+1. **Switch check must be atomic**
+   Don’t do “check permission, then switch” as two trusted steps. The backend switch endpoint itself should resolve the workspace and either switch or return `403`. The frontend can pre-check for UX, but the backend switch must be authoritative.
 
-### Proposed approach
+2. **Every workspace-scoped endpoint needs protection**
+   Not only workspace switching. Protect:
+   `notes`, `folders`, `tags`, `jobs`, `sources`, `comments`, `publish`, file downloads, markdown/source serving, search, context/MCP endpoints, and any direct `/workspace/&lt;slug&gt;/...` route.
 
-Add a real `JobWorkerPool` that can run more than one job at a time.
+3. **Agent/API access needs a decision**
+   Mianotes has API keys and MCP. If there is one global API key, then membership can be bypassed unless agent sessions have a user/admin/system identity. Decide:
+   - API key acts as admin/system and can access all workspaces, or
+   - API requests must include a user/session and respect membership.
+   
+   This is probably the biggest hidden security edge case.
 
-The worker count should be configurable with something like:
+4. **“Main” should not be name-based**
+   Don’t rely on workspace name `"Main"`. Use a stable flag or ID, e.g. `is_default = true`, because users may rename it.
 
-```text
-MIANOTES_JOB_WORKERS=2
-```
+5. **Workspace membership table**
+   The plan implies it but doesn’t name it. You likely want this in `system.db`:
+   `workspace_memberships(user_id, workspace_id, created_at, created_by)`
+   
+   Unique constraint on `(user_id, workspace_id)`. Main can either be implicit access or seeded membership for every user. I’d prefer implicit access to Main, because it avoids sync bugs.
 
-The default should stay at `1` so small local installs remain predictable.
+**Edge Cases**
 
-A later `auto` mode could choose a conservative worker count based on the host machine, for example using two workers on machines with 16 GB or more RAM, capped at a small number such as four.
+- If a user’s active workspace is removed from their access, their session should fall back to Main.
+- If a user has a direct URL to a protected note, backend returns `403`, not `404`, unless you intentionally want to hide existence.
+- If a workspace is archived/unavailable while someone is using it, decide whether access is denied, read-only, or redirected to Main.
+- If the last admin removes their own access to a workspace, is that allowed? Probably yes for content access, but not relevant if admins can manage all workspaces globally.
+- If an admin removes access while a job is running, decide whether the job continues. I’d let jobs continue because they belong to workspace state, not user visibility.
+- If a workspace is renamed, membership should remain attached to workspace ID, not slug/name.
+- If two admins add/remove at the same time, API should be idempotent: `PUT membership` and `DELETE membership` are better than action-style POSTs.
+- Autocomplete must not leak unavailable/archived workspaces to normal users.
 
-### Design requirements
+**UI Notes**
 
-- API requests should continue to create jobs as `queued`.
-- Workers should claim queued jobs atomically so two workers cannot process the same job.
-- Each job should run with its own SQLAlchemy session.
-- Each job should run with its own workspace context.
-- Parser temporary files should stay isolated per job.
-- Database transactions should stay short; ffmpeg, OCR, MarkItDown, and model calls should not hold long-running write transactions.
-- Shutdown should be graceful. Workers should stop accepting new jobs and any interrupted jobs should be marked clearly on next startup.
+The normal-user “Workspace from their own 3-dot menu” may be confusing if non-admins don’t normally see Users. This might belong in their profile menu or workspace switcher instead.
 
-### SQLite considerations
+For the protected workspace modal, `{admin_name}` is tricky if there are multiple admins or no named admin. Safer copy:
 
-SQLite can support this if writes are kept short and well scoped. Parsing work is slow, but most of that time should happen outside database transactions. Workers should only write when they need to update job status, append logs, or persist note text.
+> This is a protected workspace. Please contact an admin to request access.
 
-### UI considerations
+**Testing Additions**
 
-The Console should show the real number of active jobs, for example:
+Add tests for direct API calls, not only switch:
 
-```text
-2 active
-```
+- blocked `GET /workspace/&lt;slug&gt;/notes`
+- blocked note detail URL
+- blocked search/context/MCP access
+- blocked source file/markdown access
+- active workspace fallback when access is removed
+- archived workspace cannot be assigned
+- Main access still works without explicit membership
 
-This should reflect actual worker activity rather than just the number of jobs with a `running` status.
-
-### Acceptance criteria
-
-- Admins can configure the number of job workers.
-- Two or more jobs can run concurrently when configured.
-- Workers cannot claim the same queued job twice.
-- Jobs stay scoped to the correct workspace.
-- Failed jobs still update the related note and Console logs correctly.
-- Existing single-worker behaviour remains the default.
-- Tests cover concurrent claiming, workspace isolation, successful jobs, failed jobs, and interrupted jobs.
-
-## Vision extraction fallback for images and scanned PDFs.
+The main change I’d make is to define a single backend “workspace resolver” dependency that resolves workspace + checks access before any workspace-scoped code runs. That keeps the rule central and makes the open-source code look intentional rather than permission checks scattered everywhere.

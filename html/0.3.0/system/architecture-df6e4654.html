@@ -40,9 +40,9 @@ FastAPI web service  &lt;---- REST clients / agents
     |
     +--&gt; MCP stdio server calls the same REST API</code></pre></div>
 <h2>Storage layout</h2>
-<p>Generated notes and source files live under the configured data directory:</p>
-<div class="code-card"><pre><code class="language-text">data/&lt;folder_slug&gt;/&lt;title_slug&gt;-&lt;note_id&gt;.md
-data/&lt;folder_slug&gt;/sources/&lt;note_id&gt;/original.&lt;ext&gt;</code></pre></div>
+<p>Generated notes and source files live inside each workspace folder:</p>
+<div class="code-card"><pre><code class="language-text">&lt;workspace&gt;/markdown/&lt;folder_slug&gt;/&lt;title_slug&gt;-&lt;note_id[:8]&gt;.md
+&lt;workspace&gt;/markdown/&lt;folder_slug&gt;/sources/&lt;note_id[:8]&gt;/original.&lt;ext&gt;</code></pre></div>
 <p>Folder rows store their filesystem path. Note rows store their Markdown filename. The full path is derived from those two values.</p>
 <p>Later title edits do not rename files. This keeps URLs and filesystem references stable.</p>
 <h2>Database responsibilities</h2>

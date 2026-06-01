@@ -32,9 +32,9 @@
 <p>The goal is to standardise how project knowledge moves between people, tools, and agents, without losing control of where that knowledge lives.</p>
 <h2>What Mianotes stores</h2>
 <p>Mianotes keeps user-facing note content as Markdown files under the active data folder:</p>
-<div class="code-card"><pre><code class="language-text">data/&lt;folder_slug&gt;/&lt;title_slug&gt;-&lt;note_id&gt;.md</code></pre></div>
-<p>The default SQLite database lives inside the hidden runtime folder:</p>
-<div class="code-card"><pre><code class="language-text">data/.mianotes/mia.db</code></pre></div>
+<div class="code-card"><pre><code class="language-text">&lt;workspace&gt;/markdown/&lt;folder_slug&gt;/&lt;title_slug&gt;-&lt;note_id[:8]&gt;.md</code></pre></div>
+<p>The workspace SQLite database lives inside the hidden runtime folder:</p>
+<div class="code-card"><pre><code class="language-text">&lt;workspace&gt;/.mianotes/mia.db</code></pre></div>
 <p>SQLite stores indexes and metadata such as users, folders, tags, notes, comments, sessions, and jobs. The text stays in a Markdown file.</p>
 <h2>Meet Mia</h2>
 <p>Mia is the built-in Mianotes agent. Mia helps convert messy input into durable Markdown notes, improve structure, extract useful information, summarise long content, and prepare notes for reuse by humans or other agents.</p>

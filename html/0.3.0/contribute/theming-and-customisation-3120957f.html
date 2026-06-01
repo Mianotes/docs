@@ -37,17 +37,14 @@ site.js</code></pre></div>
 <div class="code-card"><pre><code class="language-bash">pytest tests/test_api_publish.py</code></pre></div>
 <h2>Runtime customisation</h2>
 <p>Supported configuration areas:</p>
-<ul><li>service host and port</li><li>data directory</li><li>database URL</li><li>allowed storage locations</li><li>LLM provider and model</li><li>image OCR fallback model</li><li>service-wide API key</li><li>scoped agent tokens</li><li>parser adapters</li></ul>
+<ul><li>service host and port</li><li>allowed storage locations</li><li>LLM provider and model</li><li>image OCR fallback model</li><li>service-wide API key</li><li>scoped agent tokens</li><li>parser adapters</li></ul>
 <h2>Ports</h2>
 <div class="code-card"><pre><code class="language-text">8200  web service
 8201  alternate local service</code></pre></div>
-<h2>Storage customisation</h2>
+<h2>Workspace customisation</h2>
 <p>Default:</p>
 <div class="code-card"><pre><code class="language-text">data/
 data/.mianotes/mia.db</code></pre></div>
-<p>Advanced:</p>
-<div class="code-card"><pre><code class="language-env">MIANOTES_DATA_DIR=/absolute/path/to/mianotes-data
-MIANOTES_DATABASE_URL=sqlite:////absolute/path/to/.mianotes/mia.db</code></pre></div>
 <p>Admins can switch between allowed local folders from the Settings screen.</p>
 <h2>LLM customisation</h2>
 <p>Mia supports:</p>

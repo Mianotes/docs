@@ -28,9 +28,9 @@
 <p>To start on another port during development:</p>
 <div class="code-card"><pre><code class="language-bash">MIANOTES_HOST=127.0.0.1 MIANOTES_PORT=8201 ./start-dev.sh</code></pre></div>
 <h2>Storage defaults</h2>
-<p>Generated notes and source files live under the configured data directory:</p>
-<div class="code-card"><pre><code class="language-text">data/&lt;folder_slug&gt;/&lt;title_slug&gt;-&lt;note_id[:8]&gt;.md
-data/&lt;folder_slug&gt;/sources/&lt;note_id[:8]&gt;/original.&lt;ext&gt;</code></pre></div>
+<p>Generated notes and source files live inside each workspace folder:</p>
+<div class="code-card"><pre><code class="language-text">&lt;workspace&gt;/markdown/&lt;folder_slug&gt;/&lt;title_slug&gt;-&lt;note_id[:8]&gt;.md
+&lt;workspace&gt;/markdown/&lt;folder_slug&gt;/sources/&lt;note_id[:8]&gt;/original.&lt;ext&gt;</code></pre></div>
 <p>Folder directories are filesystem-safe slugs and are unique inside a workspace. Source files live under each folder&#x27;s <code>sources/</code> directory.</p>
 <h2>LLM provider values</h2>
 <h3>OpenAI</h3>

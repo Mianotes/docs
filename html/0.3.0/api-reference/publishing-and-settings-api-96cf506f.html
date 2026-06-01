@@ -86,7 +86,7 @@
 <div class="code-card"><pre><code class="language-json">{
   <span class="tok-key">&quot;location_id&quot;</span>: <span class="tok-string">&quot;work&quot;</span>
 }</code></pre></div>
-<p>The response includes <code>session_ended: true</code>. The browser session is ended because each folder has its own users and password state.</p>
+<p>The response includes <code>session_ended: false</code>. Workspace switching is stored on the current session, so the user stays signed in.</p>
 <p>If Mia has queued or running jobs, the API returns <code>409</code> and asks the user to try again after those jobs finish.</p>
 <h2>Create service API key</h2>
 <div class="code-card"><pre><code class="language-text">POST /api/settings/api-key</code></pre></div>

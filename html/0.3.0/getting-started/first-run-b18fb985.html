@@ -49,7 +49,7 @@ This is a test note. It should be stored as Markdown, listed in the web app, and
   -H &quot;Authorization: Bearer ${MIANOTES_API_KEY}&quot; \
   &quot;${MIANOTES_API_URL:-http://127.0.0.1:8200}/api/search?q=test&quot;</code></pre></div>
 <h2>First file upload</h2>
-<p>After text notes work, try a small file such as a <code>.txt</code>, <code>.md</code>, <code>.pdf</code>, <code>.jpg</code>, or <code>.png</code>.</p>
+<p>After text notes work, try a small file such as a <code>.txt</code>, <code>.md</code>, <code>.pdf</code>, <code>.jpg</code>, <code>.png</code>, or <code>.mp4</code>.</p>
 <p>File and URL ingestion return a pending note plus a job. The conversion runs in the background. Clients should poll the job URL until the job reaches <code>succeeded</code>, then fetch the note.</p>
 <h2>First agent connection</h2>
 <p>Create or configure an API key, then test the session endpoint:</p>

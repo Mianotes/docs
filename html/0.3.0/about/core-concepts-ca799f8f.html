@@ -27,7 +27,7 @@
 <p>Browser users authenticate with a session cookie. Agents should use API tokens instead of browser sessions.</p>
 <h2><code>Folder</code></h2>
 <p>A folder is a shared workspace for related notes.</p>
-<p>Folder rows are stored in SQLite, while each folder also owns a top-level filesystem directory under <code>data/</code>. A folder can be archived. When archived, the folder is hidden from normal lists and moved under <code>data/.archived/</code> so active folders stay clean.</p>
+<p>Folder rows are stored in SQLite, while each folder also owns a filesystem directory under the workspace <code>markdown/</code> directory. A folder can be archived. When archived, the folder is hidden from normal lists and moved under the workspace archive area so active folders stay clean.</p>
 <h2><code>Note</code></h2>
 <p>A note is the main unit of knowledge.</p>
 <p>The note body is a Markdown file on disk. Metadata lives in SQLite. A note can have source files, tags, comments, share links, and job history.</p>
@@ -38,7 +38,7 @@
 <h2><code>Source file</code></h2>
 <p>A source file is the original file or downloaded HTML used to create a note.</p>
 <p>For file uploads, Mianotes stores the uploaded file under:</p>
-<div class="code-card"><pre><code class="language-text">data/&lt;folder_slug&gt;/sources/&lt;note_id[:8]&gt;/original.&lt;ext&gt;</code></pre></div>
+<div class="code-card"><pre><code class="language-text">&lt;workspace&gt;/markdown/&lt;folder_slug&gt;/sources/&lt;note_id[:8]&gt;/original.&lt;ext&gt;</code></pre></div>
 <p>Source files are kept next to the generated Markdown note but ignored by the folder-level <code>.gitignore</code> so Git backups can store notes without committing original uploads.</p>
 <h2><code>Tag</code></h2>
 <p>Tags provide cross-folder grouping. Notes can be tagged with short labels such as <code>research</code>, <code>planning</code>, <code>client</code>, or <code>release</code>.</p>
