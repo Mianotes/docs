@@ -23,10 +23,12 @@ Install the system tools first.
 
 Mianotes currently supports Python 3.11, 3.12, 3.13, and 3.14 for source installs.
 
+You do not need to install MarkItDown manually. The web service installer creates a local Python virtual environment and installs Mianotes' Python dependencies there, including MarkItDown and the OCR plugin.
+
 ### macOS
 
 ```bash
-brew install python@3.12 ripgrep tesseract ffmpeg
+brew install python@3.12 ripgrep tesseract ffmpeg flac
 ```
 
 Install Node.js 20 or newer from nodejs.org or through your preferred package manager.
@@ -35,7 +37,7 @@ Install Node.js 20 or newer from nodejs.org or through your preferred package ma
 
 ```bash
 sudo apt update
-sudo apt install python3 python3-venv python3-pip ripgrep tesseract-ocr ffmpeg
+sudo apt install python3 python3-venv python3-pip ripgrep tesseract-ocr ffmpeg flac
 ```
 
 Install Node.js 20 or newer before running the dashboard.
@@ -49,8 +51,9 @@ Tool purpose:
 | ripgrep         | Searches saved Markdown notes.               |
 | Tesseract       | Performs local OCR for image uploads.        |
 | ffmpeg          | Enables audio and video parsing when needed. |
+| flac            | Supports audio transcription conversion.     |
 
-`ffmpeg` is optional unless you want to parse audio or video sources.
+`ffmpeg` and `flac` are optional unless you want to parse audio or video sources. Tesseract is optional unless you want local image OCR.
 
 ## Install
 
