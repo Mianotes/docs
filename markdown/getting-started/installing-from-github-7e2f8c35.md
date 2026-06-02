@@ -94,7 +94,7 @@ MIANOTES_LLM_API_KEY=sk-**********
 MIANOTES_API_KEY=replace-with-a-long-random-secret
 ```
 
-Do not add database or workspace variables unless you want to change the default file locations. By default, Mianotes stores system state under `data/` and workspace content under each workspace's `.mianotes/` folder.
+Do not add database or workspace variables unless you want to change the default file locations. By default, Mianotes stores system state under `data/system.db`, workspace databases under `data/workspaces/`, and workspace content in the selected workspace folders.
 
 ## Start Mianotes
 

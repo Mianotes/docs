@@ -8,7 +8,7 @@ This page explains the words used throughout the documentation.
 
 ## `Workspace`
 
-A Mianotes workspace is a top-level knowledge area backed by a local folder. The private workspace SQLite database lives inside that folder at `.mianotes/mia.db`.
+A Mianotes workspace is a top-level knowledge area backed by a local folder. The workspace folder contains Markdown notes, source files, and published output. The private SQLite database for that workspace lives in the Mianotes data directory at `data/workspaces/<workspace_id>.db`.
 
 Small groups can share a Mianotes app by using the same master password. Everyone can read shared notes, browse by folder, browse by user, and add notes to active folders.
 

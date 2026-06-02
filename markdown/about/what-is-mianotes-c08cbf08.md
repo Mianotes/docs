@@ -39,13 +39,13 @@ Mianotes keeps user-facing note content as Markdown files under the active data 
 <workspace>/markdown/<folder_slug>/<title_slug>-<note_id[:8]>.md
 ```
 
-The workspace SQLite database lives inside the hidden runtime folder:
+The workspace SQLite database lives in the Mianotes data directory:
 
 ```text
-<workspace>/.mianotes/mia.db
+data/workspaces/<workspace_id>.db
 ```
 
-SQLite stores indexes and metadata such as users, folders, tags, notes, comments, sessions, and jobs. The text stays in a Markdown file.
+SQLite stores indexes and metadata such as folders, tags, notes, comments, and jobs. Global users and sessions live in `data/system.db`. The note text stays in Markdown files inside the workspace folder.
 
 ## Meet Mia
 

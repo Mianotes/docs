@@ -80,7 +80,8 @@ Default:
 
 ```text
 data/
-data/.mianotes/mia.db
+data/system.db
+data/workspaces/<workspace_id>.db
 ```
 
 Admins can switch between allowed local folders from the Settings screen.

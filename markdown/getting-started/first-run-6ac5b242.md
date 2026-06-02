@@ -18,7 +18,7 @@ Mianotes then:
 
 1. creates the first admin user;
 2. stores the master password hash;
-3. initialises `data/.mianotes/mia.db`;
+3. initialises `data/system.db` and `data/workspaces/default.db`;
 4. seeds the default `Mianotes` folder;
 5. starts a browser session for the new user.
 

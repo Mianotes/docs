@@ -121,7 +121,7 @@ Request:
 }
 ```
 
-Mianotes creates `.mianotes/mia.db` in that folder if needed and initialises the schema.
+Mianotes creates `data/workspaces/<workspace_id>.db` if needed and initialises the workspace schema. The selected folder stores workspace content such as Markdown notes, source files, and published output.
 
 ## Switch active storage location
 

@@ -29,7 +29,7 @@ The response contains a short-lived bearer token. Use that session token for fol
 
 The raw key is a secret. Treat it like a password.
 
-Mianotes compares bearer tokens by hashing the presented token and comparing it with the public verifier stored in the active `.mianotes/mia.db`. The database does not store the raw key.
+Mianotes compares bearer tokens by hashing the presented token and comparing it with the public verifier stored in `data/system.db`. The database does not store the raw key.
 
 There are two normal places the raw service key lives:
 
@@ -38,7 +38,7 @@ There are two normal places the raw service key lives:
 * agents and MCP clients should keep their copy in their own environment or
   project `.env`
 
-On API key creation and on authenticated requests, Mianotes syncs the derived public verifier into the active database. The active `.mianotes/mia.db` stores only that public verifier, never the raw key. This lets the service-wide key be re-synced automatically after service restarts or workspace switches.
+On API key creation and on authenticated requests, Mianotes syncs the derived public verifier into the system database. `data/system.db` stores only that public verifier, never the raw key. This lets the service-wide key keep working after service restarts or workspace switches.
 
 ## Get a key in the web app
 
