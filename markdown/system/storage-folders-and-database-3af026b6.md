@@ -8,7 +8,7 @@ Mianotes uses SQLite by default. In the UI, admins choose local workspaces. Insi
 
 ## Default databases
 
-On first start, Mianotes creates a runtime `workspaces.json` file in the web service root if it does not already exist.
+On first start, Mianotes reads `settings.json` if it exists, then creates a runtime `workspaces.json` file in the web service root if it does not already exist.
 
 A fresh install uses:
 
@@ -58,6 +58,49 @@ Example:
 Each location points to a workspace folder that contains, or can contain, a `.mianotes/mia.db` database. Each workspace has its own notes, folders, tags, source records, jobs, shares, and publishing history.
 
 Users, sessions, API keys, and global settings live in `data/system.db`.
+
+## `settings.json`
+
+`settings.json` contains project-level service settings. It can set the server host and port, model providers, binary lookup paths, and the database adapter.
+
+Secrets should not be written directly into `settings.json`. Use environment placeholders such as:
+
+```json
+{
+  "llm": {
+    "provider": "openai",
+    "model": "gpt-5-nano",
+    "baseUrl": "",
+    "apiKey": "env.MIANOTES_LLM_API_KEY"
+  }
+}
+```
+
+Mianotes resolves `env.MIANOTES_LLM_API_KEY` from the process environment or `.env`.
+
+The database section currently supports SQLite:
+
+```json
+{
+  "database": {
+    "adapter": "sqlite",
+    "url": "env.MIANOTES_DATABASE_URL"
+  }
+}
+```
+
+If `MIANOTES_DATABASE_URL` is not set, Mianotes uses `data/system.db` for global app state. Other adapters are intentionally rejected for now so workspace data cannot be mixed into one server database before the schema supports it.
+
+## Database initialisation
+
+Mianotes creates and updates database tables in two places:
+
+1. on service startup;
+2. when `mianotes-web-service init-db` is run.
+
+Startup initialises `data/system.db`, then initialises every configured workspace database from `workspaces.json`.
+
+SQLite file databases are opened in WAL mode. This creates sidecar files such as `system.db-wal` and `system.db-shm`, which are normal SQLite runtime files and should not be committed.
 
 ## Switching workspaces
 

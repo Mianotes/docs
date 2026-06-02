@@ -4,7 +4,42 @@ Created: 2026-05-31T09:19:04Z
 
 ## Note
 
-Mianotes configuration uses environment variables with the `MIANOTES_` prefix. For normal local use, configure only the LLM provider and API key. Leave storage settings at their defaults unless you need a custom layout.
+Mianotes configuration uses `settings.json` for project defaults and environment variables with the `MIANOTES_` prefix for secrets and local overrides. For normal local use, configure only the LLM provider and API key.
+
+## `settings.json`
+
+The web service reads `settings.json` from the service root when it starts. Environment variables override values from this file.
+
+Example:
+
+```json
+{
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8200
+  },
+  "database": {
+    "adapter": "sqlite",
+    "url": "env.MIANOTES_DATABASE_URL"
+  },
+  "llm": {
+    "provider": "openai",
+    "model": "gpt-5-nano",
+    "baseUrl": "",
+    "apiKey": "env.MIANOTES_LLM_API_KEY"
+  },
+  "vlm": {
+    "provider": "openai",
+    "model": "gpt-5-nano",
+    "baseUrl": "",
+    "apiKey": "env.MIANOTES_VLM_API_KEY"
+  }
+}
+```
+
+Values beginning with `env.` are read from the process environment or `.env`. Do not put raw secrets in `settings.json`.
+
+The database adapter is currently `sqlite`. If `MIANOTES_DATABASE_URL` is unset, Mianotes uses the default local `data/system.db`.
 
 ## Common variables
 
@@ -16,6 +51,7 @@ Mianotes configuration uses environment variables with the `MIANOTES_` prefix. F
 | `MIANOTES_LLM_MODEL`       | `gpt-5-nano`                | Text model used by Mia.                                                 |
 | `MIANOTES_LLM_BASE_URL`    | empty                       | Base URL for local or OpenAI-compatible providers.                      |
 | `MIANOTES_LLM_API_KEY`     | empty                       | LLM provider API key or local placeholder.                              |
+| `MIANOTES_VLM_API_KEY`     | empty                       | Optional image-capable model provider key.                              |
 | `MIANOTES_LLM_IMAGE_MODEL` | empty                       | Optional multimodal OpenAI model for image OCR fallback.                |
 | `MIANOTES_API_KEY`         | empty                       | Service-wide bearer token used by local agents and MCP.                 |
 
