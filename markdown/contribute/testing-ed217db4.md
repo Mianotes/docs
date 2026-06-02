@@ -32,7 +32,7 @@ Use the temporary storage wrapper when you want to run manual smoke tests, seed 
 ./scripts/with-temp-storage.sh pytest
 ```
 
-The wrapper creates a temporary Mianotes data folder, points the service at a temporary `mia.db`, runs the command, and removes the temporary folder when the command exits.
+The wrapper creates a temporary Mianotes data folder, points the service at a temporary `system.db`, runs the command, and removes the temporary folder when the command exits.
 
 To start a disposable local service:
 

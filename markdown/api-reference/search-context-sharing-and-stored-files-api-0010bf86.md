@@ -152,4 +152,4 @@ GET /mianotes/sources/4a95f146/original.pdf
 
 Authentication: session cookie or bearer token with `notes\:read` or `admin`.
 
-Database files are never served. If a path escapes the data directory or points to private service data such as `mia.db`, the API returns `404`.
+Database files are never served. If a path escapes the data directory or points to private service data such as a SQLite database file or sidecar, the API returns `404`.

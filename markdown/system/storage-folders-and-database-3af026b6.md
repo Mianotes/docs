@@ -120,9 +120,8 @@ Do not commit these to a public repository:
 workspaces.json
 data/
 data/workspaces/
-mia.db
 system.db
 .env
 ```
 
-Database files are never served by the file API. Source and Markdown files are served through controlled routes, but `mia.db`, `system.db`, workspace databases, and SQLite sidecars are blocked.
+Database files are never served by the file API. Source and Markdown files are served through controlled routes, but `system.db`, workspace databases, and SQLite sidecars are blocked.

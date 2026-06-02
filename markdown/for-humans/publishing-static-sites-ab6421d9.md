@@ -113,4 +113,4 @@ Static HTML is public under `/html/...`.
 
 Published Markdown is available under `/markdown/...`. Authenticated users and valid bearer-token clients can read stored Markdown files. Public callers can only read Markdown or source files that belong to notes marked as published.
 
-Database files such as `mia.db` are never served.
+Database files are never served.

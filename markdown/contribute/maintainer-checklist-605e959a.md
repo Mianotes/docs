@@ -49,7 +49,7 @@ ruff check .
 
 - `.env` is not committed.
 - `workspaces.json` is not committed.
-- `data/`, `mia.db`, and `system.db` are not committed.
+- `data/`, `system.db`, workspace database files, and SQLite sidecar files are not committed.
 - Example tokens are fake.
 - Docs remind users not to give untrusted agents filesystem access to sensitive files.
 - File API blocks database files.

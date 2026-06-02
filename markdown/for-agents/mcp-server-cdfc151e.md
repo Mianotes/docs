@@ -189,4 +189,4 @@ Use the REST file upload endpoint when an agent needs to send local files to Mia
 
 ## Design rule
 
-The MCP server stays thin. It does not read `mia.db`, bypass REST permissions, or write files directly. The API remains the single authority for permissions, parsing, job state, and persistence.
+The MCP server stays thin. It does not read database files, bypass REST permissions, or write files directly. The API remains the single authority for permissions, parsing, job state, and persistence.
