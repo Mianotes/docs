@@ -88,6 +88,31 @@ Query parameters:
 |---|---|
 | `note_id` | Return jobs related to one note. |
 | `status` | Return jobs with a specific status. |
+| `limit` | Maximum number of jobs to return. Defaults to `50`; maximum `200`. |
+| `cursor` | Cursor from the previous response for the next page. |
+| `include_logs` | Include decoded console log entries in the list response. Defaults to `false`. |
+| `include_payloads` | Include decoded input and result payloads in the list response. Defaults to `false`. |
+
+The list endpoint returns a bounded page:
+
+```json
+{
+  "items": [
+    {
+      "id": "job-id",
+      "job_type": "parse_file",
+      "status": "running",
+      "input": null,
+      "result": null,
+      "log": null
+    }
+  ],
+  "limit": 50,
+  "next_cursor": null
+}
+```
+
+By default, list responses do not decode large job logs, input payloads, or result payloads. Use the single job endpoint when you need the complete console output.
 
 ## Get job
 
@@ -96,6 +121,8 @@ GET /api/jobs/{job_id}
 ```
 
 Authentication: session cookie or bearer token with `notes\:read` or `admin`.
+
+This endpoint returns the full job record, including decoded input, result, and console log entries.
 
 ## Job statuses
 
