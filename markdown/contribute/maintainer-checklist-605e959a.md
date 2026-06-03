@@ -34,7 +34,7 @@ ruff check .
 - File upload creates a job and eventually updates the note.
 - URL ingestion creates a job and eventually updates the note.
 - Search returns note metadata and excerpts.
-- `@mia` prompt returns a prompt response and does not save a comment.
+- Mia prompt returns a prompt response without changing the note.
 - API key creation returns the raw key once.
 - Scoped token permissions produce expected `401` and `403` behaviour.
 - MCP server starts with `MIANOTES_API_URL` and `MIANOTES_API_KEY`.

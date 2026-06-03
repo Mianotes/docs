@@ -4,31 +4,29 @@ Created: 2026-05-29T17:20:37Z
 
 ## Note
 
-Mia is prompted through the comments endpoint.
-
-If a comment request body starts with `@mia`, Mianotes treats it as a private Mia prompt instead of a shared comment.
+Mia is prompted through the note prompt endpoint.
 
 ## Endpoint
 
 ```text
-POST /api/notes/{note_id}/comments
+POST /api/notes/{note_id}/prompt
 ```
 
 Authentication:
 
 ```text
-Session cookie or bearer token with comments:write or admin
+Session cookie or bearer token with notes:write or admin
 ```
 
 ## Request
 
 ```json
 {
-  "body": "@mia summarise this note"
+  "prompt": "summarise this note"
 }
 ```
 
-Mianotes strips the `@mia` prefix, reads the current note Markdown, sends the prompt and note content to the configured LLM provider, and waits for the response.
+Mianotes reads the current note Markdown, sends the prompt and note content to the configured LLM provider, and waits for the response.
 
 ## Response
 
@@ -49,8 +47,6 @@ Mia prompts:
 - are synchronous;
 - do not create jobs;
 - are private;
-- are not saved as comments;
-- are not returned by `GET /api/notes/{note_id}/comments`;
 - do not update the note;
 - return Markdown only.
 
@@ -59,12 +55,12 @@ If you want Mia's answer to become part of the note, copy the returned Markdown 
 ## Example prompts
 
 ```text
-@mia summarise this note for a project manager
-@mia extract the tasks, owners, and dates
-@mia rewrite this as clear documentation
-@mia list unanswered questions in this note
-@mia turn this into revision notes with definitions and examples
-@mia find security-sensitive content in this note
+summarise this note for a project manager
+extract the tasks, owners, and dates
+rewrite this as clear documentation
+list unanswered questions in this note
+turn this into revision notes with definitions and examples
+find security-sensitive content in this note
 ```
 
 ## Errors
@@ -86,11 +82,11 @@ Good prompts are specific about the output format.
 Good:
 
 ```text
-@mia rewrite this note as a concise implementation guide with headings: Goal, Setup, Steps, Common errors, Next steps.
+rewrite this note as a concise implementation guide with headings: Goal, Setup, Steps, Common errors, Next steps.
 ```
 
 Weak:
 
 ```text
-@mia improve this
+improve this
 ```

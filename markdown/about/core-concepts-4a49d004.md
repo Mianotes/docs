@@ -28,7 +28,7 @@ Folder rows are stored in SQLite, while each folder also owns a filesystem direc
 
 A note is the main unit of knowledge.
 
-The note body is a Markdown file on disk. Metadata lives in SQLite. A note can have source files, tags, comments, share links, and job history.
+The note body is a Markdown file on disk. Metadata lives in SQLite. A note can have source files, tags, share links, and job history.
 
 A note filename normally looks like:
 
@@ -59,12 +59,6 @@ Source files are kept next to the generated Markdown note but ignored by the fol
 Tags provide cross-folder grouping. Notes can be tagged with short labels such as `research`, `planning`, `client`, or `release`.
 
 Tags are useful for both humans and agents because they make related notes easier to discover.
-
-## `Comment`
-
-A comment is a saved discussion item attached to a note.
-
-Comments are useful for review, handoff, or reminders. If a comment body starts with `@mia`, Mianotes treats it as a private prompt to Mia instead of saving it as a shared comment.
 
 ## `Job`
 

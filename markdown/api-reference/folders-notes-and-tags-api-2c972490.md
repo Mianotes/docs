@@ -210,7 +210,7 @@ GET /api/notes/{note_id}
 
 Authentication: session cookie or bearer token with `notes\:read` or `admin`.
 
-Returns a full note including Markdown `text`, owner, folder, source files, tags, comment metadata, sharing metadata, and action hints.
+Returns a full note including Markdown `text`, owner, folder, source files, tags, sharing metadata, and action hints.
 
 ## Update note
 
@@ -255,7 +255,7 @@ Request:
 DELETE /api/notes/{note_id}
 ```
 
-Deletes the note, stored Markdown file, source files, and related comments.
+Deletes the note, stored Markdown file, source files, tags, share records, and job records. Files outside the workspace are not deleted.
 
 ## Tags
 

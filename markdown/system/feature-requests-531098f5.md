@@ -15,7 +15,7 @@ This document collects product and architecture ideas that would make Mianotes b
 
 2. **Every workspace-scoped endpoint needs protection**
    Not only workspace switching. Protect:
-   `notes`, `folders`, `tags`, `jobs`, `sources`, `comments`, `publish`, file downloads, markdown/source serving, search, context/MCP endpoints, and any direct `/workspace/&lt;slug&gt;/...` route.
+   `notes`, `folders`, `tags`, `jobs`, `sources`, `publish`, file downloads, markdown/source serving, search, context/MCP endpoints, and any direct `/workspace/&lt;slug&gt;/...` route.
 
 3. **Agent/API access needs a decision**
    Mianotes has API keys and MCP. If there is one global API key, then membership can be bypassed unless agent sessions have a user/admin/system identity. Decide:

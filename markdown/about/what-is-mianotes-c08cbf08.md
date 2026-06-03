@@ -11,7 +11,7 @@ This documentation was written by engineers and Codex agents using [Mianotes](h
 
 Mianotes is a local-first knowledge repository for people and AI agents.
 
-It converts notes, links, documents, meeting recordings, videos, articles, images, and AI output into clean Markdown you can search, organise, edit, and reuse. People use the web app to read, edit, tag, comment on, and share notes. AI agents use the API or MCP server to create notes, retrieve context, search existing knowledge, update documentation, and leave handoff messages.
+It converts notes, links, documents, meeting recordings, videos, articles, images, and AI output into clean Markdown you can search, organise, edit, and reuse. People use the web app to read, edit, tag, and share notes. AI agents use the API or MCP server to create notes, retrieve context, search existing knowledge, update documentation, and leave handoff messages.
 
 Mianotes is built with open-source tools, including Microsoft MarkItDown and FFmpeg for file conversion and Ollama for local AI models.
 
@@ -45,7 +45,7 @@ The workspace SQLite database lives in the Mianotes data directory:
 data/workspaces/<workspace_id>.db
 ```
 
-SQLite stores indexes and metadata such as folders, tags, notes, comments, and jobs. Global users and sessions live in `data/system.db`. The note text stays in Markdown files inside the workspace folder.
+SQLite stores indexes and metadata such as folders, tags, notes, share records, and jobs. Global users and sessions live in `data/system.db`. The note text stays in Markdown files inside the workspace folder.
 
 ## Meet Mia
 

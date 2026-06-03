@@ -140,12 +140,9 @@ Guest share routes include the workspace id so the service can resolve the share
 * `GET /api/tags`
 * `PUT /api/notes/{note_id}/tags`
 
-### Comments and Mia
+### Mia
 
-* `GET /api/notes/{note_id}/comments`
-* `POST /api/notes/{note_id}/comments`
-* `PATCH /api/notes/{note_id}/comments/{comment_id}`
-* `DELETE /api/notes/{note_id}/comments/{comment_id}`
+* `POST /api/notes/{note_id}/prompt`
 
 ### Search and context
 

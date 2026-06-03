@@ -76,7 +76,7 @@ For web pages:
 4. Mianotes passes a cleaned HTML document to MarkItDown
 5. If extraction fails, Mianotes falls back to the raw saved HTML file
 
-This removes most navigation menus, headers, footers, sidebars, comments, and page chrome while preserving useful links, images, and tables.
+This removes most navigation menus, headers, footers, sidebars, discussion widgets, and page chrome while preserving useful links, images, and tables.
 
 ## Image ingestion
 

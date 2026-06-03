@@ -58,7 +58,6 @@ SQLite tracks:
 * folders
 * notes metadata
 * source files
-* comments
 * tags
 * sessions
 * API tokens

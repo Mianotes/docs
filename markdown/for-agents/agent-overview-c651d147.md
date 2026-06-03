@@ -23,8 +23,8 @@ An agent can:
 * update notes
 * set tags
 * search Markdown notes
-* leave comments or handoff messages
-* send private `@mia` prompts through the comments endpoint
+* leave handoff messages
+* send private Mia prompts through the prompt endpoint
 
 ## Recommended agent behaviour
 

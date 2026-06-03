@@ -1,46 +1,24 @@
-# Comments, Mia prompts, and jobs API
+# Mia prompts and jobs API
 
 Created: 2026-05-29T17:20:37Z
 
 ## Note
 
-This page covers comments, private Mia prompts, and background jobs.
-
-## List comments
-
-```text
-GET /api/notes/{note_id}/comments
-```
-
-Authentication: session cookie or bearer token with `notes\:read` or `admin`.
-
-Returns saved comments for the note. Private Mia prompts are not returned.
-
-## Create comment
-
-```text
-POST /api/notes/{note_id}/comments
-```
-
-Authentication: session cookie or bearer token with `comments\:write` or `admin`.
-
-Request:
-
-```json
-{
-  "body": "This is useful for the next call."
-}
-```
-
-Response: a saved comment with `201 Created`.
+This page covers private Mia prompts and background jobs.
 
 ## Send a private Mia prompt
 
-Use the same endpoint, but start the body with `@mia`:
+Use the note prompt endpoint:
+
+```text
+POST /api/notes/{note_id}/prompt
+```
+
+Authentication: session cookie or bearer token with `notes\:write` or `admin`.
 
 ```json
 {
-  "body": "@mia summarise this text"
+  "prompt": "summarise this text"
 }
 ```
 
@@ -56,27 +34,7 @@ Response: a prompt response with `200 OK`.
 }
 ```
 
-Mia prompt responses do not create jobs, do not save a shared comment, and do not update the note.
-
-## Update comment
-
-```text
-PATCH /api/notes/{note_id}/comments/{comment_id}
-```
-
-Authentication: session cookie or bearer token with `comments\:write` or `admin`.
-
-Admins can update any comment. Normal users can update only comments they created.
-
-## Delete comment
-
-```text
-DELETE /api/notes/{note_id}/comments/{comment_id}
-```
-
-Authentication: session cookie or bearer token with `comments\:write` or `admin`.
-
-Response: `204 No Content`.
+Mia prompt responses do not create jobs and do not update the note.
 
 ## Job object
 

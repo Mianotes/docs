@@ -37,7 +37,7 @@ An agent can:
 * Tag notes for discovery
 * Search earlier notes before making changes
 * Update a note when new evidence arrives
-* Leave comments for review or handoff
+* Leave handoff notes for review
 
 ## Students
 
@@ -69,7 +69,7 @@ Typical folders:
 * Roadmaps
 * Launch plans
 
-Team members can add tags across folders, comment on notes, and create read-only share links when someone outside the workspace needs access to a single note.
+Team members can add tags across folders, improve notes, and create read-only share links when someone outside the workspace needs access to a single note.
 
 ## Researchers
 

@@ -45,7 +45,6 @@ notes:read
 notes:write
 folders:read
 folders:write
-comments:write
 tags:read
 tags:write
 share:write

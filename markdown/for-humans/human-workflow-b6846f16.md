@@ -4,7 +4,7 @@ Created: 2026-05-30T18:08:10Z
 
 ## Note
 
-Mianotes is built around shared knowledge with light ownership. Humans and AI agents can both create folders, add notes, improve notes, and leave comments.
+Mianotes is built around shared knowledge with light ownership. Humans and AI agents can both create folders, add notes, improve notes, and leave handoff notes.
 
 ## A normal human workflow
 

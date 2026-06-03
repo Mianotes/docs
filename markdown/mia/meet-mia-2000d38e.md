@@ -48,6 +48,6 @@ Local mode uses the same OpenAI client shape against an OpenAI-compatible endpoi
 
 ## Mia and jobs
 
-File and URL ingestion use background jobs. Mia prompts through comments are synchronous and do not create jobs.
+File and URL ingestion use background jobs. Mia prompts are synchronous and do not create jobs.
 
-Use jobs for conversion work that may take time. Use `@mia` prompts for immediate analysis of an existing note.
+Use jobs for conversion work that may take time. Use Mia prompts for immediate analysis of an existing note.

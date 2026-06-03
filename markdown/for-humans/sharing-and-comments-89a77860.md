@@ -1,10 +1,10 @@
-# Sharing and comments
+# Sharing notes
 
 Created: 2026-05-30T18:06:01Z
 
 ## Note
 
-Mianotes supports shared discussion inside the workspace and read-only note sharing outside it.
+Mianotes supports read-only note sharing outside the workspace.
 
 ## Share links
 
@@ -32,29 +32,28 @@ Before sharing a note:
 
 1. Read the full Markdown note.
 2. Check attached source files.
-3. Remove private comments or copy only the final content into a clean note.
+3. Remove private details or copy only the final content into a clean note.
 4. Generate the share link.
 5. Revoke the link when it is no longer needed.
 
-## Prompting Mia from API comments
+## Prompting Mia from the API
 
-If the comment body starts with `@mia`, Mianotes treats it as a private prompt instead of a shared comment.
+Use the note prompt endpoint when you want Mia to analyse an existing note.
 
 Example:
 
 ```json
 {
-  "body": "@mia summarise this note in five bullet points"
+  "prompt": "summarise this note in five bullet points"
 }
 ```
 
-Mianotes strips the `@mia` prefix, reads the current note Markdown, sends the prompt and note content to the configured LLM provider, and returns Markdown directly.
+Mianotes reads the current note Markdown, sends the prompt and note content to the configured LLM provider, and returns Markdown directly.
 
 Mia prompts:
 
 * are synchronous
 * are private
-* are not saved as comments
 * do not create jobs
 * do not update the note
 * return Markdown only
