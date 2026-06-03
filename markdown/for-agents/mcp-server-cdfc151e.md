@@ -17,22 +17,24 @@ mianotes-mcp
 If you installed Mianotes from source, run the wrapper from the web service local repo:
 
 ```bash
-/path/to/mianotes-web-service/scripts/mianotes-mcp.sh
+/path/to/mianotes-web-service/.venv/bin/mianotes-mcp
 ```
 
-The source wrapper uses the project virtual environment, so it does not depend on whichever global `python3` is installed on your machine.
+The MCP command loads the Mianotes API URL and API key automatically from the service environment file. Package installs use the packaged `mianotes.env`; source installs use the web service `.env` next to the `.venv` folder.
 
-The MCP process needs `MIANOTES_API_KEY` in its environment. Set `MIANOTES_CLIENT_NAME` so Mianotes can attribute jobs and notes to the calling tool.
+Set `MIANOTES_CLIENT_NAME` in the MCP client configuration when you want Mianotes to attribute jobs and notes to a specific tool.
 
 ## Authentication
 
-By default, MCP clients use the service-wide `MIANOTES_API_KEY`.
+By default, MCP clients use the service-wide `MIANOTES_API_KEY` saved by Mianotes Settings.
 
 ```env
 MIANOTES_API_URL=http://127.0.0.1:8200
 MIANOTES_API_KEY=<generated_in_settings>
 MIANOTES_CLIENT_NAME=Codex
 ```
+
+Codex and Claude do not need to pass `MIANOTES_API_URL` or `MIANOTES_API_KEY` to the MCP command. Pass only `MIANOTES_CLIENT_NAME` if you want a friendly client name in Mianotes.
 
 On startup, the MCP server exchanges `MIANOTES_API_KEY` and `MIANOTES_CLIENT_NAME` for a short-lived agent session:
 
@@ -48,11 +50,11 @@ Use scoped per-user API tokens when an agent should only read notes or work in a
 
 ## Configure Codex
 
-Codex needs a stdio MCP server entry that starts `mianotes-mcp` with the Mianotes API URL, API key, and client name in its environment.
+Codex needs a stdio MCP server entry that starts `mianotes-mcp`. The MCP command loads the Mianotes API URL and API key automatically.
 
 **Step 1**. Make sure Mianotes is running.
 
-**Step 2**. Create an API key in Mianotes Settings.
+**Step 2**. Create an API key in Mianotes Settings. Mianotes writes it to the service environment file.
 
 **Step 3**. Check that the MCP command is available on the same machine where Codex runs:
 
@@ -70,11 +72,11 @@ If it is not in `PATH`, use the full path to the command, for example:
 
 **Step 5**. Add the MCP server:
 
-* If Codex runs on the same machine as Mianotes, use [`http://127.0.0.1:8200`](http://127.0.0.1:8200). If Codex runs somewhere else, use the Mianotes URL that machine can reach.
-* If you installed Mianotes from package, use command `mianotes-mcp.sh`. If you installed it from source, use command `/path/to/mianotes-web-service/scripts/mianotes-mcp.sh`
+* If you installed Mianotes from package, use command `mianotes-mcp`.
+* If you installed it from source, use command `/path/to/mianotes-web-service/.venv/bin/mianotes-mcp`.
 
 ```bash
-codex mcp add mianotes --env MIANOTES_CLIENT_NAME=Codex -- mianotes-mcp.sh
+codex mcp add mianotes --env MIANOTES_CLIENT_NAME=Codex -- mianotes-mcp
 ```
 
 **Step 6**. Verify the server is configured:
@@ -95,7 +97,7 @@ Claude Code also needs a stdio MCP server entry. The most reliable setup is `cla
 
 **Step 1**. Make sure Mianotes is running.
 
-**Step 2**. Create an API key in Mianotes Settings.
+**Step 2**. Create an API key in Mianotes Settings. Mianotes writes it to the service environment file.
 
 **Step 3**. Install [Claude Code CLI](https://code.claude.com/docs/en/setup). After installation completes, open a terminal in the project you want to work in and start Claude Code:
 
@@ -105,12 +107,12 @@ claude
 
 **Step 4**. Add the MCP server:
 
-* If Claude Code runs on the same machine as Mianotes, use [`http://127.0.0.1:8200`](http://127.0.0.1:8200). If Claude Code runs somewhere else, use the Mianotes URL that machine can reach.
-* If you installed Mianotes from package, use command `mianotes-mcp.sh`. If you installed it from source, use command `/path/to/mianotes-web-service/scripts/mianotes-mcp.sh`
+* If you installed Mianotes from package, use command `mianotes-mcp`.
+* If you installed it from source, use command `/path/to/mianotes-web-service/.venv/bin/mianotes-mcp`.
 
 ```bash
 claude mcp add-json mianotes \
-  '{"type":"stdio","command":"mianotes-mcp.sh","env":{"MIANOTES_CLIENT_NAME":"Claude"}}'
+  '{"type":"stdio","command":"mianotes-mcp","env":{"MIANOTES_CLIENT_NAME":"Claude"}}'
 ```
 
 **Step 5**. Verify the server is configured:
@@ -122,7 +124,7 @@ mianotes:
   Scope: Local config (private to you in this project)
   Status: ✓ Connected
   Type: stdio
-  Command: mianotes-mcp.sh
+  Command: mianotes-mcp
   Args:
   Environment:
     MIANOTES_CLIENT_NAME=Claude
