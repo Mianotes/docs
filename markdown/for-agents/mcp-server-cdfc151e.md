@@ -8,25 +8,20 @@ Mianotes ships a stdio MCP server for compatible AI agents. The MCP server calls
 
 ## Run the MCP server
 
-Load the service `.env`, set the API URL if needed, then start the server:
+If you installed Mianotes from a package, use the packaged MCP command:
 
 ```bash
-set -a
-. ./.env
-set +a
-MIANOTES_API_URL=${MIANOTES_API_URL:-http://127.0.0.1:8200} \
-python -m mianotes_web_service.mcp_server
-```
-
-Fresh package installs also expose the `mianotes-mcp` console script:
-
-```bash
-set -a
-. ./.env
-set +a
-MIANOTES_API_URL=${MIANOTES_API_URL:-http://127.0.0.1:8200} \
 mianotes-mcp
 ```
+
+If you installed Mianotes from source, run the wrapper from the web service checkout:
+
+```bash
+cd /path/to/mianotes-web-service
+./scripts/mianotes-mcp.sh
+```
+
+The source wrapper uses the project virtual environment, so it does not depend on whichever global `python3` is installed on your machine.
 
 The MCP process needs `MIANOTES_API_KEY` in its environment. Set `MIANOTES_CLIENT_NAME` so Mianotes can attribute jobs and notes to the calling tool.
 
@@ -70,7 +65,7 @@ If it is not in `PATH`, use the full path to the command, for example:
 /path/to/mianotes-web-service/.venv/bin/mianotes-mcp
 ```
 
-1. Add the MCP server. If Codex runs on the same machine as Mianotes, use [`http://127.0.0.1:8200`.](http://127.0.0.1:8200.) If Codex runs somewhere else, use the Mianotes URL that machine can reach.
+1. Add the MCP server. If Codex runs on the same machine as Mianotes, use `http://127.0.0.1:8200`. If Codex runs somewhere else, use the Mianotes URL that machine can reach.
 
 ```bash
 codex mcp add mianotes \
@@ -111,6 +106,12 @@ Claude Code also needs a stdio MCP server entry. The most reliable setup is `cla
 
 1. Make sure Mianotes is running.
 2. Create an API key in Mianotes Settings.
+3. Make sure Claude Code is installed. If this command fails, install Claude Code first:
+
+```bash
+command -v claude
+```
+
 3. Check that the MCP command is available on the same machine where Claude Code runs:
 
 ```bash
@@ -119,7 +120,7 @@ command -v mianotes-mcp
 
 If it is not in `PATH`, use the full path to the command in the JSON below.
 
-1. Add the MCP server. If Claude Code runs on the same machine as Mianotes, use [`http://127.0.0.1:8200`.](http://127.0.0.1:8200.) If Claude Code runs somewhere else, use the Mianotes URL that machine can reach.
+1. Add the MCP server. If Claude Code runs on the same machine as Mianotes, use `http://127.0.0.1:8200`. If Claude Code runs somewhere else, use the Mianotes URL that machine can reach.
 
 ```bash
 claude mcp add-json mianotes \
