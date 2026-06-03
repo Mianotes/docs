@@ -43,17 +43,19 @@ The database adapter is currently `sqlite`. If `MIANOTES_DATABASE_URL` is unset,
 
 ## Common variables
 
-| Variable                   | Default                     | Description                                                             |
-| -------------------------- | --------------------------- | ----------------------------------------------------------------------- |
-| `MIANOTES_HOST`            | `0.0.0.0` or script default | Host interface for the web service. Use `127.0.0.1` for local-only use. |
-| `MIANOTES_PORT`            | `8200`                      | Web service port.                                                       |
-| `MIANOTES_LLM_PROVIDER`    | `openai`                    | LLM provider: `openai`, `local`, or `openai-compatible`.                |
-| `MIANOTES_LLM_MODEL`       | `gpt-5-nano`                | Text model used by Mia.                                                 |
-| `MIANOTES_LLM_BASE_URL`    | empty                       | Base URL for local or OpenAI-compatible providers.                      |
-| `MIANOTES_LLM_API_KEY`     | empty                       | LLM provider API key or local placeholder.                              |
-| `MIANOTES_VLM_API_KEY`     | empty                       | Optional image-capable model provider key.                              |
-| `MIANOTES_LLM_IMAGE_MODEL` | empty                       | Optional multimodal OpenAI model for image OCR fallback.                |
-| `MIANOTES_API_KEY`         | empty                       | Service-wide bearer token used by local agents and MCP.                 |
+| Variable                                     | Default                     | Description                                                             |
+| -------------------------------------------- | --------------------------- | ----------------------------------------------------------------------- |
+| `MIANOTES_HOST`                              | `0.0.0.0` or script default | Host interface for the web service. Use `127.0.0.1` for local-only use. |
+| `MIANOTES_PORT`                              | `8200`                      | Web service port.                                                       |
+| `MIANOTES_LLM_PROVIDER`                      | `openai`                    | LLM provider: `openai`, `local`, or `openai-compatible`.                |
+| `MIANOTES_LLM_MODEL`                         | `gpt-5-nano`                | Text model used by Mia.                                                 |
+| `MIANOTES_LLM_BASE_URL`                      | empty                       | Base URL for local or OpenAI-compatible providers.                      |
+| `MIANOTES_LLM_API_KEY`                       | empty                       | LLM provider API key or local placeholder.                              |
+| `MIANOTES_VLM_API_KEY`                       | empty                       | Optional image-capable model provider key.                              |
+| `MIANOTES_LLM_IMAGE_MODEL`                   | empty                       | Optional multimodal OpenAI model for image OCR fallback.                |
+| `MIANOTES_API_KEY`                           | empty                       | Service-wide bearer token used by local agents and MCP.                 |
+| `MIANOTES_MAX_PUBLISHED_SITE_DOWNLOAD_BYTES` | `262144000`                 | Maximum bytes allowed for a published-site ZIP download.                |
+| `MIANOTES_MAX_PUBLISHED_SITE_DOWNLOAD_FILES` | `5000`                      | Maximum file count allowed in a published-site ZIP download.            |
 
 ## Ports
 

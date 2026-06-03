@@ -90,7 +90,9 @@ GET /api/publish/{site_id}/download
 
 Authentication: session cookie or bearer token with `notes\:read` or `admin`.
 
-Returns a ZIP archive of the generated static site.
+Returns a ZIP archive of the generated static site. Mianotes streams the archive
+from a temporary file and enforces configured byte and file-count limits. If the
+generated site is too large to download as one ZIP, the endpoint returns `413`.
 
 ## Get storage settings
 
