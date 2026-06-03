@@ -18,6 +18,7 @@ Important properties:
 * share links can be revoked
 * admins can share any note
 * normal users can share notes they created
+* each share link includes the workspace id so Mianotes opens the note from the right workspace
 
 ## Source files on shared notes
 

@@ -129,8 +129,11 @@ The returned session token is also sent as `Authorization: Bearer &lt;token&gt;`
 
 * `POST /api/notes/{note_id}/share`
 * `DELETE /api/notes/{note_id}/share`
-* `GET /api/notes/shared/{token}`
-* `GET /api/notes/shared/{token}/files/{source_file_id}`
+* `GET /api/notes/shared/workspaces/{workspace_id}/{token}`
+* `GET /api/notes/shared/workspaces/{workspace_id}/{token}/files/{source_file_id}`
+* `GET /api/notes/shared/workspaces/{workspace_id}/{token}/avatar`
+
+Guest share routes include the workspace id so the service can resolve the shared note directly from the correct workspace database.
 
 ### Tags
 
