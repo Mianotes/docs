@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Folders, notes, and tags API | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">API Reference</p>
+      <h1>Folders, notes, and tags API</h1>
+      <p>This page documents the core knowledge endpoints.</p>
+<h2>Folder object</h2>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;id&quot;</span>: <span class="tok-string">&quot;f054964b-419b-419a-87df-de668025b0e3&quot;</span>,
+  <span class="tok-key">&quot;user_id&quot;</span>: <span class="tok-string">&quot;c5ddebcc-e434-4e1a-bc8a-48263eb0095d&quot;</span>,
+  <span class="tok-key">&quot;name&quot;</span>: <span class="tok-string">&quot;School&quot;</span>,
+  <span class="tok-key">&quot;slug&quot;</span>: <span class="tok-string">&quot;school&quot;</span>,
+  <span class="tok-key">&quot;archived_at&quot;</span>: null,
+  <span class="tok-key">&quot;archived_by_user_id&quot;</span>: null,
+  <span class="tok-key">&quot;created_at&quot;</span>: <span class="tok-string">&quot;2026-05-15T10:32:00Z&quot;</span>,
+  <span class="tok-key">&quot;updated_at&quot;</span>: <span class="tok-string">&quot;2026-05-15T10:32:00Z&quot;</span>
+}</code></pre></div>
+<h2>Create folder</h2>
+<div class="code-card"><pre><code class="language-text">POST /api/folders</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>folders\:write</code> or <code>admin</code>.</p>
+<p>Request:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;name&quot;</span>: <span class="tok-string">&quot;School&quot;</span>,
+  <span class="tok-key">&quot;is_pinned&quot;</span>: false
+}</code></pre></div>
+<p>The folder owner is always the current user.</p>
+<h2>List folders</h2>
+<div class="code-card"><pre><code class="language-text">GET /api/folders</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>folders\:read</code> or <code>admin</code>.</p>
+<p>Query parameters:</p>
+<table class="doc-table"><colgroup><col><col></colgroup><thead><tr><th>Parameter</th><th>Description</th></tr></thead><tbody><tr><td><code>user_id</code></td><td>Return folders created by a specific user.</td></tr><tr><td><code>include_archived</code></td><td>Include archived folders. Defaults to <code>false</code>.</td></tr></tbody></table>
+<h2>Update folder</h2>
+<div class="code-card"><pre><code class="language-text">PATCH /api/folders/{folder_id}</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>folders\:write</code> or <code>admin</code>.</p>
+<p>Admins can update any folder. Normal users can update only folders they created.</p>
+<h2>Archive folder</h2>
+<div class="code-card"><pre><code class="language-text">DELETE /api/folders/{folder_id}</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>folders\:write</code> or <code>admin</code>.</p>
+<p>Archived folders are hidden unless <code>include_archived=true</code>.</p>
+<h2>Restore folder</h2>
+<div class="code-card"><pre><code class="language-text">POST /api/folders/{folder_id}/restore</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>folders\:write</code> or <code>admin</code>.</p>
+<p>Admins can restore any archived folder. Normal users can restore only folders they created.</p>
+<p>Request:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;name&quot;</span>: <span class="tok-string">&quot;Restored school notes&quot;</span>,
+  <span class="tok-key">&quot;is_pinned&quot;</span>: true
+}</code></pre></div>
+<p>Both fields are optional. If the original folder slug is already taken, Mianotes creates a unique restored slug.</p>
+<h2>Create note from text</h2>
+<div class="code-card"><pre><code class="language-text">POST /api/notes/from-text
+POST /api/notes</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>notes\:write</code> or <code>admin</code>.</p>
+<p>Request:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;folder_id&quot;</span>: <span class="tok-string">&quot;f054964b-419b-419a-87df-de668025b0e3&quot;</span>,
+  <span class="tok-key">&quot;title&quot;</span>: <span class="tok-string">&quot;Kickoff notes&quot;</span>,
+  <span class="tok-key">&quot;text&quot;</span>: <span class="tok-string">&quot;We agreed to build Mianotes as a filesystem-first AI note app.&quot;</span>,
+  <span class="tok-key">&quot;tags&quot;</span>: [&quot;research&quot;, &quot;planning&quot;]
+}</code></pre></div>
+<p>Tags are limited to 5 per note.</p>
+<h2>Create note from file</h2>
+<div class="code-card"><pre><code class="language-text">POST /api/notes/from-file</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>notes\:write</code> or <code>admin</code>.</p>
+<p>Request: <code>multipart/form-data</code>.</p>
+<table class="doc-table"><colgroup><col><col><col></colgroup><thead><tr><th>Field</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>folder_id</code></td><td>Yes</td><td>Folder ID for the note.</td></tr><tr><td><code>file</code></td><td>Yes</td><td>Source file to upload.</td></tr><tr><td><code>title</code></td><td>Yes</td><td>Note title.</td></tr></tbody></table>
+<p>The response returns a pending note plus a queued <code>parse_file</code> job. Clients should poll <code>job_api_url</code>, then fetch <code>note_api_url</code> after success.</p>
+<p>Supported upload extensions:</p>
+<div class="code-card"><pre><code class="language-text">.csv
+.doc
+.docx
+.htm
+.html
+.jpeg
+.jpg
+.m4a
+.md
+.markdown
+.mp3
+.mp4
+.odt
+.pdf
+.png
+.rtf
+.tif
+.tiff
+.txt
+.wav</code></pre></div>
+<h2>Create note from URL</h2>
+<div class="code-card"><pre><code class="language-text">POST /api/notes/from-url</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>notes\:write</code> or <code>admin</code>.</p>
+<p>Request:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;folder_id&quot;</span>: <span class="tok-string">&quot;f054964b-419b-419a-87df-de668025b0e3&quot;</span>,
+  <span class="tok-key">&quot;url&quot;</span>: <span class="tok-string">&quot;https://example.com/articles/mianotes&quot;</span>,
+  <span class="tok-key">&quot;title&quot;</span>: <span class="tok-string">&quot;Mianotes article&quot;</span>,
+  <span class="tok-key">&quot;tags&quot;</span>: [&quot;research&quot;, &quot;links&quot;]
+}</code></pre></div>
+<p>The response returns a pending note plus a queued <code>parse_url</code> job.</p>
+<h2>List notes</h2>
+<div class="code-card"><pre><code class="language-text">GET /api/notes</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>notes\:read</code> or <code>admin</code>.</p>
+<p>Query parameters:</p>
+<table class="doc-table"><colgroup><col><col></colgroup><thead><tr><th>Parameter</th><th>Description</th></tr></thead><tbody><tr><td><code>user_id</code></td><td>Return notes created by a specific user.</td></tr><tr><td><code>folder_id</code></td><td>Return notes in a specific folder.</td></tr><tr><td><code>starred</code></td><td>Return notes starred or not starred by the authenticated user.</td></tr></tbody></table>
+<p>List responses include metadata and a stored summary, but not full Markdown text.</p>
+<h2>Get note</h2>
+<div class="code-card"><pre><code class="language-text">GET /api/notes/{note_id}</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>notes\:read</code> or <code>admin</code>.</p>
+<p>Returns a full note including Markdown <code>text</code>, owner, folder, source files, tags, sharing metadata, and action hints.</p>
+<h2>Update note</h2>
+<div class="code-card"><pre><code class="language-text">PATCH /api/notes/{note_id}</code></pre></div>
+<p>Authentication: session cookie or bearer token with <code>notes\:write</code> or <code>admin</code>.</p>
+<p>Request fields:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;title&quot;</span>: <span class="tok-string">&quot;Updated kickoff notes&quot;</span>,
+  <span class="tok-key">&quot;text&quot;</span>: <span class="tok-string">&quot;Updated Markdown text.&quot;</span>,
+  <span class="tok-key">&quot;is_published&quot;</span>: true,
+  <span class="tok-key">&quot;tags&quot;</span>: [&quot;planning&quot;, &quot;ai&quot;]
+}</code></pre></div>
+<p>Admins can update any note. Normal users can update only notes they created.</p>
+<h2>Star note</h2>
+<div class="code-card"><pre><code class="language-text">PATCH /api/notes/{note_id}/star</code></pre></div>
+<p>Stars are private per user.</p>
+<p>Request:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;is_starred&quot;</span>: true
+}</code></pre></div>
+<h2>Delete note</h2>
+<div class="code-card"><pre><code class="language-text">DELETE /api/notes/{note_id}</code></pre></div>
+<p>Deletes the note, stored Markdown file, source files, tags, share records, and job records. Files outside the workspace are not deleted.</p>
+<h2>Tags</h2>
+<p>List global tags:</p>
+<div class="code-card"><pre><code class="language-text">GET /api/tags</code></pre></div>
+<p>Replace a note&#x27;s tag set:</p>
+<div class="code-card"><pre><code class="language-text">PUT /api/notes/{note_id}/tags</code></pre></div>
+<p>Request:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;tags&quot;</span>: [&quot;research&quot;, &quot;planning&quot;]
+}</code></pre></div>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

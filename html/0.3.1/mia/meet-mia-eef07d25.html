@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Meet Mia | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">Mia</p>
+      <h1>Meet Mia</h1>
+      <p>Mia is the built-in AI agent for Mianotes. It helps humans and other agents turn messy input into reusable Markdown notes.</p>
+<h2>What Mia does</h2>
+<p>Mia can help with:</p>
+<ul><li>converting documents, images, links, text, and audio into Markdown notes</li><li>extracting key information from source material</li><li>improving note structure</li><li>summarising long notes</li><li>rewriting notes for clarity</li><li>preparing knowledge for reuse by humans or agents</li></ul>
+<h2>Mia belongs in the backend</h2>
+<p>Mia runs as a backend service and agent layer, not frontend-only behaviour. The web app can collect prompts and show results, but the backend owns:</p>
+<ul><li>permissions</li><li>ownership</li><li>parsing behaviour</li><li>persistence</li><li>LLM provider calls</li><li>job state</li><li>share access</li><li>agent capabilities</li></ul>
+<p>This keeps browser users, REST clients, automation scripts, and MCP agents under one capability model.</p>
+<h2>Provider boundary</h2>
+<p>Mia calls models through a provider boundary.</p>
+<p>Supported provider values:</p>
+<div class="code-card"><pre><code class="language-text">openai
+local
+openai-compatible</code></pre></div>
+<p>Local mode uses the same OpenAI client shape against an OpenAI-compatible endpoint, which makes Ollama-style tools fit the same code path.</p>
+<h2>Mia and jobs</h2>
+<p>File and URL ingestion use background jobs. Mia prompts are synchronous and do not create jobs.</p>
+<p>Use jobs for conversion work that may take time. Use Mia prompts for immediate analysis of an existing note.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

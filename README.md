@@ -1,53 +1,6 @@
 # Mianotes Documentation
 
-https://mianotes.com/docs/latest
 
 This documentation was written by engineers and Codex agents using Mianotes. If you find anything wrong, unclear, or misleading, please [open an issue](https://github.com/Mianotes/mianotes-web-service/issues) on GitHub so we can fix it. Thank you.
 
-## TOC
-
-- **About**
-  - [What is Mianotes?](markdown/about/what-is-mianotes-c08cbf08.md)
-  - [Use cases](markdown/about/use-cases-7bbfe99e.md)
-  - [Core concepts](markdown/about/core-concepts-4a49d004.md)
-- **Getting Started**
-  - [Installation](markdown/getting-started/installation-c29f0f65.md)
-  - [Installing from GitHub](markdown/getting-started/installing-from-github-7e2f8c35.md)
-  - [Installing from package](markdown/getting-started/installing-from-package-d2e61f8a.md)
-  - [First run](markdown/getting-started/first-run-6ac5b242.md)
-  - [Configuration options](markdown/getting-started/configuration-options-74e79efa.md)
-  - [Ollama, OpenAI, and local models](markdown/getting-started/ollama-openai-and-local-models-c21930f4.md)
-  - [Troubleshooting](markdown/getting-started/troubleshooting-b9eafe5e.md)
-- **For Humans**
-  - [Human workflow](markdown/for-humans/human-workflow-b6846f16.md)
-  - [Folders, notes, and tags](markdown/for-humans/folders-notes-and-tags-76c04ae9.md)
-  - [Sharing and comments](markdown/for-humans/sharing-and-comments-89a77860.md)
-  - [Publishing static sites](markdown/for-humans/publishing-static-sites-ab6421d9.md)
-- **For Agents**
-  - [Agent overview](markdown/for-agents/agent-overview-c651d147.md)
-  - [API token](markdown/for-agents/api-token-83a5016a.md)
-  - [MCP server](markdown/for-agents/mcp-server-cdfc151e.md)
-  - [Codex, Claude, Cursor, and other agents](markdown/for-agents/codex-claude-cursor-and-other-agents-ca54a688.md)
-  - [Agent playbook](markdown/for-agents/agent-playbook-d4bcc356.md)
-- **Mia**
-  - [Meet Mia](markdown/mia/meet-mia-2000d38e.md)
-  - [Prompting Mia](markdown/mia/prompting-mia-c1e7392e.md)
-  - [Parser and ingestion pipeline](markdown/mia/parser-and-ingestion-pipeline-9c335e48.md)
-- **API Reference**
-  - [API overview](markdown/api-reference/api-overview-2bb39d4a.md)
-  - [Authentication and users](markdown/api-reference/authentication-and-users-8842bc9d.md)
-  - [Folders, notes, and tags API](markdown/api-reference/folders-notes-and-tags-api-2c972490.md)
-  - [Comments, Mia prompts, and jobs API](markdown/api-reference/comments-mia-prompts-and-jobs-api-e25657a5.md)
-  - [Search, context, sharing, and stored files API](markdown/api-reference/search-context-sharing-and-stored-files-api-0010bf86.md)
-  - [Publishing and settings API](markdown/api-reference/publishing-and-settings-api-24d0b7bf.md)
-- **System**
-  - [Architecture](markdown/system/architecture-ca5aa4a2.md)
-  - [Storage folders and database](markdown/system/storage-folders-and-database-3af026b6.md)
-  - [Security](markdown/system/security-eba1603e.md)
-  - [Feature requests](markdown/system/feature-requests-531098f5.md)
-- **Open Source**
-  - [Development](markdown/open-source/development-dd9280b5.md)
-  - [Testing](markdown/open-source/testing-ed217db4.md)
-  - [Theming and customisation](markdown/open-source/theming-and-customisation-2f08fc26.md)
-  - [Maintainer checklist](markdown/open-source/maintainer-checklist-605e959a.md)
-  - [Troubleshooting](markdown/open-source/troubleshooting-6fc8f804.md)
+https://mianotes.com/docs/latest

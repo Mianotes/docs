@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Sharing and comments | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">For Humans</p>
+      <h1>Sharing and comments</h1>
+      <p>Mianotes supports read-only note sharing outside the workspace.</p>
+<h2>Share links</h2>
+<p>Share links are note-level and read-only.</p>
+<p>Use a share link when someone outside the Mianotes workspace needs access to one note but should not join the whole workspace.</p>
+<p>Important properties:</p>
+<ul><li>a share link does not grant full workspace access</li><li>share links can be revoked</li><li>admins can share any note</li><li>normal users can share notes they created</li><li>each share link includes the workspace id so Mianotes opens the note from the right workspace</li></ul>
+<h2>Source files on shared notes</h2>
+<p>When sharing is enabled, a guest-readable shared source file endpoint can return source files attached to the shared note.&amp;#x20;</p>
+<p>Only share notes whose source files are safe for the recipient to see.</p>
+<h2>Practical sharing checklist</h2>
+<p>Before sharing a note:</p>
+<ol><li>Read the full Markdown note.</li><li>Check attached source files.</li><li>Remove private details or copy only the final content into a clean note.</li><li>Generate the share link.</li><li>Revoke the link when it is no longer needed.</li></ol>
+<h2>Prompting Mia from the API</h2>
+<p>Use the note prompt endpoint when you want Mia to analyse an existing note.</p>
+<p>Example:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;prompt&quot;</span>: <span class="tok-string">&quot;summarise this note in five bullet points&quot;</span>
+}</code></pre></div>
+<p>Mianotes reads the current note Markdown, sends the prompt and note content to the configured LLM provider, and returns Markdown directly.</p>
+<p>Mia prompts:</p>
+<ul><li>are synchronous</li><li>are private</li><li>do not create jobs</li><li>do not update the note</li><li>return Markdown only</li></ul>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

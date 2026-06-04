@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Storage folders and database | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">System</p>
+      <h1>Storage folders and database</h1>
+      <p>Mianotes uses SQLite by default. In the UI, admins choose local workspaces. Workspace folders store Markdown notes, source files, published HTML, and other content files. Private SQLite databases live under the Mianotes data directory.</p>
+<h2>Default databases</h2>
+<p>On first start, Mianotes reads <code>settings.json</code> if it exists, then creates a runtime <code>workspaces.json</code> file in the web service root if it does not already exist.</p>
+<p>A fresh install uses:</p>
+<div class="code-card"><pre><code class="language-text">data/system.db
+data/workspaces/default.db</code></pre></div>
+<p><code>data/system.db</code> stores global users, sessions, API key verification, and global settings.</p>
+<p><code>data/workspaces/default.db</code> is the default workspace database. Additional workspaces use the same pattern:</p>
+<div class="code-card"><pre><code class="language-text">data/workspaces/&lt;workspace_id&gt;.db</code></pre></div>
+<p>This keeps database files in the application data area and leaves selected workspace folders cleaner.</p>
+<h2><code>workspaces.json</code></h2>
+<p><code>workspaces.json</code> lists the local workspaces available to the app.</p>
+<p>Example:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;activeLocation&quot;</span>: <span class="tok-string">&quot;default&quot;</span>,
+  <span class="tok-key">&quot;allowedStorageLocations&quot;</span>: [
+    {
+      <span class="tok-key">&quot;id&quot;</span>: <span class="tok-string">&quot;default&quot;</span>,
+      <span class="tok-key">&quot;name&quot;</span>: <span class="tok-string">&quot;Main workspace&quot;</span>,
+      <span class="tok-key">&quot;folderPath&quot;</span>: <span class="tok-string">&quot;/Users/example/Mianotes/data&quot;</span>
+    }
+  ]
+}</code></pre></div>
+<p>Each location points to a workspace folder. Each workspace has its own notes, folders, tags, source records, jobs, shares, and publishing history in <code>data/workspaces/&lt;workspace_id&gt;.db</code>.</p>
+<p>Users, sessions, API keys, and global settings live in <code>data/system.db</code>.</p>
+<h2><code>settings.json</code></h2>
+<p><code>settings.json</code> contains project-level service settings. It can set the server host and port, model providers, binary lookup paths, and the database adapter.</p>
+<p>Secrets should not be written directly into <code>settings.json</code>. Use environment placeholders such as:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;llm&quot;</span>: {
+    <span class="tok-key">&quot;provider&quot;</span>: <span class="tok-string">&quot;openai&quot;</span>,
+    <span class="tok-key">&quot;model&quot;</span>: <span class="tok-string">&quot;gpt-5-nano&quot;</span>,
+    <span class="tok-key">&quot;baseUrl&quot;</span>: <span class="tok-string">&quot;&quot;</span>,
+    <span class="tok-key">&quot;apiKey&quot;</span>: <span class="tok-string">&quot;env.MIANOTES_LLM_API_KEY&quot;</span>
+  }
+}</code></pre></div>
+<p>Mianotes resolves <code>env.MIANOTES_LLM_API_KEY</code> from the process environment or <code>.env</code>.</p>
+<p>The database section currently supports SQLite:</p>
+<div class="code-card"><pre><code class="language-json">{
+  <span class="tok-key">&quot;database&quot;</span>: {
+    <span class="tok-key">&quot;adapter&quot;</span>: <span class="tok-string">&quot;sqlite&quot;</span>,
+    <span class="tok-key">&quot;url&quot;</span>: <span class="tok-string">&quot;env.MIANOTES_DATABASE_URL&quot;</span>
+  }
+}</code></pre></div>
+<p>If <code>MIANOTES_DATABASE_URL</code> is not set, Mianotes uses <code>data/system.db</code> for global app state. Other adapters are intentionally rejected for now so workspace data cannot be mixed into one server database before the schema supports it.</p>
+<h2>Database initialisation</h2>
+<p>Mianotes creates and updates database tables in two places:</p>
+<ol><li>on service startup;</li><li>when <code>mianotes-web-service init-db</code> is run.</li></ol>
+<p>Startup initialises <code>data/system.db</code>, then initialises every configured workspace database from <code>workspaces.json</code>.</p>
+<p>SQLite file databases are opened in WAL mode. This creates sidecar files such as <code>system.db-wal</code> and <code>system.db-shm</code>, which are normal SQLite runtime files and should not be committed.</p>
+<h2>Switching workspaces</h2>
+<p>All signed-in users can switch workspace from the workspace switcher next to the breadcrumb. Admins can add workspaces from Settings.</p>
+<p>When a user switches workspace, Mianotes:</p>
+<ol><li>stores the selected workspace on that user&#x27;s session;</li><li>routes workspace-content API calls to <code>data/workspaces/&lt;workspace_id&gt;.db</code>;</li><li>keeps the browser session signed in;</li><li>leaves other users on their own selected workspace.</li></ol>
+<p>Switching workspace is per user session. It is not global process state.</p>
+<h2>Creating a new workspace</h2>
+<p>Admins can add a new local workspace from Settings.</p>
+<p>Mianotes creates <code>data/workspaces/&lt;workspace_id&gt;.db</code> and initialises the workspace schema. Users remain global and can use the new workspace without signing up again.</p>
+<h2>Private files</h2>
+<p>Do not commit these to a public repository:</p>
+<div class="code-card"><pre><code class="language-text">workspaces.json
+data/
+data/workspaces/
+system.db
+.env</code></pre></div>
+<p>Database files are never served by the file API. Source and Markdown files are served through controlled routes, but <code>system.db</code>, workspace databases, and SQLite sidecars are blocked.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

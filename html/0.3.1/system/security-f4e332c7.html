@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Security | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">System</p>
+      <h1>Security</h1>
+      <p>Mianotes is local-first, but local-first does not mean risk-free. Treat any user, agent, or script with a valid Mianotes token as trusted.</p>
+<h2>Access methods</h2>
+<p>Protected APIs can be accessed by:</p>
+<ul><li>browser users with a cookie-based session</li><li>local agents using the service-wide <code>MIANOTES_API_KEY</code> from <code>.env</code></li><li>narrower automations using scoped per-user API tokens</li></ul>
+<p>Bearer tokens are sent as:</p>
+<div class="code-card"><pre><code class="language-http">Authorization: Bearer &lt;token&gt;</code></pre></div>
+<p>The service-wide token is private. Mianotes stores only a derived public hash in <code>data/system.db</code>, so the same running service can switch workspaces without storing the raw token in any database.</p>
+<h2>What authentication does and does not do</h2>
+<p>Authentication verifies the caller. It does not sandbox the caller.</p>
+<p>If an agent can read a sensitive file on the local machine, Mianotes cannot prevent that agent from uploading the file contents as text, a renamed file, or a generated note.</p>
+<p>Mianotes can audit who sent data. It cannot prove where uploaded bytes originally came from.</p>
+<h2>Best practices for agents</h2>
+<ul><li>Do not give untrusted agents filesystem access to sensitive files.</li><li>Run agents with the least filesystem access they need.</li><li>Give agents project-specific working directories instead of access to a whole home directory.</li><li>Use <code>MIANOTES_API_KEY</code> only for trusted local agents.</li><li>Use scoped per-user tokens when an automation needs narrower access.</li><li>Revoke agent tokens when agents no longer need access.</li><li>Avoid giving hosted or third-party agents direct access to local folders unless you trust the agent and its operator.</li><li>Review activity logs after allowing a new agent or automation to use Mianotes.</li></ul>
+<h2>File uploads and parsing</h2>
+<p>Uploaded files are first saved into the Mianotes data directory, then parsed from that controlled location.</p>
+<p>Mianotes APIs and MCP tools accept uploaded file bytes, URLs, text, or existing Mianotes source file IDs. They do not provide a general-purpose endpoint for reading arbitrary local filesystem paths from the server.</p>
+<p>This prevents clients from asking the Mianotes service to parse arbitrary host paths.</p>
+<h2>URL indexing</h2>
+<p>URL ingestion fetches data from the network. Admins can configure blocked domains to prevent Mianotes from fetching URLs from sensitive or disallowed hosts.</p>
+<p>Recommended blocked targets include:</p>
+<ul><li>internal metadata services</li><li>private administration panels</li><li>internal-only hostnames</li><li>domains that should never be indexed into shared knowledge</li></ul>
+<p>Hosted deployments should also consider blocking private network ranges unless the workspace is intentionally allowed to index internal resources.</p>
+<h2>Activity auditing (coming soon)</h2>
+<p>The Activity screen lets admins audit:</p>
+<ul><li>who uploaded a file</li><li>when the upload happened</li><li>the original filename</li><li>the source type</li><li>which note or folder the upload belongs to</li><li>which user or agent token performed the action</li></ul>
+<p>Audit logs help with accountability and investigation, but they do not prevent a trusted caller from sending data it can already access.</p>
+<h2>Deployment guidance</h2>
+<p>For local-only use, bind the service to:</p>
+<div class="code-card"><pre><code class="language-text">127.0.0.1</code></pre></div>
+<p>Only bind Mianotes to <code>0.0.0.0</code> or another network interface when you understand the security implications.</p>
+<p>Recommended deployment practices:</p>
+<ul><li>use a dedicated operating system user for the Mianotes service</li><li>store Mianotes data in a directory owned by that service user</li><li>do not run Mianotes as <code>root</code></li><li>use a firewall when exposing Mianotes on a network</li><li>use HTTPS when hosting beyond a trusted local network</li><li>keep API tokens private and rotate them if exposed</li></ul>
+<h2>What Mianotes can protect</h2>
+<p>Mianotes can:</p>
+<ul><li>require authentication for protected APIs</li><li>require bearer API tokens for agents</li><li>store source metadata for auditability</li><li>restrict parsing to Mianotes-controlled files</li><li>block configured file paths and domains</li><li>let admins review activity</li></ul>
+<p>Mianotes cannot:</p>
+<ul><li>sandbox an agent that already has access to sensitive local files</li><li>prove that uploaded content did not come from a secret file</li><li>stop a trusted local process from copying data it can already read</li><li>replace operating system permissions, firewall rules, or agent sandboxing</li></ul>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

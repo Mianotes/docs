@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>MCP server | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">For Agents</p>
+      <h1>MCP server</h1>
+      <p>Mianotes ships a stdio MCP server for compatible AI agents. The MCP server calls the same REST API as other agent clients, so normal token scopes and backend permission checks still apply.</p>
+<h2>Run the MCP server</h2>
+<p>If you installed Mianotes from a package, use the packaged MCP command:</p>
+<div class="code-card"><pre><code class="language-bash">mianotes-mcp</code></pre></div>
+<p>If you installed Mianotes from source, run the wrapper from the web service local repo:</p>
+<div class="code-card"><pre><code class="language-bash">/path/to/mianotes-web-service/.venv/bin/mianotes-mcp</code></pre></div>
+<p>The MCP command loads the Mianotes API URL and API key automatically from the service environment file. Package installs use the packaged <code>mianotes.env</code>; source installs use the web service <code>.env</code> next to the <code>.venv</code> folder.</p>
+<p>Set <code>MIANOTES_CLIENT_NAME</code> in the MCP client configuration when you want Mianotes to attribute jobs and notes to a specific tool.</p>
+<h2>Authentication</h2>
+<p>By default, MCP clients use the service-wide <code>MIANOTES_API_KEY</code> saved by Mianotes Settings.</p>
+<div class="code-card"><pre><code class="language-env">MIANOTES_API_URL=http://127.0.0.1:8200
+MIANOTES_API_KEY=&lt;generated_in_settings&gt;
+MIANOTES_CLIENT_NAME=Codex</code></pre></div>
+<p>Codex and Claude do not need to pass <code>MIANOTES_API_URL</code> or <code>MIANOTES_API_KEY</code> to the MCP command. Pass only <code>MIANOTES_CLIENT_NAME</code> if you want a friendly client name in Mianotes.</p>
+<p>On startup, the MCP server exchanges <code>MIANOTES_API_KEY</code> and <code>MIANOTES_CLIENT_NAME</code> for a short-lived agent session:</p>
+<div class="code-card"><pre><code class="language-http">POST /api/auth/agent-session
+Authorization: Bearer &lt;MIANOTES_API_KEY&gt;
+X-Mianotes-Client: Codex</code></pre></div>
+<p>The MCP server then uses the returned session token for tool calls. The session token contains the mapped client identity and token reference, not the raw API key. Unknown client names default to <code>MCP</code>.</p>
+<p>Use scoped per-user API tokens when an agent should only read notes or work in a limited role.</p>
+<h2>Configure Codex</h2>
+<p>Codex needs a stdio MCP server entry that starts <code>mianotes-mcp</code>. The MCP command loads the Mianotes API URL and API key automatically.</p>
+<p><strong>Step 1</strong>. Make sure Mianotes is running.</p>
+<p><strong>Step 2</strong>. Create an API key in Mianotes Settings. Mianotes writes it to the service environment file.</p>
+<p><strong>Step 3</strong>. Check that the MCP command is available on the same machine where Codex runs:</p>
+<div class="code-card"><pre><code class="language-bash">command -v mianotes-mcp</code></pre></div>
+<p>If it is not in <code>PATH</code>, use the full path to the command, for example:</p>
+<div class="code-card"><pre><code class="language-text">/path/to/mianotes-web-service/.venv/bin/mianotes-mcp</code></pre></div>
+<p><strong>Step 4</strong>. Install <a class="inline-link" href="https://developers.openai.com/codex/cli">Codex CLI</a></p>
+<p><strong>Step 5</strong>. Add the MCP server:</p>
+<ul><li>If you installed Mianotes from package, use command <code>mianotes-mcp</code>.</li><li>If you installed it from source, use command <code>/path/to/mianotes-web-service/.venv/bin/mianotes-mcp</code>.</li></ul>
+<div class="code-card"><pre><code class="language-bash">codex mcp add mianotes --env MIANOTES_CLIENT_NAME=Codex -- mianotes-mcp</code></pre></div>
+<p><strong>Step 6</strong>. Verify the server is configured:</p>
+<div class="code-card"><pre><code class="language-bash">codex mcp list</code></pre></div>
+<p><strong>Step 7</strong>. Within Codex (desktop app), ask Mia to search for a note:</p>
+<div class="code-card"><pre><code class="language-text">Search Mia(workspace: Mianotes, query: Getting started)</code></pre></div>
+<h2>Configure Claude Code</h2>
+<p>Claude Code also needs a stdio MCP server entry. The most reliable setup is <code>claude mcp add-json</code>, because it keeps the command and environment variables together.</p>
+<p><strong>Step 1</strong>. Make sure Mianotes is running.</p>
+<p><strong>Step 2</strong>. Create an API key in Mianotes Settings. Mianotes writes it to the service environment file.</p>
+<p><strong>Step 3</strong>. Install <a class="inline-link" href="https://code.claude.com/docs/en/setup">Claude Code CLI</a>. After installation completes, open a terminal in the project you want to work in and start Claude Code:</p>
+<div class="code-card"><pre><code class="language-text">claude</code></pre></div>
+<p><strong>Step 4</strong>. Add the MCP server:</p>
+<ul><li>If you installed Mianotes from package, use command <code>mianotes-mcp</code>.</li><li>If you installed it from source, use command <code>/path/to/mianotes-web-service/.venv/bin/mianotes-mcp</code>.</li></ul>
+<div class="code-card"><pre><code class="language-bash">claude mcp add-json mianotes \
+  &#x27;{<span class="tok-key">&quot;type&quot;</span>:<span class="tok-string">&quot;stdio&quot;</span>,<span class="tok-key">&quot;command&quot;</span>:<span class="tok-string">&quot;mianotes-mcp&quot;</span>,<span class="tok-key">&quot;env&quot;</span>:{<span class="tok-key">&quot;MIANOTES_CLIENT_NAME&quot;</span>:<span class="tok-string">&quot;Claude&quot;</span>}}&#x27;</code></pre></div>
+<p><strong>Step 5</strong>. Verify the server is configured:</p>
+<div class="code-card"><pre><code class="language-bash">$ claude mcp get mianotes
+
+mianotes:
+  Scope: Local config (private to you in this project)
+  Status: ✓ Connected
+  Type: stdio
+  Command: mianotes-mcp
+  Args:
+  Environment:
+    MIANOTES_CLIENT_NAME=Claude</code></pre></div>
+<p><strong>Step 6</strong>. Within Claude Code (desktop app), check server status:</p>
+<div class="code-card"><pre><code class="language-text">/mcp</code></pre></div>
+<p>The Mianotes server should appear in the MCP server list. Then ask Claude Code to use Mia, for example:</p>
+<div class="code-card"><pre><code class="language-text">Search Mia(workspace: Mianotes, query: Getting started)</code></pre></div>
+<h2>MCP tools</h2>
+<p>The MCP surface includes tools for:</p>
+<ul><li>listing folders</li><li>creating folders</li><li>listing notes</li><li>reading notes</li><li>creating notes from text</li><li>creating notes from URLs</li><li>updating notes</li><li>setting tags</li><li>searching notes.</li></ul>
+<h2>URL ingestion results</h2>
+<p><code>create_note_from_url</code> returns the same ingestion response as the REST API. It does not wait for the page to be converted before returning.</p>
+<p>The response includes:</p>
+<ul><li><code>note_id</code></li><li><code>job_id</code></li><li><code>job_status</code></li><li><code>note_api_url</code></li><li><code>job_api_url</code></li><li>the nested note object</li><li>the nested job object</li></ul>
+<p>Agents should poll <code>job_api_url</code> until the job reaches <code>succeeded</code>, then call <code>get_note</code> with <code>note_id</code> to retrieve the finished Markdown content.</p>
+<h2>File ingestion</h2>
+<p>File ingestion is available through the REST API:</p>
+<div class="code-card"><pre><code class="language-text">POST /api/notes/from-file</code></pre></div>
+<p>Use the REST file upload endpoint when an agent needs to send local files to Mia.</p>
+<h2>Design rule</h2>
+<p>The MCP server stays thin. It does not read database files, bypass REST permissions, or write files directly. The API remains the single authority for permissions, parsing, job state, and persistence.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

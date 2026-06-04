@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Feature requests | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">System</p>
+      <h1>Feature requests</h1>
+      <p>This document collects product and architecture ideas that would make Mianotes better, but are not part of the current release scope.</p>
+<h2>Workspace membership</h2>
+<p><strong>Big Gaps</strong></p>
+<p>Don’t do “check permission, then switch” as two trusted steps. The backend switch endpoint itself should resolve the workspace and either switch or return <code>403</code>. The frontend can pre-check for UX, but the backend switch must be authoritative.</p>
+<ol><li><strong>Switch check must be atomic</strong></li></ol>
+<p>Not only workspace switching. Protect: <code>notes</code>, <code>folders</code>, <code>tags</code>, <code>jobs</code>, <code>sources</code>, <code>publish</code>, file downloads, markdown/source serving, search, context/MCP endpoints, and any direct <code>/workspace/&amp;lt;slug&amp;gt;/...</code> route.</p>
+<ol><li><strong>Every workspace-scoped endpoint needs protection</strong></li></ol>
+<p>Mianotes has API keys and MCP. If there is one global API key, then membership can be bypassed unless agent sessions have a user/admin/system identity. Decide:</p>
+<ol><li><strong>Agent/API access needs a decision</strong></li></ol>
+<ul><li>API key acts as admin/system and can access all workspaces, or</li><li>API requests must include a user/session and respect membership.</li></ul>
+<p>This is probably the biggest hidden security edge case.</p>
+<p>Don’t rely on workspace name <code>&quot;Main&quot;</code>. Use a stable flag or ID, e.g. <code>is_default = true</code>, because users may rename it.</p>
+<ol><li><strong>“Main” should not be name-based</strong></li></ol>
+<p>The plan implies it but doesn’t name it. You likely want this in <code>system.db</code>: <code>workspace_memberships(user_id, workspace_id, created_at, created_by)</code></p>
+<ol><li><strong>Workspace membership table</strong></li></ol>
+<p>Unique constraint on <code>(user_id, workspace_id)</code>. Main can either be implicit access or seeded membership for every user. I’d prefer implicit access to Main, because it avoids sync bugs.</p>
+<p><strong>Edge Cases</strong></p>
+<ul><li>If a user’s active workspace is removed from their access, their session should fall back to Main.</li><li>If a user has a direct URL to a protected note, backend returns <code>403</code>, not <code>404</code>, unless you intentionally want to hide existence.</li><li>If a workspace is archived/unavailable while someone is using it, decide whether access is denied, read-only, or redirected to Main.</li><li>If the last admin removes their own access to a workspace, is that allowed? Probably yes for content access, but not relevant if admins can manage all workspaces globally.</li><li>If an admin removes access while a job is running, decide whether the job continues. I’d let jobs continue because they belong to workspace state, not user visibility.</li><li>If a workspace is renamed, membership should remain attached to workspace ID, not slug/name.</li><li>If two admins add/remove at the same time, API should be idempotent: <code>PUT membership</code> and <code>DELETE membership</code> are better than action-style POSTs.</li><li>Autocomplete must not leak unavailable/archived workspaces to normal users.</li></ul>
+<p><strong>UI Notes</strong></p>
+<p>The normal-user “Workspace from their own 3-dot menu” may be confusing if non-admins don’t normally see Users. This might belong in their profile menu or workspace switcher instead.</p>
+<p>For the protected workspace modal, <code>{admin_name}</code> is tricky if there are multiple admins or no named admin. Safer copy:</p>
+<p>&gt; This is a protected workspace. Please contact an admin to request access.</p>
+<p><strong>Testing Additions</strong></p>
+<p>Add tests for direct API calls, not only switch:</p>
+<ul><li>blocked <code>GET /workspace/&amp;lt;slug&amp;gt;/notes</code></li><li>blocked note detail URL</li><li>blocked search/context/MCP access</li><li>blocked source file/markdown access</li><li>active workspace fallback when access is removed</li><li>archived workspace cannot be assigned</li><li>Main access still works without explicit membership</li></ul>
+<p>The main change I’d make is to define a single backend “workspace resolver” dependency that resolves workspace + checks access before any workspace-scoped code runs. That keeps the rule central and makes the open-source code look intentional rather than permission checks scattered everywhere.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>
