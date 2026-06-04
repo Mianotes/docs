@@ -24,6 +24,26 @@ pytest tests/test_api_publish.py
 
 It checks theme listing, draft generation, navigation/new-note diffing, HTML and Markdown output, public file serving, ZIP downloads, and replacement of an existing version.
 
+## SQLite query-plan checks
+
+The normal test suite includes lightweight SQLite query-plan checks:
+
+```bash
+pytest tests/test_query_plans.py
+```
+
+These tests use `EXPLAIN QUERY PLAN` to make sure common note, publishing, and job queries keep using the intended indexes. They are fast and run as part of the normal test suite.
+
+For larger local checks, run the opt-in performance test:
+
+```bash
+pytest -m performance tests/test_query_plans.py -q -s
+```
+
+This creates a temporary SQLite workspace with 10,000 notes, related folders, tags, jobs, and published-site rows. It runs `ANALYZE`, prints the query plans and rough timings, and verifies that hot queries use the expected composite indexes without temporary sort tables.
+
+Performance tests are skipped by default. Use them before changing indexes, query builders, pagination, publishing lookups, or job listing behaviour.
+
 ## Manual tests with temporary storage
 
 Use the temporary storage wrapper when you want to run manual smoke tests, seed data, or start a throwaway service:
