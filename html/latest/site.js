@@ -1,6 +1,6 @@
 const SITE_CONFIGURATION = {
   "brand": "mianotes",
-  "version": "0.3.1",
+  "version": "latest",
   "headerLinks": [
     {
       "title": "GitHub",

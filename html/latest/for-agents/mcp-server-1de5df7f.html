@@ -38,7 +38,7 @@ Authorization: Bearer &lt;MIANOTES_API_KEY&gt;
 X-Mianotes-Client: Codex</code></pre></div>
 <p>The MCP server then uses the returned session token for tool calls. The session token contains the mapped client identity and token reference, not the raw API key. Unknown client names default to <code>MCP</code>.</p>
 <p>Use scoped per-user API tokens when an agent should only read notes or work in a limited role.</p>
-<h2>Configure Codex</h2>
+<h2>Configure <code>Codex</code></h2>
 <p>Codex needs a stdio MCP server entry that starts <code>mianotes-mcp</code>. The MCP command loads the Mianotes API URL and API key automatically.</p>
 <p><strong>Step 1</strong>. Make sure Mianotes is running.</p>
 <p><strong>Step 2</strong>. Create an API key in Mianotes Settings. Mianotes writes it to the service environment file.</p>
@@ -54,16 +54,15 @@ X-Mianotes-Client: Codex</code></pre></div>
 <div class="code-card"><pre><code class="language-bash">codex mcp list</code></pre></div>
 <p><strong>Step 7</strong>. Within Codex (desktop app), ask Mia to search for a note:</p>
 <div class="code-card"><pre><code class="language-text">Search Mia(workspace: Mianotes, query: Getting started)</code></pre></div>
-<h2>Configure Claude Code</h2>
+<h2>Configure <code>Claude Code</code></h2>
 <p>Claude Code also needs a stdio MCP server entry. The most reliable setup is <code>claude mcp add-json</code>, because it keeps the command and environment variables together.</p>
 <p><strong>Step 1</strong>. Make sure Mianotes is running.</p>
 <p><strong>Step 2</strong>. Create an API key in Mianotes Settings. Mianotes writes it to the service environment file.</p>
-<p><strong>Step 3</strong>. Install <a class="inline-link" href="https://code.claude.com/docs/en/setup">Claude Code CLI</a>. After installation completes, open a terminal in the project you want to work in and start Claude Code:</p>
+<p><strong>Step 3</strong>. Install <a class="inline-link" href="https://code.claude.com/docs/en/setup">Claude Code CLI</a> and the <a class="inline-link" href="https://code.claude.com/docs/en/mcp">Claude Code MCP server</a> plugin. After installation completes, open a terminal in the project you want to work in and start Claude Code:</p>
 <div class="code-card"><pre><code class="language-text">claude</code></pre></div>
 <p><strong>Step 4</strong>. Add the MCP server:</p>
 <ul><li>If you installed Mianotes from package, use command <code>mianotes-mcp</code>.</li><li>If you installed it from source, use command <code>/path/to/mianotes-web-service/.venv/bin/mianotes-mcp</code>.</li></ul>
-<div class="code-card"><pre><code class="language-bash">claude mcp add-json mianotes \
-  &#x27;{<span class="tok-key">&quot;type&quot;</span>:<span class="tok-string">&quot;stdio&quot;</span>,<span class="tok-key">&quot;command&quot;</span>:<span class="tok-string">&quot;mianotes-mcp&quot;</span>,<span class="tok-key">&quot;env&quot;</span>:{<span class="tok-key">&quot;MIANOTES_CLIENT_NAME&quot;</span>:<span class="tok-string">&quot;Claude&quot;</span>}}&#x27;</code></pre></div>
+<div class="code-card"><pre><code class="language-bash">claude mcp add-json mianotes &#x27;{<span class="tok-key">&quot;type&quot;</span>:<span class="tok-string">&quot;stdio&quot;</span>,<span class="tok-key">&quot;command&quot;</span>:<span class="tok-string">&quot;mianotes-mcp&quot;</span>,<span class="tok-key">&quot;env&quot;</span>:{<span class="tok-key">&quot;MIANOTES_CLIENT_NAME&quot;</span>:<span class="tok-string">&quot;Claude&quot;</span>}}&#x27;</code></pre></div>
 <p><strong>Step 5</strong>. Verify the server is configured:</p>
 <div class="code-card"><pre><code class="language-bash">$ claude mcp get mianotes
 

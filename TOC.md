@@ -1,4 +1,4 @@
-# Mianotes Documentation
+# mianotes Documentation
 
 - **About**
   - [What is Mianotes?](markdown/about/what-is-mianotes-c08cbf08.md)

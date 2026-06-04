@@ -1,6 +1,6 @@
 # MCP server
 
-Created: 2026-06-03T15:30:01Z
+Created: 2026-06-04T15:45:49Z
 
 ## Note
 
@@ -48,7 +48,7 @@ The MCP server then uses the returned session token for tool calls. The session 
 
 Use scoped per-user API tokens when an agent should only read notes or work in a limited role.
 
-## Configure Codex
+## Configure `Codex`
 
 Codex needs a stdio MCP server entry that starts `mianotes-mcp`. The MCP command loads the Mianotes API URL and API key automatically.
 
@@ -91,7 +91,7 @@ codex mcp list
 Search Mia(workspace: Mianotes, query: Getting started)
 ```
 
-## Configure Claude Code
+## Configure `Claude Code`
 
 Claude Code also needs a stdio MCP server entry. The most reliable setup is `claude mcp add-json`, because it keeps the command and environment variables together.
 
@@ -99,7 +99,7 @@ Claude Code also needs a stdio MCP server entry. The most reliable setup is `cla
 
 **Step 2**. Create an API key in Mianotes Settings. Mianotes writes it to the service environment file.
 
-**Step 3**. Install [Claude Code CLI](https://code.claude.com/docs/en/setup). After installation completes, open a terminal in the project you want to work in and start Claude Code:
+**Step 3**. Install [Claude Code CLI](https://code.claude.com/docs/en/setup) and the [Claude Code MCP server](https://code.claude.com/docs/en/mcp) plugin. After installation completes, open a terminal in the project you want to work in and start Claude Code:
 
 ```text
 claude
@@ -111,8 +111,7 @@ claude
 * If you installed it from source, use command `/path/to/mianotes-web-service/.venv/bin/mianotes-mcp`.
 
 ```bash
-claude mcp add-json mianotes \
-  '{"type":"stdio","command":"mianotes-mcp","env":{"MIANOTES_CLIENT_NAME":"Claude"}}'
+claude mcp add-json mianotes '{"type":"stdio","command":"mianotes-mcp","env":{"MIANOTES_CLIENT_NAME":"Claude"}}'
 ```
 
 **Step 5**. Verify the server is configured:
