@@ -4,12 +4,12 @@ Created: 2026-05-30T18:19:05Z
 
 ## Note
 
-Mianotes API clients authenticate with bearer tokens. A token lets an agent, script, MCP server, or other tool call the same REST API that the web app uses.
+Mianotes API clients authenticate with bearer tokens. A token lets an agent, script, or other tool call the same REST API that the web app uses.
 
-The easiest way to get started is through the web app. Sign in, open **Settings**, and create an agent install command. Mianotes creates a one-time install link that expires after one hour. Run the command on the same machine as Codex, Claude, or another local tool.
+The easiest way to get started is through the web app. Sign in, open **Settings**, and create an install script. Mianotes creates a one-time install link that expires after one hour. Run the command on the same machine as Codex, Claude Code, or another local tool.
 
 ```bash
-curl -fsSL "http://mianotes.local:8200/install/skill.sh?code=<one_time_code>" | bash
+curl -fsSL "http://mianotes.local:8200/skill/install.sh?code=<one_time_code>" | bash
 ```
 
 The installer writes the connection details to `~/.mianotes/env` and installs the Mianotes skill for Codex and Claude:
@@ -25,7 +25,7 @@ MIANOTES_API_USER="user@example.com"
 ~/.claude/skills/mianotes/SKILL.md
 ```
 
-The raw API key is shown only inside the downloaded shell script. The install link is one-time use, so rerun the Settings action if you need a new command.
+The downloaded shell script does not display the API key. It exchanges the one-time code while it runs, writes the key to `~/.mianotes/env`, and marks the code as used. Rerun the Settings action if you need a new command.
 
 Agents use that value to create an agent session:
 
@@ -48,9 +48,9 @@ Mianotes compares bearer tokens by hashing the presented token and comparing it 
 There are two normal places the raw key lives:
 
 * the one-time installer writes it to `~/.mianotes/env` on the agent machine
-* MCP clients can receive the same variables through their own environment
+* tools can receive the same variables through their own environment
 
-On install command redemption, Mianotes stores only the derived public verifier in `data/system.db`. The generated token belongs to the signed-in user and keeps working until that user regenerates it or revokes it.
+On install script redemption, Mianotes stores only the derived public verifier in `data/system.db`. The generated token belongs to the signed-in user and keeps working until that user regenerates it or revokes it.
 
 ## Get a key in the web app
 
@@ -60,7 +60,7 @@ This is the recommended path for most people because it avoids hand-writing API 
 2. Open the Mianotes web app.
 3. Sign in as an admin user.
 4. Open **Settings**.
-5. Click **Create install command**.
+5. Click **Create install script**.
 6. Copy and run the command on the machine where your local agent runs.
 7. Open a new terminal session so the exported environment is available.
 
@@ -68,7 +68,7 @@ For a local shell:
 
 ```bash
 export MIANOTES_API_URL="http://127.0.0.1:8200"
-export MIANOTES_API_KEY="generated_by_the_install_command"
+export MIANOTES_API_KEY="generated_by_the_install_script"
 export MIANOTES_API_USER="user@example.com"
 ```
 
@@ -76,7 +76,7 @@ For a project `.env` file:
 
 ```env
 MIANOTES_API_URL=http://127.0.0.1:8200
-MIANOTES_API_KEY=<generated_by_the_install_command>
+MIANOTES_API_KEY=<generated_by_the_install_script>
 MIANOTES_API_USER=user@example.com
 ```
 
@@ -137,13 +137,13 @@ The response contains a short-lived install command:
 
 ```json
 {
-  "install_url": "http://127.0.0.1:8200/install/skill.sh?code=abc123",
-  "command": "curl -fsSL 'http://127.0.0.1:8200/install/skill.sh?code=abc123' | bash",
+  "install_url": "http://127.0.0.1:8200/skill/install.sh?code=abc123",
+  "command": "curl -fsSL \"http://127.0.0.1:8200/skill/install.sh?code=abc123\" | bash",
   "expires_at": "2026-06-05T12:00:00Z"
 }
 ```
 
-Run the command on the agent machine. When the script is downloaded, Mianotes creates the per-user API token and writes it to `~/.mianotes/env`.
+Run the command on the agent machine. When the script runs, Mianotes creates the per-user API token and writes it to `~/.mianotes/env`.
 
 After the installer has run, exchange the API key for a short-lived agent session:
 
@@ -233,7 +233,7 @@ The bundled MCP server reads the same environment variables:
 
 ```bash
 export MIANOTES_API_URL="http://127.0.0.1:8200"
-export MIANOTES_API_KEY="generated_by_the_install_command"
+export MIANOTES_API_KEY="generated_by_the_install_script"
 mianotes-mcp
 ```
 

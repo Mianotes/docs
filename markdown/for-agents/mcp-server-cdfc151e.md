@@ -20,7 +20,7 @@ If you installed Mianotes from source, run the wrapper from the web service loca
 /path/to/mianotes-web-service/.venv/bin/mianotes-mcp
 ```
 
-The MCP command reads the Mianotes API URL and API key from the environment. The easiest setup is to create an install command in Mianotes Settings and run it on the same machine as your MCP client. That command writes the values to `~/.mianotes/env`.
+The MCP command reads the Mianotes API URL and API key from the environment. The easiest setup is to create an install script in Mianotes Settings and run it on the same machine as your MCP client. That command writes the values to `~/.mianotes/env`.
 
 Set `MIANOTES_CLIENT_NAME` in the MCP client configuration when you want Mianotes to attribute jobs and notes to a specific tool.
 
@@ -30,7 +30,7 @@ By default, MCP clients use the user API token installed from Mianotes Settings.
 
 ```env
 MIANOTES_API_URL=http://mianotes.local:8200
-MIANOTES_API_KEY=<generated_by_the_install_command>
+MIANOTES_API_KEY=<generated_by_the_install_script>
 MIANOTES_API_USER=user@example.com
 ```
 
@@ -46,7 +46,7 @@ X-Mianotes-Client: Codex
 
 The MCP server then uses the returned session token for tool calls. The session token contains the mapped client identity and token reference, not the raw API key. Unknown client names default to `MCP`.
 
-Create a fresh install command from Settings when you need to regenerate a user's agent token.
+Create a fresh install script from Settings when you need to regenerate a user's agent token.
 
 ## Configure `Codex`
 
@@ -54,7 +54,7 @@ Codex needs a stdio MCP server entry that starts `mianotes-mcp`.
 
 **Step 1**. Make sure Mianotes is running.
 
-**Step 2**. Create an install command in Mianotes Settings and run it on the same machine where Codex runs.
+**Step 2**. Create an install script in Mianotes Settings and run it on the same machine where Codex runs.
 
 **Step 3**. Check that the MCP command is available on the same machine where Codex runs:
 
@@ -97,7 +97,7 @@ Claude Code also needs a stdio MCP server entry.
 
 **Step 1**. Make sure Mianotes is running.
 
-**Step 2**. Create an install command in Mianotes Settings and run it on the same machine where Claude Code runs.
+**Step 2**. Create an install script in Mianotes Settings and run it on the same machine where Claude Code runs.
 
 **Step 3**. Install [Claude Code CLI](https://code.claude.com/docs/en/setup) and the [Claude Code MCP server](https://code.claude.com/docs/en/mcp) plugin. After installation completes, open a terminal in the project you want to work in and start Claude Code:
 

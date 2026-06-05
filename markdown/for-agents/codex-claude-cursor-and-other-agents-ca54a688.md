@@ -6,9 +6,9 @@ Created: 2026-05-30T18:12:50Z
 
 Mianotes is intended to be useful for Codex, Claude Code, OpenClaw, Cursor, VS Code agents, Slack bots, and local automation.
 
-The core idea is the same for every tool: give the agent a safe API or MCP connection, then ask it to write durable notes as it works.
+The core idea is the same for every tool: give the agent safe Mianotes API credentials and clear instructions, then ask it to write durable notes as it works.
 
-## Installed skills
+## Installed agent instructions
 
 The Mianotes setup scripts install local Mianotes skill files for Codex and Claude:
 
@@ -17,7 +17,7 @@ The Mianotes setup scripts install local Mianotes skill files for Codex and Clau
 ~/.claude/skills/mianotes/SKILL.md
 ```
 
-The web app can also generate a one-time install command that writes the agent environment to `~/.mianotes/env` and installs the skill files for Codex and Claude.
+The web app can generate a one-time install script that writes the agent environment to `~/.mianotes/env` and installs the skill files for Codex and Claude.
 
 ## Environment for agents
 
@@ -25,11 +25,11 @@ Agents need access to the API URL and user token:
 
 ```env
 MIANOTES_API_URL=http://mianotes.local:8200
-MIANOTES_API_KEY=<generated_by_the_install_command>
+MIANOTES_API_KEY=<generated_by_the_install_script>
 MIANOTES_API_USER=user@example.com
 ```
 
-Create the install command from Mianotes Settings and run it on the machine where the agent runs. The command can be used once and expires after one hour.
+Create the install script from Mianotes Settings and run it on the machine where the agent runs. The command can be used once and expires after one hour.
 
 ## MCP-capable agents
 
