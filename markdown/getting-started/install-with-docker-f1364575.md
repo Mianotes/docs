@@ -23,6 +23,21 @@ mkdir mianotes
 cd mianotes
 ```
 
+Download the official Compose file and start Mianotes:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Mianotes/install/main/docker-compose.yml -o docker-compose.yml
+docker compose up -d
+```
+
+Open:
+
+```text
+http://localhost:8201
+```
+
+If Mianotes is running on another machine, replace `localhost` with the server address.
+
 Mianotes stores persistent data in a `data/` folder next to `docker-compose.yml`:
 
 ```text
@@ -41,7 +56,7 @@ This means files written by Mianotes inside the container are saved on your comp
 
 ## docker-compose.yml
 
-Create `docker-compose.yml`:
+The downloaded `docker-compose.yml` should look like this. You can edit it before starting Mianotes if you need to change ports, volumes, or environment variables.
 
 ```yaml
 services:
@@ -61,21 +76,11 @@ services:
       MIANOTES_STORAGE_CONFIG_PATH: /data/workspaces.json
 ```
 
-## Start Mianotes
-
-Run:
+If you edited the file manually, start Mianotes with:
 
 ```bash
 docker compose up -d
 ```
-
-Open:
-
-```text
-http://localhost:8201
-```
-
-If Mianotes is running on another machine, replace `localhost` with the server address.
 
 ## View logs
 
