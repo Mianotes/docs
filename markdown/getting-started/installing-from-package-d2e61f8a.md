@@ -102,10 +102,14 @@ mianotes logs
 mianotes uninstall
 ```
 
-It keeps your data, environment file, and workspace configuration:
+`mianotes uninstall` removes the app services, installed app files, settings, users, API keys, workspace configuration, and workspace databases.
 
-* macOS: `/Library/Application Support/Mianotes/`
-* Ubuntu: `/var/lib/mianotes/` and `/etc/mianotes/`
+It keeps Markdown notes, source files, and published HTML under:
+
+* macOS: `/Library/Application Support/Mianotes/data/`
+* Ubuntu: `/var/lib/mianotes/data/`
+
+After reinstalling Mianotes, add a folder as a workspace to import compatible Markdown notes again.
 
 ## First run
 
