@@ -20,23 +20,23 @@ If you installed Mianotes from source, run the wrapper from the web service loca
 /path/to/mianotes-web-service/.venv/bin/mianotes-mcp
 ```
 
-The MCP command loads the Mianotes API URL and API key automatically from the service environment file. Package installs use the packaged `mianotes.env`; source installs use the web service `.env` next to the `.venv` folder.
+The MCP command reads the Mianotes API URL and API key from the environment. The easiest setup is to create an install command in Mianotes Settings and run it on the same machine as your MCP client. That command writes the values to `~/.mianotes/env`.
 
 Set `MIANOTES_CLIENT_NAME` in the MCP client configuration when you want Mianotes to attribute jobs and notes to a specific tool.
 
 ## Authentication
 
-By default, MCP clients use the service-wide `MIANOTES_API_KEY` saved by Mianotes Settings.
+By default, MCP clients use the user API token installed from Mianotes Settings.
 
 ```env
-MIANOTES_API_URL=http://127.0.0.1:8200
-MIANOTES_API_KEY=<generated_in_settings>
-MIANOTES_CLIENT_NAME=Codex
+MIANOTES_API_URL=http://mianotes.local:8200
+MIANOTES_API_KEY=<generated_by_the_install_command>
+MIANOTES_API_USER=user@example.com
 ```
 
-Codex and Claude do not need to pass `MIANOTES_API_URL` or `MIANOTES_API_KEY` to the MCP command. Pass only `MIANOTES_CLIENT_NAME` if you want a friendly client name in Mianotes.
+Codex and Claude do not need to pass `MIANOTES_API_URL` or `MIANOTES_API_KEY` to the MCP command if the process can read the installed environment.
 
-On startup, the MCP server exchanges `MIANOTES_API_KEY` and `MIANOTES_CLIENT_NAME` for a short-lived agent session:
+On startup, the MCP server exchanges `MIANOTES_API_KEY` for a short-lived agent session:
 
 ```http
 POST /api/auth/agent-session
@@ -46,15 +46,15 @@ X-Mianotes-Client: Codex
 
 The MCP server then uses the returned session token for tool calls. The session token contains the mapped client identity and token reference, not the raw API key. Unknown client names default to `MCP`.
 
-Use scoped per-user API tokens when an agent should only read notes or work in a limited role.
+Create a fresh install command from Settings when you need to regenerate a user's agent token.
 
 ## Configure `Codex`
 
-Codex needs a stdio MCP server entry that starts `mianotes-mcp`. The MCP command loads the Mianotes API URL and API key automatically.
+Codex needs a stdio MCP server entry that starts `mianotes-mcp`.
 
 **Step 1**. Make sure Mianotes is running.
 
-**Step 2**. Create an API key in Mianotes Settings. Mianotes writes it to the service environment file.
+**Step 2**. Create an install command in Mianotes Settings and run it on the same machine where Codex runs.
 
 **Step 3**. Check that the MCP command is available on the same machine where Codex runs:
 
@@ -93,11 +93,11 @@ Search Mia(workspace: Mianotes, query: Getting started)
 
 ## Configure `Claude Code`
 
-Claude Code also needs a stdio MCP server entry. The most reliable setup is `claude mcp add-json`, because it keeps the command and environment variables together.
+Claude Code also needs a stdio MCP server entry.
 
 **Step 1**. Make sure Mianotes is running.
 
-**Step 2**. Create an API key in Mianotes Settings. Mianotes writes it to the service environment file.
+**Step 2**. Create an install command in Mianotes Settings and run it on the same machine where Claude Code runs.
 
 **Step 3**. Install [Claude Code CLI](https://code.claude.com/docs/en/setup) and the [Claude Code MCP server](https://code.claude.com/docs/en/mcp) plugin. After installation completes, open a terminal in the project you want to work in and start Claude Code:
 

@@ -4,23 +4,37 @@ Created: 2026-05-30T18:19:05Z
 
 ## Note
 
-Mianotes API clients authenticate with bearer tokens. A token lets an agent, script, MCP server, or other tool call the same local REST API that the web app uses.
+Mianotes API clients authenticate with bearer tokens. A token lets an agent, script, MCP server, or other tool call the same REST API that the web app uses.
 
-The easiest way to get started is through the web app. Sign in as an admin, open **Settings**, and use **Create API Key**. Mianotes shows the key once. Copy it immediately and put it in the environment of the agent, app, or tool that needs to connect. The service also writes the key into its own environment file so it keeps working after restart.
+The easiest way to get started is through the web app. Sign in, open **Settings**, and create an agent install command. Mianotes creates a one-time install link that expires after one hour. Run the command on the same machine as Codex, Claude, or another local tool.
 
-```env
-MIANOTES_API_URL=http://127.0.0.1:8200
-MIANOTES_API_KEY=<generated_in_settings>
+```bash
+curl -fsSL "http://mianotes.local:8200/install/skill.sh?code=<one_time_code>" | bash
 ```
 
-Use that value to create an agent session:
+The installer writes the connection details to `~/.mianotes/env` and installs the Mianotes skill for Codex and Claude:
+
+```env
+MIANOTES_API_URL="http://mianotes.local:8200"
+MIANOTES_API_KEY="mia_apikey_..."
+MIANOTES_API_USER="user@example.com"
+```
+
+```text
+~/.codex/skills/mianotes/SKILL.md
+~/.claude/skills/mianotes/SKILL.md
+```
+
+The raw API key is shown only inside the downloaded shell script. The install link is one-time use, so rerun the Settings action if you need a new command.
+
+Agents use that value to create an agent session:
 
 ```bash
 curl -sS \
   -X POST \
   -H "Authorization: Bearer ${MIANOTES_API_KEY}" \
   -H "X-Mianotes-Client: Codex" \
-  "${MIANOTES_API_URL}/api/auth/agent-session"
+    "${MIANOTES_API_URL}/api/auth/agent-session"
 ```
 
 The response contains a short-lived bearer token. Use that session token for follow-up requests. Mianotes maps known client names from `X Mianotes-Client` to a stable client ID, stores that identity inside the signed token, and uses it to attribute jobs to the right tool in the Console. Unknown client names default to `MCP`. The raw API key is never embedded in the session token.
@@ -31,14 +45,12 @@ The raw key is a secret. Treat it like a password.
 
 Mianotes compares bearer tokens by hashing the presented token and comparing it with the public verifier stored in `data/system.db`. The database does not store the raw key.
 
-There are two normal places the raw service key lives:
+There are two normal places the raw key lives:
 
-* the web service writes `MIANOTES_API_KEY` to its configured environment file
-  when an admin creates a key in Settings
-* agents and MCP clients should keep their copy in their own environment or
-  project `.env`
+* the one-time installer writes it to `~/.mianotes/env` on the agent machine
+* MCP clients can receive the same variables through their own environment
 
-On API key creation and on authenticated requests, Mianotes syncs the derived public verifier into the system database. `data/system.db` stores only that public verifier, never the raw key. This lets the service-wide key keep working after service restarts or workspace switches.
+On install command redemption, Mianotes stores only the derived public verifier in `data/system.db`. The generated token belongs to the signed-in user and keeps working until that user regenerates it or revokes it.
 
 ## Get a key in the web app
 
@@ -48,24 +60,24 @@ This is the recommended path for most people because it avoids hand-writing API 
 2. Open the Mianotes web app.
 3. Sign in as an admin user.
 4. Open **Settings**.
-5. Click **Create API Key**.
-6. Copy the key immediately.
-7. Add it to the environment used by your agent, app, MCP server, or shell.
-
-Mianotes also writes the key to the service environment file automatically. Copying it is still important because this is the only time the UI shows the raw value for use by external tools.
+5. Click **Create install command**.
+6. Copy and run the command on the machine where your local agent runs.
+7. Open a new terminal session so the exported environment is available.
 
 For a local shell:
 
 ```bash
 export MIANOTES_API_URL="http://127.0.0.1:8200"
-export MIANOTES_API_KEY="generated_in_settings"
+export MIANOTES_API_KEY="generated_by_the_install_command"
+export MIANOTES_API_USER="user@example.com"
 ```
 
 For a project `.env` file:
 
 ```env
 MIANOTES_API_URL=http://127.0.0.1:8200
-MIANOTES_API_KEY=<generated_in_settings>
+MIANOTES_API_KEY=<generated_by_the_install_command>
+MIANOTES_API_USER=user@example.com
 ```
 
 Then create an agent session:
@@ -110,27 +122,32 @@ curl -sS \
   "${MIANOTES_API_URL:-http://127.0.0.1:8200}/api/auth/login"
 ```
 
-Then create the service API key with that saved cookie. The endpoint writes the key to the service environment file, stores only the verifier hash in the active database, and returns the raw key once:
+Then create a one-time skill installer with that saved cookie. The endpoint returns a command, not the raw API key:
 
 ```bash
 curl -sS \
   -X POST \
   -b cookies.txt \
-  "${MIANOTES_API_URL:-http://127.0.0.1:8200}/api/settings/api-key"
+  -H "Content-Type: application/json" \
+  -d '{"api_url":"http://127.0.0.1:8200","client_name":"Codex"}' \
+  "${MIANOTES_API_URL:-http://127.0.0.1:8200}/api/install/skill"
 ```
 
-The response contains the raw key once:
+The response contains a short-lived install command:
 
 ```json
 {
-  "token": "mia_generated_key_returned_once"
+  "install_url": "http://127.0.0.1:8200/install/skill.sh?code=abc123",
+  "command": "curl -fsSL 'http://127.0.0.1:8200/install/skill.sh?code=abc123' | bash",
+  "expires_at": "2026-06-05T12:00:00Z"
 }
 ```
 
-Save it somewhere private, then exchange it for a short-lived agent session:
+Run the command on the agent machine. When the script is downloaded, Mianotes creates the per-user API token and writes it to `~/.mianotes/env`.
+
+After the installer has run, exchange the API key for a short-lived agent session:
 
 ```bash
-export MIANOTES_API_KEY="mia_generated_key_returned_once"
 curl -sS \
   -X POST \
   -H "Authorization: Bearer ${MIANOTES_API_KEY}" \
@@ -138,13 +155,15 @@ curl -sS \
   "${MIANOTES_API_URL:-http://127.0.0.1:8200}/api/auth/agent-session"
 ```
 
-If you already have an admin bearer token, you can create a new service API key without a browser cookie:
+If you already have a bearer token for your user, you can create a one-time skill installer without a browser cookie:
 
 ```bash
 curl -sS \
   -X POST \
   -H "Authorization: Bearer ${MIANOTES_API_KEY}" \
-  "${MIANOTES_API_URL:-http://127.0.0.1:8200}/api/settings/api-key"
+  -H "Content-Type: application/json" \
+  -d '{"api_url":"http://127.0.0.1:8200","client_name":"Codex"}' \
+  "${MIANOTES_API_URL:-http://127.0.0.1:8200}/api/install/skill"
 ```
 
 ## Use the token from JavaScript
@@ -214,15 +233,15 @@ The bundled MCP server reads the same environment variables:
 
 ```bash
 export MIANOTES_API_URL="http://127.0.0.1:8200"
-export MIANOTES_API_KEY="generated_in_settings"
+export MIANOTES_API_KEY="generated_by_the_install_command"
 mianotes-mcp
 ```
 
 If your MCP client starts the server from a different shell, make sure that shell can see the same environment variables.
 
-## Service keys and scoped tokens
+## User tokens and scoped tokens
 
-`MIANOTES_API_KEY` is the service-wide key. It is best for trusted local agents, MCP servers, and scripts that should act with admin-level access to the current Mianotes workspace.
+`MIANOTES_API_KEY` is the key installed for the current user. It is best for trusted local agents, MCP servers, and scripts that should act as that user.
 
 Mianotes also supports scoped per-user API tokens through `/api/tokens`. Use scoped tokens when a tool should have narrower permissions, such as read-only note access.
 

@@ -17,19 +17,19 @@ The Mianotes setup scripts install local Mianotes skill files for Codex and Clau
 ~/.claude/skills/mianotes/SKILL.md
 ```
 
-The development installer also copies the repository skill to those locations. These skill files should explain how the agent can use Mianotes during a coding or research session.
+The web app can also generate a one-time install command that writes the agent environment to `~/.mianotes/env` and installs the skill files for Codex and Claude.
 
 ## Environment for agents
 
-Agents need access to the API URL and token:
+Agents need access to the API URL and user token:
 
 ```env
-MIANOTES_API_URL=http://127.0.0.1:8200
-MIANOTES_API_KEY=<generated_in_settings>
-MIANOTES_CLIENT_NAME=Codex
+MIANOTES_API_URL=http://mianotes.local:8200
+MIANOTES_API_KEY=<generated_by_the_install_command>
+MIANOTES_API_USER=user@example.com
 ```
 
-If the agent starts from a different shell than the web service, make sure the agent environment contains these variables.
+Create the install command from Mianotes Settings and run it on the machine where the agent runs. The command can be used once and expires after one hour.
 
 ## MCP-capable agents
 
@@ -45,7 +45,7 @@ or:
 python -m mianotes_web_service.mcp_server
 ```
 
-The MCP server reads `MIANOTES_API_URL`, `MIANOTES_API_KEY`, and `MIANOTES_CLIENT_NAME`. It exchanges the API key for a short-lived agent session, then calls the REST API with that session token.
+The MCP server reads `MIANOTES_API_URL` and `MIANOTES_API_KEY`. It exchanges the API key for a short-lived agent session, then calls the REST API with that session token.
 
 ## REST-capable agents
 
