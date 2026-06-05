@@ -6,7 +6,7 @@ Created: 2026-05-30T18:19:05Z
 
 Mianotes API clients authenticate with bearer tokens. A token lets an agent, script, or other tool call the same REST API that the web app uses.
 
-The easiest way to get started is through the web app. Sign in, open **Settings**, and create an install script. Mianotes creates a one-time install link that expires after one hour. Run the command on the same machine as Codex, Claude Code, or another local tool.
+The easiest way to get started is through the web app. Sign in, open **Settings**, and generate an install URL. Mianotes creates a one-time install link that expires after 24 hours. Run the command on the same machine as Codex, Claude Code, or another local tool.
 
 ```bash
 curl -fsSL "http://mianotes.local:8200/skill/install.sh?code=<one_time_code>" | bash
@@ -60,7 +60,7 @@ This is the recommended path for most people because it avoids hand-writing API 
 2. Open the Mianotes web app.
 3. Sign in as an admin user.
 4. Open **Settings**.
-5. Click **Create install script**.
+5. Click **Generate URL**.
 6. Copy and run the command on the machine where your local agent runs.
 7. Open a new terminal session so the exported environment is available.
 

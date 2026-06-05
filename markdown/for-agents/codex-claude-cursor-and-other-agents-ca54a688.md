@@ -29,7 +29,7 @@ MIANOTES_API_KEY=<generated_by_the_install_script>
 MIANOTES_API_USER=user@example.com
 ```
 
-Create the install script from Mianotes Settings and run it on the machine where the agent runs. The command can be used once and expires after one hour.
+Generate the install URL from Mianotes Settings and run the command on the machine where the agent runs. The command can be used once and expires after 24 hours.
 
 ## MCP-capable agents
 
