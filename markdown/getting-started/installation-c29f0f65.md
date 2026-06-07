@@ -1,6 +1,6 @@
 # Installation
 
-Created: 2026-05-30T10:10:37Z
+Created: 2026-06-07T14:15:39Z
 
 ## Note
 
@@ -13,12 +13,10 @@ Use this if you want Mianotes installed into the normal system locations for you
 * macOS: `mianotes.pkg`
 * Ubuntu: `mianotes.deb`
 
+## Install with Docker
+
+Use this if you want Mianotes to run in a container on a laptop, workstation, or server. Docker keeps the web service and dashboard together and makes it easier to run, stop, update, or host multiple Mianotes environments.
+
 ## Install from GitHub
 
 Use this if you are a developer, contributor, or agent-tool builder who wants editable source checkouts of the web service and dashboard.
-
-## Which one should I choose?
-
-Most users should start with the package installer.
-
-Use the GitHub installer when you want to work on the code, run tests, change branches, or inspect how the services are wired together.

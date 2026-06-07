@@ -1,6 +1,6 @@
 # Codex, Claude, Cursor, and other agents
 
-Created: 2026-05-30T18:12:50Z
+Created: 2026-06-07T14:29:31Z
 
 ## Note
 
@@ -39,12 +39,6 @@ For MCP-capable clients, configure the client to start:
 mianotes-mcp
 ```
 
-or:
-
-```bash
-python -m mianotes_web_service.mcp_server
-```
-
 The MCP server reads `MIANOTES_API_URL` and `MIANOTES_API_KEY`. It exchanges the API key for a short-lived agent session, then calls the REST API with that session token.
 
 ## REST-capable agents
@@ -57,7 +51,6 @@ Minimal search example:
 MIANOTES_SESSION_TOKEN="$(
   curl -sS -X POST \
     -H "Authorization: Bearer ${MIANOTES_API_KEY}" \
-    -H "X-Mianotes-Client: ${MIANOTES_CLIENT_NAME:-Codex}" \
     "${MIANOTES_API_URL:-http://127.0.0.1:8200}/api/auth/agent-session" \
     | python3 -c 'import json, sys; print(json.load(sys.stdin)["token"])'
 )"
@@ -80,12 +73,6 @@ curl -sS \
     "text": "# Agent worklog\n\nThe agent started documenting this task."
   }' \
   "${MIANOTES_API_URL:-http://127.0.0.1:8200}/api/notes/from-text"
-```
-
-## Recommended prompt for coding agents
-
-```text
-Use Mianotes as the durable project memory. Before making changes, search Mianotes for relevant project notes. While working, create or update a note with the goal, decisions, files changed, tests run, and next steps. Do not store secrets. Keep notes concise and useful for the next developer or agent.
 ```
 
 ## Safety rule

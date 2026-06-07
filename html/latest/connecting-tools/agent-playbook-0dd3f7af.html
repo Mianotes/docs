@@ -16,7 +16,7 @@
   <aside class="sidebar" data-sidebar></aside>
   <section class="article-wrap">
     <article class="article">
-      <p class="eyebrow">For Agents</p>
+      <p class="eyebrow">Connecting tools</p>
       <h1>Agent playbook</h1>
       <p>This page gives practical patterns for agents using Mianotes.</p>
 <h2>Before starting work</h2>
@@ -28,10 +28,10 @@
 <h2>After file or URL ingestion</h2>
 <p>If the agent creates a note from a file or URL, the response will include a <code>job_api_url</code>. Poll the job until it succeeds.</p>
 <p>User prompts may look like:</p>
-<div class="code-card"><pre><code class="language-text">Import this link into Mia(workspace: Research, folder: Sources):
+<div class="code-card"><pre><code class="language-text">Import this link into the Sources folder of the Research workspace:
 https://example.com/article</code></pre></div>
-<div class="code-card"><pre><code class="language-text">Read this PDF and save the key points in Mia(workspace: My App, folder: Research).</code></pre></div>
-<div class="code-card"><pre><code class="language-text">Transcribe this YouTube video and save it in Mia(workspace: Course Notes, folder: Lectures):
+<div class="code-card"><pre><code class="language-text">Read this PDF and save the key points in the Research folder of the My App workspace.</code></pre></div>
+<div class="code-card"><pre><code class="language-text">Transcribe this YouTube video and save it in the Lectures folder of the Course Notes workspace:
 https://www.youtube.com/watch?v=...</code></pre></div>
 <div class="code-card"><pre><code class="language-bash">curl -sS \
   -H &quot;Authorization: Bearer ${MIANOTES_API_KEY}&quot; \

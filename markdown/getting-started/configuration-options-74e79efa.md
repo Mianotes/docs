@@ -53,7 +53,7 @@ The database adapter is currently `sqlite`. If `MIANOTES_DATABASE_URL` is unset,
 | `MIANOTES_LLM_API_KEY`                       | empty                       | LLM provider API key or local placeholder.                              |
 | `MIANOTES_VLM_API_KEY`                       | empty                       | Optional image-capable model provider key.                              |
 | `MIANOTES_LLM_IMAGE_MODEL`                   | empty                       | Optional multimodal OpenAI model for image OCR fallback.                |
-| `MIANOTES_API_KEY`                           | empty                       | Service-wide bearer token used by local agents and MCP.                 |
+| `MIANOTES_API_KEY`                           | empty                       | User-scoped bearer token installed by Settings > Connect tools.         |
 | `MIANOTES_MAX_PUBLISHED_SITE_DOWNLOAD_BYTES` | `262144000`                 | Maximum bytes allowed for a published-site ZIP download.                |
 | `MIANOTES_MAX_PUBLISHED_SITE_DOWNLOAD_FILES` | `5000`                      | Maximum file count allowed in a published-site ZIP download.            |
 
@@ -111,13 +111,15 @@ MIANOTES_LLM_BASE_URL=<base-url>
 MIANOTES_LLM_API_KEY=<token-or-local-placeholder>
 ```
 
-## Agent access variables
+## Tool access variables
 
-The service-wide key is for trusted local agents and MCP servers:
+Settings > Connect tools installs the API URL, user-scoped key, and user email
+for Codex, Claude Code, and compatible tools:
 
 ```env
 MIANOTES_API_URL=http://127.0.0.1:8200
-MIANOTES_API_KEY=<api_key_generated_in_settings>
+MIANOTES_API_KEY=<api_key_generated_by_the_install_script>
+MIANOTES_API_USER=user@example.com
 ```
 
 Agent clients send it as:
@@ -126,4 +128,5 @@ Agent clients send it as:
 Authorization: Bearer <token>
 ```
 
-Scoped per-user API tokens are available through `/api/tokens` when an automation needs narrower permissions.
+Scoped API tokens are also available through `/api/tokens` when an automation
+needs narrower permissions.

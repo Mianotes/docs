@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Installing with Docker | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">Getting Started</p>
+      <h1>Installing with Docker</h1>
+      <p>The Docker install uses one Mianotes container. The container runs the web service and the dashboard together.</p>
+<h2>Requirements</h2>
+<p>Install Docker Desktop, Docker Engine, or another Docker-compatible runtime that supports Docker Compose. You do not need to install Python, Node.js, FFmpeg, FLAC, or Tesseract on the host machine. Those tools are provided inside the Mianotes container.</p>
+<h2>Folder layout</h2>
+<p>Create a folder for Mianotes:</p>
+<div class="code-card"><pre><code class="language-bash">mkdir mianotes
+cd mianotes</code></pre></div>
+<p>Download the official Compose file and start Mianotes:</p>
+<div class="code-card"><pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/Mianotes/install/main/docker-compose.yml -o docker-compose.yml
+docker compose up -d</code></pre></div>
+<p>Open:</p>
+<div class="code-card"><pre><code class="language-text">http://localhost:8201</code></pre></div>
+<p>If Mianotes is running on another machine, replace <code>localhost</code> with the server address. Mianotes stores persistent data in a <code>data/</code> folder next to <code>docker-compose.yml</code>:</p>
+<div class="code-card"><pre><code class="language-text">mianotes/
+  docker-compose.yml
+  data/
+    system.db
+    workspaces/
+    markdown/
+    html/</code></pre></div>
+<p>The <code>data/</code> folder is mounted into the container at <code>/data</code>. This means files written by Mianotes inside the container are saved on your computer or server outside the container.</p>
+<h2>docker-compose.yml</h2>
+<p>The downloaded <code>docker-compose.yml</code> should look like this. You can edit it before starting Mianotes if you need to change ports, volumes, or environment variables.</p>
+<div class="code-card"><pre><code class="language-yaml">services:
+  mianotes:
+    image: ghcr.io/mianotes/mianotes:latest
+    container_name: mianotes
+    restart: unless-stopped
+    ports:
+      - &quot;8200:8200&quot;
+      - &quot;8201:8201&quot;
+    volumes:
+      - ./data:/data
+    environment:
+      MIANOTES_HOST: 0.0.0.0
+      MIANOTES_PORT: 8200
+      MIANOTES_DATA_DIR: /data
+      MIANOTES_STORAGE_CONFIG_PATH: /data/workspaces.json</code></pre></div>
+<p>If you edited the file manually, start Mianotes with:</p>
+<div class="code-card"><pre><code class="language-bash">docker compose up -d</code></pre></div>
+<h2>View logs</h2>
+<div class="code-card"><pre><code class="language-bash">docker compose logs -f</code></pre></div>
+<h2>Stop Mianotes</h2>
+<div class="code-card"><pre><code class="language-bash">docker compose down</code></pre></div>
+<p>This stops and removes the container, but it does not delete your <code>data/</code> folder.</p>
+<h2>Update Mianotes</h2>
+<div class="code-card"><pre><code class="language-bash">docker compose pull
+docker compose up -d</code></pre></div>
+<h2>Back up Mianotes</h2>
+<p>Back up the <code>data/</code> folder:</p>
+<div class="code-card"><pre><code class="language-bash">tar -czf mianotes-backup.tar.gz data</code></pre></div>
+<p>The backup includes your system database, workspace databases, Markdown files, source records, and published HTML.</p>
+<h2>Remove Mianotes</h2>
+<p>Stop the container:</p>
+<div class="code-card"><pre><code class="language-bash">docker compose down</code></pre></div>
+<p>Then remove the Mianotes folder if you no longer need the data:</p>
+<div class="code-card"><pre><code class="language-bash">cd ..
+rm -rf mianotes</code></pre></div>
+<p>Only delete the folder if you are sure you no longer need your notes.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

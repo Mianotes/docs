@@ -38,7 +38,7 @@
 <h2>Join</h2>
 <div class="code-card"><pre><code class="language-text">POST /api/auth/join</code></pre></div>
 <p>Authentication: none.</p>
-<p>If no Mianotes workspace has been initialized, this endpoint creates the first admin user and stores the master password.</p>
+<p>If no user exists yet, this endpoint creates the first admin user and stores the password verifier.</p>
 <p>Request:</p>
 <div class="code-card"><pre><code class="language-json">{
   <span class="tok-key">&quot;email&quot;</span>: <span class="tok-string">&quot;matt@example.com&quot;</span>,
@@ -66,16 +66,15 @@
 <h2>Create agent session</h2>
 <div class="code-card"><pre><code class="language-text">POST /api/auth/agent-session</code></pre></div>
 <p>Authentication: bearer API key or scoped API token.</p>
-<p>Required headers:</p>
-<div class="code-card"><pre><code class="language-http">Authorization: Bearer &lt;MIANOTES_API_KEY&gt;
-X-Mianotes-Client: Codex</code></pre></div>
-<p>Mianotes validates the bearer token, maps <code>X-Mianotes-Client</code> into a stable client ID, signs that identity into a short-lived session token, and returns the token for follow-up requests. Unknown client names default to <code>MCP</code>. The raw API key is not embedded in the session token.</p>
+<p>Required header:</p>
+<div class="code-card"><pre><code class="language-http">Authorization: Bearer &lt;MIANOTES_API_KEY&gt;</code></pre></div>
+<p>Mianotes validates the bearer token, identifies the user who owns it, signs that user into a short-lived session token, and returns the token for follow-up requests. The raw API key is not embedded in the session token.</p>
 <p>Response:</p>
 <div class="code-card"><pre><code class="language-json">{
   <span class="tok-key">&quot;token&quot;</span>: <span class="tok-string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span>,
   <span class="tok-key">&quot;token_type&quot;</span>: <span class="tok-string">&quot;bearer&quot;</span>,
-  <span class="tok-key">&quot;client_key&quot;</span>: <span class="tok-string">&quot;codex&quot;</span>,
-  <span class="tok-key">&quot;client&quot;</span>: <span class="tok-string">&quot;Codex&quot;</span>,
+  <span class="tok-key">&quot;client_key&quot;</span>: <span class="tok-string">&quot;api&quot;</span>,
+  <span class="tok-key">&quot;client&quot;</span>: <span class="tok-string">&quot;matt@example.com&quot;</span>,
   <span class="tok-key">&quot;expires_at&quot;</span>: <span class="tok-string">&quot;2026-05-27T12:00:00Z&quot;</span>,
   <span class="tok-key">&quot;user&quot;</span>: {
     <span class="tok-key">&quot;id&quot;</span>: <span class="tok-string">&quot;c5ddebcc-e434-4e1a-bc8a-48263eb0095d&quot;</span>,
@@ -114,17 +113,17 @@ X-Mianotes-Client: Codex</code></pre></div>
 <div class="code-card"><pre><code class="language-text">DELETE /api/tokens/{token_id}</code></pre></div>
 <p>Authentication: session cookie or bearer token with <code>tokens\:write</code> or <code>admin</code>.</p>
 <p>Response: <code>204 No Content</code>.</p>
-<h2>Create service API key</h2>
+<h2>Create service-level API key</h2>
 <div class="code-card"><pre><code class="language-text">POST /api/settings/api-key</code></pre></div>
 <p>Authentication: admin session or bearer token with <code>admin</code>.</p>
-<p>Creates the service-wide key used by local agents and MCP clients. The service writes the raw key to its environment file and stores only a public verifier in the active database.</p>
+<p>Creates or rotates the service-level key used by trusted service integrations. Most users should use <strong>Settings &gt; Connect tools</strong> instead, because that flow creates a user-scoped key and installs the Mianotes agent instructions on the local machine.</p>
 <p>Response:</p>
 <div class="code-card"><pre><code class="language-json">{
   <span class="tok-key">&quot;token&quot;</span>: <span class="tok-string">&quot;mia_generated_service_key&quot;</span>
 }</code></pre></div>
 <p>The raw key is returned only once.</p>
 <h2>User endpoints</h2>
-<table class="doc-table"><colgroup><col><col><col><col></colgroup><thead><tr><th>Method</th><th>Path</th><th>Purpose</th><th>Auth</th></tr></thead><tbody><tr><td><code>POST</code></td><td><code>/api/users</code></td><td>Create a user directly</td><td>Admin</td></tr><tr><td><code>GET</code></td><td><code>/api/users</code></td><td>List users</td><td><code>users\:read</code> or admin</td></tr><tr><td><code>GET</code></td><td><code>/api/users/{user_id}</code></td><td>Get one user</td><td><code>users\:read</code> or admin</td></tr><tr><td><code>PATCH</code></td><td><code>/api/users/{user_id}</code></td><td>Update profile</td><td>profile owner or admin</td></tr><tr><td><code>POST</code></td><td><code>/api/users/{user_id}/photo</code></td><td>Upload profile photo</td><td>profile owner or admin</td></tr><tr><td><code>DELETE</code></td><td><code>/api/users/{user_id}</code></td><td>Delete user</td><td>Admin</td></tr></tbody></table>
+<table class="doc-table"><colgroup><col><col><col><col></colgroup><thead><tr><th>Method</th><th>Path</th><th>Purpose</th><th>Auth</th></tr></thead><tbody><tr><td><code>POST</code></td><td><code>/api/users</code></td><td>Create a user directly</td><td>Admin</td></tr><tr><td><code>GET</code></td><td><code>/api/users</code></td><td>List users</td><td><code>users\:read</code> or admin</td></tr><tr><td><code>GET</code></td><td><code>/api/users/{user_id}</code></td><td>Get one user</td><td><code>users\:read</code> or admin</td></tr><tr><td><code>PATCH</code></td><td><code>/api/users/{user_id}</code></td><td>Update profile</td><td>profile owner or admin</td></tr><tr><td><code>POST</code></td><td><code>/api/users/{user_id}/photo</code></td><td>Upload profile photo</td><td>profile owner or admin</td></tr><tr><td><code>PATCH</code></td><td><code>/api/users/{user_id}/admin</code></td><td>Change admin access</td><td>Admin</td></tr><tr><td><code>PATCH</code></td><td><code>/api/users/{user_id}/password</code></td><td>Update password</td><td>Admin</td></tr><tr><td><code>DELETE</code></td><td><code>/api/users/{user_id}</code></td><td>Delete user</td><td>Admin</td></tr></tbody></table>
 <p>Profile photos accept JPG or PNG files, crop and resize to <code>200x200</code>, convert to JPEG, and store the resized image under <code>data/.profiles</code>.</p>
       <nav class="article-footer" data-article-footer></nav>
       <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>

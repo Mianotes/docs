@@ -33,7 +33,7 @@
 <p>Make sure the token is in the environment used by the shell, agent, or MCP process.</p>
 <h2><code>403 Permission denied</code></h2>
 <p>The token was accepted, but it does not have the scope required for that endpoint.</p>
-<p>Use a service-wide key for trusted local agents, or create a scoped token with the right scopes:</p>
+<p>Use <strong>Settings &gt; Connect tools</strong> to install a user-scoped key for trusted local agents, or create a scoped token with the right scopes:</p>
 <div class="code-card"><pre><code class="language-text">notes:read
 notes:write
 folders:read
@@ -69,7 +69,7 @@ admin</code></pre></div>
 <h2><code>MCP cannot authenticate</code></h2>
 <p>The MCP process needs access to the same API URL and token as other agent clients:</p>
 <div class="code-card"><pre><code class="language-bash">export MIANOTES_API_URL=&quot;http://127.0.0.1:8200&quot;
-export MIANOTES_API_KEY=&quot;mia_or_service_key_here&quot;
+export MIANOTES_API_KEY=&quot;mia_user_key_here&quot;
 
 mianotes-mcp</code></pre></div>
 <p>If your MCP client starts the server from a different shell, make sure that shell can see the same environment variables.</p>

@@ -24,15 +24,13 @@
 <div class="code-card"><pre><code class="language-text">http://127.0.0.1:8200</code></pre></div>
 <h2>Authentication</h2>
 <p>Protected endpoints accept one of:</p>
-<ul><li>browser session cookie created by the auth flow;</li><li>service-wide API key configured with <code>MIANOTES_API_KEY</code>;</li><li>scoped per-user API token;</li><li>short-lived agent session token returned by <code>POST /api/auth/agent-session</code>.</li></ul>
+<ul><li>browser session cookie created by the auth flow;</li><li>user-scoped API key installed by <strong>Settings &gt; Connect tools</strong>;</li><li>scoped per-user API token created through <code>/api/tokens</code>;</li><li>short-lived agent session token returned by <code>POST /api/auth/agent-session</code>.</li></ul>
 <p>Bearer token shape:</p>
 <div class="code-card"><pre><code class="language-http">Authorization: Bearer mia_&lt;token&gt;</code></pre></div>
-<p>The service-wide bearer token acts as the first admin user in the current folder. Scoped bearer tokens must include the required scope or <code>admin</code>.</p>
-<p>Agent clients should exchange their API key for a short-lived agent session and send a client name for attribution:</p>
+<p>Agent clients may call the REST API directly with their user-scoped API key, or exchange that key for a short-lived agent session:</p>
 <div class="code-card"><pre><code class="language-http">POST /api/auth/agent-session
-Authorization: Bearer mia_&lt;token&gt;
-X-Mianotes-Client: Codex</code></pre></div>
-<p>The returned session token is also sent as <code>Authorization: Bearer &amp;lt;token&amp;gt;</code>.</p>
+Authorization: Bearer mia_&lt;token&gt;</code></pre></div>
+<p>Mianotes identifies the user from the bearer token. The returned session token is also sent as <code>Authorization: Bearer &lt;token&gt;</code>.</p>
 <h2>Common errors</h2>
 <h3>Not authenticated</h3>
 <div class="code-card"><pre><code class="language-json">{
@@ -59,7 +57,7 @@ X-Mianotes-Client: Codex</code></pre></div>
 <h3>Auth</h3>
 <ul><li><code>POST /api/auth/check-email</code></li><li><code>POST /api/auth/join</code></li><li><code>POST /api/auth/login</code></li><li><code>GET /api/auth/session</code></li><li><code>POST /api/auth/logout</code></li></ul>
 <h3>Tokens</h3>
-<ul><li><code>POST /api/tokens</code></li><li><code>GET /api/tokens</code></li><li><code>DELETE /api/tokens/{token_id}</code></li><li><code>POST /api/settings/api-key</code></li></ul>
+<ul><li><code>POST /api/tokens</code></li><li><code>GET /api/tokens</code></li><li><code>DELETE /api/tokens/{token_id}</code></li><li><code>POST /api/settings/api-key</code></li><li><code>POST /api/install/skill</code></li></ul>
 <h3>Users</h3>
 <ul><li><code>POST /api/users</code></li><li><code>GET /api/users</code></li><li><code>GET /api/users/{user_id}</code></li><li><code>PATCH /api/users/{user_id}</code></li><li><code>POST /api/users/{user_id}/photo</code></li><li><code>DELETE /api/users/{user_id}</code></li></ul>
 <h3>Folders</h3>
@@ -82,7 +80,7 @@ X-Mianotes-Client: Codex</code></pre></div>
 <h3>Settings</h3>
 <ul><li><code>GET /api/settings/storage</code></li><li><code>POST /api/settings/storage/locations</code></li><li><code>PATCH /api/settings/storage/active</code></li><li><code>POST /api/settings/api-key</code></li></ul>
 <h3>Stored files</h3>
-<ul><li><code>GET /{file_path}</code></li></ul>
+<ul><li><code>GET /markdown/{file_path}</code></li><li><code>GET /api/workspaces/{workspace_id}/notes/{note_id}/markdown</code></li><li><code>GET /api/workspaces/{workspace_id}/notes/{note_id}/source-files/{source_file_id}</code></li><li><code>GET /api/workspaces/{workspace_id}/notes/{note_id}/images/{file_path}</code></li></ul>
 <h2>Health check</h2>
 <div class="code-card"><pre><code class="language-text">GET /api/health</code></pre></div>
 <p>Authentication: none.</p>

@@ -1,18 +1,14 @@
-# Install with Docker
+# Installing with Docker
 
-Created: 2026-06-04T22:56:27Z
+Created: 2026-06-07T14:20:31Z
 
 ## Note
-
-Docker is useful when you want Mianotes to run in a self-contained environment on a laptop, workstation, or server.
 
 The Docker install uses one Mianotes container. The container runs the web service and the dashboard together.
 
 ## Requirements
 
-Install Docker Desktop, Docker Engine, or another Docker-compatible runtime that supports Docker Compose.
-
-You do not need to install Python, Node.js, FFmpeg, FLAC, or Tesseract on the host machine. Those tools are provided inside the Mianotes container.
+Install Docker Desktop, Docker Engine, or another Docker-compatible runtime that supports Docker Compose. You do not need to install Python, Node.js, FFmpeg, FLAC, or Tesseract on the host machine. Those tools are provided inside the Mianotes container.
 
 ## Folder layout
 
@@ -36,9 +32,7 @@ Open:
 http://localhost:8201
 ```
 
-If Mianotes is running on another machine, replace `localhost` with the server address.
-
-Mianotes stores persistent data in a `data/` folder next to `docker-compose.yml`:
+If Mianotes is running on another machine, replace `localhost` with the server address. Mianotes stores persistent data in a `data/` folder next to `docker-compose.yml`:
 
 ```text
 mianotes/
@@ -50,9 +44,7 @@ mianotes/
     html/
 ```
 
-The `data/` folder is mounted into the container at `/data`.
-
-This means files written by Mianotes inside the container are saved on your computer or server outside the container.
+The `data/` folder is mounted into the container at `/data`. This means files written by Mianotes inside the container are saved on your computer or server outside the container.
 
 ## docker-compose.yml
 

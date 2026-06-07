@@ -69,8 +69,8 @@
 <h2>Get storage settings</h2>
 <div class="code-card"><pre><code class="language-text">GET /api/settings/storage</code></pre></div>
 <p>Authentication: admin session or bearer token with <code>admin</code>.</p>
-<p>Returns the active storage location, database file name, database path, and available storage locations with lightweight database stats. The web app labels these storage locations as folders.</p>
-<h2>Add storage location</h2>
+<p>Returns the active workspace and available workspaces with lightweight database stats. The API still uses <code>storage</code> in these endpoint names, but the product language in the web app is <strong>workspace</strong>.</p>
+<h2>Add workspace</h2>
 <div class="code-card"><pre><code class="language-text">POST /api/settings/storage/locations</code></pre></div>
 <p>Authentication: admin session or bearer token with <code>admin</code>.</p>
 <p>Request:</p>
@@ -79,7 +79,7 @@
   <span class="tok-key">&quot;folder_path&quot;</span>: <span class="tok-string">&quot;/Users/example/Mianotes/work&quot;</span>
 }</code></pre></div>
 <p>Mianotes creates <code>data/workspaces/&lt;workspace_id&gt;.db</code> if needed and initialises the workspace schema. The selected folder stores workspace content such as Markdown notes, source files, and published output.</p>
-<h2>Switch active storage location</h2>
+<h2>Switch active workspace</h2>
 <div class="code-card"><pre><code class="language-text">PATCH /api/settings/storage/active</code></pre></div>
 <p>Authentication: admin session or bearer token with <code>admin</code>.</p>
 <p>Request:</p>
@@ -88,10 +88,10 @@
 }</code></pre></div>
 <p>The response includes <code>session_ended: false</code>. Workspace switching is stored on the current session, so the user stays signed in.</p>
 <p>If Mia has queued or running jobs, the API returns <code>409</code> and asks the user to try again after those jobs finish.</p>
-<h2>Create service API key</h2>
+<h2>Create service-level API key</h2>
 <div class="code-card"><pre><code class="language-text">POST /api/settings/api-key</code></pre></div>
 <p>Authentication: admin session or bearer token with <code>admin</code>.</p>
-<p>Creates a service-wide key used by local agents and MCP clients. The service writes the raw key to its environment file and stores only a public verifier in the active database. The raw key is returned only once:</p>
+<p>Creates or rotates the service-level key used by trusted service integrations. Most users should use <strong>Settings &gt; Connect tools</strong> instead, because that flow creates a user-scoped key and installs the Mianotes agent instructions on the local machine. The raw key is returned only once:</p>
 <div class="code-card"><pre><code class="language-json">{
   <span class="tok-key">&quot;token&quot;</span>: <span class="tok-string">&quot;mia_generated_key_returned_once&quot;</span>
 }</code></pre></div>

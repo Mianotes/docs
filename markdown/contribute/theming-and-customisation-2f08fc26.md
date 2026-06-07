@@ -60,11 +60,11 @@ pytest tests/test_api_publish.py
 Supported configuration areas:
 
 * service host and port
-* allowed storage locations
+* allowed workspaces
 * LLM provider and model
 * image OCR fallback model
-* service-wide API key
-* scoped agent tokens
+* user-scoped API keys for connected tools
+* scoped automation tokens
 * parser adapters
 
 ## Ports

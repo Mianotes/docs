@@ -4,7 +4,7 @@ Created: 2026-05-30T18:19:05Z
 
 ## Note
 
-Mianotes API clients authenticate with bearer tokens. A token lets an agent, script, or other tool call the same REST API that the web app uses.
+Mianotes API clients authenticate with bearer tokens. This page explains how to get `MIANOTES_API_URL` and `MIANOTES_API_KEY`, then exchange them for a short-lived session token that an agent, script, or other tool can use with the REST API.
 
 The easiest way to get started is through the web app. Sign in, open **Settings**, and generate an install URL. Mianotes creates a one-time install link that expires after 24 hours. Run the command on the same machine as Codex, Claude Code, or another local tool.
 
@@ -27,17 +27,23 @@ MIANOTES_API_USER="user@example.com"
 
 The downloaded shell script does not display the API key. It exchanges the one-time code while it runs, writes the key to `~/.mianotes/env`, and marks the code as used. Rerun the Settings action if you need a new command.
 
-Agents use that value to create an agent session:
+## Get a session token from the API URL and key
+
+The install script gives agents two values they need to talk to Mianotes:
+
+* `MIANOTES_API_URL`
+* `MIANOTES_API_KEY`
+
+Use those values to request a short-lived session token:
 
 ```bash
 curl -sS \
   -X POST \
   -H "Authorization: Bearer ${MIANOTES_API_KEY}" \
-  -H "X-Mianotes-Client: Codex" \
-    "${MIANOTES_API_URL}/api/auth/agent-session"
+  "${MIANOTES_API_URL}/api/auth/agent-session"
 ```
 
-The response contains a short-lived bearer token. Use that session token for follow-up requests. Mianotes maps known client names from `X Mianotes-Client` to a stable client ID, stores that identity inside the signed token, and uses it to attribute jobs to the right tool in the Console. Unknown client names default to `MCP`. The raw API key is never embedded in the session token.
+The response contains a short-lived bearer token. Use that session token for follow-up API requests. Mianotes identifies the user from `MIANOTES_API_KEY`, so requests made with the session token use that user's permissions and workspace access. The raw API key is never embedded in the session token.
 
 ## How Mianotes stores the key
 
@@ -52,7 +58,7 @@ There are two normal places the raw key lives:
 
 On install script redemption, Mianotes stores only the derived public verifier in `data/system.db`. The generated token belongs to the signed-in user and keeps working until that user regenerates it or revokes it.
 
-## Get a key in the web app
+## Get the API URL and key in the web app
 
 This is the recommended path for most people because it avoids hand-writing API requests.
 
@@ -80,21 +86,18 @@ MIANOTES_API_KEY=<generated_by_the_install_script>
 MIANOTES_API_USER=user@example.com
 ```
 
-Then create an agent session:
+Then create a short-lived session token from the installed API URL and key:
 
 ```bash
 curl -sS \
   -X POST \
   -H "Authorization: Bearer ${MIANOTES_API_KEY}" \
-  -H "X-Mianotes-Client: Codex" \
   "${MIANOTES_API_URL}/api/auth/agent-session"
 ```
 
-Use a client name that describes the tool, such as `Codex`, `Claude`, `Cursor`, or `Slack`. Mianotes maps known names and aliases to a stable client ID for Console display. Unknown names are accepted and shown as `MCP`.
+## Create an install URL from the API
 
-## Get a key from the API
-
-You can also create the service API key directly from the REST API. Use this when you are setting up Mianotes from a script or when the web app is not available.
+You can also create the one-time install URL from the REST API. Use this when you are setting up Mianotes from a script or when the web app is not available.
 
 You must call this endpoint as an admin. The simplest way is to sign in through the browser first, then send the request with the browser session cookie.
 
@@ -129,7 +132,7 @@ curl -sS \
   -X POST \
   -b cookies.txt \
   -H "Content-Type: application/json" \
-  -d '{"api_url":"http://127.0.0.1:8200","client_name":"Codex"}' \
+  -d '{"api_url":"http://127.0.0.1:8200"}' \
   "${MIANOTES_API_URL:-http://127.0.0.1:8200}/api/install/skill"
 ```
 
@@ -151,7 +154,6 @@ After the installer has run, exchange the API key for a short-lived agent sessio
 curl -sS \
   -X POST \
   -H "Authorization: Bearer ${MIANOTES_API_KEY}" \
-  -H "X-Mianotes-Client: Codex" \
   "${MIANOTES_API_URL:-http://127.0.0.1:8200}/api/auth/agent-session"
 ```
 
@@ -162,7 +164,7 @@ curl -sS \
   -X POST \
   -H "Authorization: Bearer ${MIANOTES_API_KEY}" \
   -H "Content-Type: application/json" \
-  -d '{"api_url":"http://127.0.0.1:8200","client_name":"Codex"}' \
+  -d '{"api_url":"http://127.0.0.1:8200"}' \
   "${MIANOTES_API_URL:-http://127.0.0.1:8200}/api/install/skill"
 ```
 
@@ -176,7 +178,6 @@ const sessionResponse = await fetch(`${apiUrl}/api/auth/agent-session`, {
   method: "POST",
   headers: {
     Authorization: `Bearer ${apiKey}`,
-    "X-Mianotes-Client": "Codex",
   },
 });
 
@@ -210,7 +211,6 @@ request = urllib.request.Request(
     method="POST",
     headers={
         "Authorization": f"Bearer {api_key}",
-        "X-Mianotes-Client": "Codex",
         "Content-Type": "application/json",
     },
 )
@@ -227,21 +227,9 @@ with urllib.request.urlopen(search_request) as response:
     print(response.read().decode("utf-8"))
 ```
 
-## Use the token with MCP
-
-The bundled MCP server reads the same environment variables:
-
-```bash
-export MIANOTES_API_URL="http://127.0.0.1:8200"
-export MIANOTES_API_KEY="generated_by_the_install_script"
-mianotes-mcp
-```
-
-If your MCP client starts the server from a different shell, make sure that shell can see the same environment variables.
-
 ## User tokens and scoped tokens
 
-`MIANOTES_API_KEY` is the key installed for the current user. It is best for trusted local agents, MCP servers, and scripts that should act as that user.
+`MIANOTES_API_KEY` is the key installed for the current user. It is best for trusted local agents and scripts that should act as that user.
 
 Mianotes also supports scoped per-user API tokens through `/api/tokens`. Use scoped tokens when a tool should have narrower permissions, such as read-only note access.
 

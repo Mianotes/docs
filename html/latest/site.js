@@ -45,12 +45,16 @@ const DOCS = {
           "path": "getting-started/installation-cee981f1.html"
         },
         {
-          "title": "Installing from GitHub",
-          "path": "getting-started/installing-from-github-d22c4f44.html"
-        },
-        {
           "title": "Installing from package",
           "path": "getting-started/installing-from-package-32e583cc.html"
+        },
+        {
+          "title": "Installing with Docker",
+          "path": "getting-started/installing-with-docker-f1364575.html"
+        },
+        {
+          "title": "Installing from GitHub",
+          "path": "getting-started/installing-from-github-d22c4f44.html"
         },
         {
           "title": "First run",
@@ -71,48 +75,48 @@ const DOCS = {
       ]
     },
     {
-      "title": "For Humans",
+      "title": "Workflow",
       "items": [
         {
-          "title": "Human workflow",
-          "path": "for-humans/human-workflow-6271c5da.html"
+          "title": "Ownership",
+          "path": "workflow/ownership-6271c5da.html"
         },
         {
           "title": "Folders, notes, and tags",
-          "path": "for-humans/folders-notes-and-tags-2a58bd40.html"
+          "path": "workflow/folders-notes-and-tags-2a58bd40.html"
         },
         {
-          "title": "Sharing and comments",
-          "path": "for-humans/sharing-and-comments-133509d5.html"
+          "title": "Sharing",
+          "path": "workflow/sharing-133509d5.html"
         },
         {
           "title": "Publishing static sites",
-          "path": "for-humans/publishing-static-sites-55b4c13d.html"
+          "path": "workflow/publishing-static-sites-55b4c13d.html"
         }
       ]
     },
     {
-      "title": "For Agents",
+      "title": "Connecting tools",
       "items": [
         {
           "title": "Agent overview",
-          "path": "for-agents/agent-overview-45896e8a.html"
+          "path": "connecting-tools/agent-overview-45896e8a.html"
         },
         {
           "title": "API token",
-          "path": "for-agents/api-token-8cf72171.html"
+          "path": "connecting-tools/api-token-8cf72171.html"
         },
         {
           "title": "MCP server",
-          "path": "for-agents/mcp-server-1de5df7f.html"
+          "path": "connecting-tools/mcp-server-1de5df7f.html"
         },
         {
           "title": "Codex, Claude, Cursor, and other agents",
-          "path": "for-agents/codex-claude-cursor-and-other-agents-424ea9a7.html"
+          "path": "connecting-tools/codex-claude-cursor-and-other-agents-424ea9a7.html"
         },
         {
           "title": "Agent playbook",
-          "path": "for-agents/agent-playbook-0dd3f7af.html"
+          "path": "connecting-tools/agent-playbook-0dd3f7af.html"
         }
       ]
     },
@@ -176,10 +180,6 @@ const DOCS = {
         {
           "title": "Security",
           "path": "system/security-f4e332c7.html"
-        },
-        {
-          "title": "Feature requests",
-          "path": "system/feature-requests-3e46e9f4.html"
         }
       ]
     },

@@ -19,8 +19,8 @@ http://127.0.0.1:8200
 Protected endpoints accept one of:
 
 * browser session cookie created by the auth flow;
-* service-wide API key configured with `MIANOTES_API_KEY`;
-* scoped per-user API token;
+* user-scoped API key installed by **Settings > Connect tools**;
+* scoped per-user API token created through `/api/tokens`;
 * short-lived agent session token returned by `POST /api/auth/agent-session`.
 
 Bearer token shape:
@@ -29,18 +29,16 @@ Bearer token shape:
 Authorization: Bearer mia_<token>
 ```
 
-The service-wide bearer token acts as the first admin user in the current folder. Scoped bearer tokens must include the required scope or `admin`.
-
-Agent clients should exchange their API key for a short-lived agent session and
-send a client name for attribution:
+Agent clients may call the REST API directly with their user-scoped API key, or
+exchange that key for a short-lived agent session:
 
 ```http
 POST /api/auth/agent-session
 Authorization: Bearer mia_<token>
-X-Mianotes-Client: Codex
 ```
 
-The returned session token is also sent as `Authorization: Bearer &lt;token&gt;`.
+Mianotes identifies the user from the bearer token. The returned session token
+is also sent as `Authorization: Bearer <token>`.
 
 ## Common errors
 
@@ -96,6 +94,7 @@ The returned session token is also sent as `Authorization: Bearer &lt;token&gt;`
 * `GET /api/tokens`
 * `DELETE /api/tokens/{token_id}`
 * `POST /api/settings/api-key`
+* `POST /api/install/skill`
 
 ### Users
 
@@ -170,7 +169,10 @@ Guest share routes include the workspace id so the service can resolve the share
 
 ### Stored files
 
-* `GET /{file_path}`
+* `GET /markdown/{file_path}`
+* `GET /api/workspaces/{workspace_id}/notes/{note_id}/markdown`
+* `GET /api/workspaces/{workspace_id}/notes/{note_id}/source-files/{source_file_id}`
+* `GET /api/workspaces/{workspace_id}/notes/{note_id}/images/{file_path}`
 
 ## Health check
 

@@ -102,11 +102,11 @@ GET /api/settings/storage
 
 Authentication: admin session or bearer token with `admin`.
 
-Returns the active storage location, database file name, database path, and
-available storage locations with lightweight database stats. The web app labels
-these storage locations as folders.
+Returns the active workspace and available workspaces with lightweight database
+stats. The API still uses `storage` in these endpoint names, but the product
+language in the web app is **workspace**.
 
-## Add storage location
+## Add workspace
 
 ```text
 POST /api/settings/storage/locations
@@ -125,7 +125,7 @@ Request:
 
 Mianotes creates `data/workspaces/<workspace_id>.db` if needed and initialises the workspace schema. The selected folder stores workspace content such as Markdown notes, source files, and published output.
 
-## Switch active storage location
+## Switch active workspace
 
 ```text
 PATCH /api/settings/storage/active
@@ -147,7 +147,7 @@ the current session, so the user stays signed in.
 If Mia has queued or running jobs, the API returns `409` and asks the user to
 try again after those jobs finish.
 
-## Create service API key
+## Create service-level API key
 
 ```text
 POST /api/settings/api-key
@@ -155,9 +155,10 @@ POST /api/settings/api-key
 
 Authentication: admin session or bearer token with `admin`.
 
-Creates a service-wide key used by local agents and MCP clients. The service
-writes the raw key to its environment file and stores only a public verifier in
-the active database. The raw key is returned only once:
+Creates or rotates the service-level key used by trusted service integrations.
+Most users should use **Settings > Connect tools** instead, because that flow
+creates a user-scoped key and installs the Mianotes agent instructions on the
+local machine. The raw key is returned only once:
 
 ```json
 {

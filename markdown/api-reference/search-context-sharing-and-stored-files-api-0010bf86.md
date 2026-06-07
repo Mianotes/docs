@@ -54,10 +54,10 @@ GET /api/context
 
 Authentication: session cookie or bearer token with `notes\:read` or `admin`.
 
-This endpoint retrieves full Markdown context from notes in a specific folder. It is designed for agents using shorthand such as:
+This endpoint retrieves Markdown context from notes in a specific folder. It is designed for agents following prompts such as:
 
 ```text
-Mia(Mianotes > Settings Page)
+Before answering, get context from the Settings notes in the Docs workspace.
 ```
 
 Query parameters:
@@ -148,24 +148,22 @@ redirects to the latest published version.
 GET /markdown/{file_path}
 ```
 
-Authenticated users and bearer-token clients with `notes\:read` or `admin` can
-read stored Markdown files under `data/markdown`.
-
 Unauthenticated callers can only read Markdown or source files for notes marked
 as published.
 
-## Get stored folder file
+## Get note-owned stored files
+
+Stored file access is database-addressed. Mianotes resolves the workspace,
+note, and source-file record before serving bytes.
 
 ```text
-GET /{file_path}
-```
-
-Example:
-
-```text
-GET /mianotes/sources/4a95f146/original.pdf
+GET /api/workspaces/{workspace_id}/notes/{note_id}/markdown
+GET /api/workspaces/{workspace_id}/notes/{note_id}/source-files/{source_file_id}
+GET /api/workspaces/{workspace_id}/notes/{note_id}/images/{file_path}
 ```
 
 Authentication: session cookie or bearer token with `notes\:read` or `admin`.
 
-Database files are never served. If a path escapes the data directory or points to private service data such as a SQLite database file or sidecar, the API returns `404`.
+These routes only return files that belong to the requested note in the
+requested workspace. Database files and arbitrary workspace files are never
+served.

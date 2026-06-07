@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Mianotes - https://github.com/Mianotes">
+    <title>Agent overview | mianotes</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../../navigation.js" defer></script>
+    <script src="../search.js" defer></script>
+    <script src="../site.js" defer></script>
+  </head>
+  <body>
+<header data-header></header>
+<main class="layout">
+  <aside class="sidebar" data-sidebar></aside>
+  <section class="article-wrap">
+    <article class="article">
+      <p class="eyebrow">Connecting tools</p>
+      <h1>Agent overview</h1>
+      <p>Mianotes is designed for collaboration between humans and AI agents.</p>
+<p>AI agents write plans, explain changes, debug issues, summarise research, and leave useful context behind. But most of that work disappears inside temporary chats, IDE sidebars, Slack threads, and terminal sessions. Mianotes gives that work a place to live. Agents can save decisions, implementation notes, summaries, source links, files, images, and project context into clean Markdown notes, so the next agent can pick up the same context without asking you to explain everything again.</p>
+<p>Agents should use Mianotes as a local documentation layer. They can save useful context while they work, then retrieve that context later through search, API calls, or supported tool integrations.</p>
+<h2>What agents can do</h2>
+<p>An agent can:</p>
+<ul><li>create folders for tasks, experiments, projects, or research threads</li><li>add notes from text</li><li>create notes from URLs</li><li>upload files through the REST API</li><li>convert documents, links, images, and audio into Markdown notes</li><li>read notes</li><li>update notes</li><li>set tags</li><li>search Markdown notes</li><li>leave handoff messages</li><li>send Mia prompts through the prompt endpoint when an AI provider is configured</li></ul>
+<h2>Recommended agent behaviour</h2>
+<p>Agents should document durable information, not every temporary thought.</p>
+<p>Good agent notes include:</p>
+<ul><li>decisions made</li><li>relevant commands run</li><li>files changed</li><li>why an implementation changed</li><li>bugs found and fixed</li><li>test results</li><li>next steps</li><li>links to source material</li><li>warnings about uncertainty</li></ul>
+<p>Avoid filling Mianotes with low-value logs that no human or agent will reuse.</p>
+<h2>Access model</h2>
+<p>Agents should use the REST API, not browser cookies. The easiest setup is to open <code>Settings &gt; Connect tools</code>, create an install script, and run that command on the machine where Codex, Claude Code, or another compatible tool runs.</p>
+<p>The install script writes:</p>
+<div class="code-card"><pre><code class="language-env">MIANOTES_API_URL=http://127.0.0.1:8200
+MIANOTES_API_KEY=&lt;generated_by_the_install_script&gt;
+MIANOTES_API_USER=user@example.com</code></pre></div>
+<p>The values are saved in <code>~/.mianotes/env</code>, and the latest Mianotes <code>SKILL.md</code> is installed for Codex and Claude Code. The script never prints the API key.</p>
+<p><code>MIANOTES_API_KEY</code> belongs to the signed-in user who generated the install script. Every API request made with that key uses that user&#x27;s permissions and workspace access. If the user revokes the key in Settings, tools using that key stop working until the user creates a new install script.</p>
+<p>Agents can call the REST API directly with:</p>
+<div class="code-card"><pre><code class="language-http">Authorization: Bearer ${MIANOTES_API_KEY}</code></pre></div>
+<p>Tools that need a short-lived session can exchange the API key at <code>/api/auth/agent-session</code>, but direct bearer-token API calls are supported.</p>
+<p>Browser sessions are for humans using the web app. Do not use browser cookies for agents.</p>
+<h2>Workspace targeting</h2>
+<p>Mianotes can manage multiple workspaces. Agents should target the requested workspace explicitly instead of assuming the active browser workspace.</p>
+<p>REST clients should send the workspace id with each workspace-content request:</p>
+<div class="code-card"><pre><code class="language-http">X-Mianotes-Workspace: &lt;workspace-id&gt;</code></pre></div>
+<p>MCP clients use the same backend permission model. When an MCP tool accepts a <code>workspace</code> argument, pass the requested workspace there instead.</p>
+<p>Use conversational prompts when asking an agent to use Mianotes:</p>
+<ul><li>Search the My Project workspace for deployment notes.</li><li>Get context from the Docs folder in the My Project workspace.</li><li>Search the Docs folder in the My Project workspace for publishing workflow.</li><li>Read the Architecture note in the Docs folder of the My Project workspace.</li><li>Save this in the Architecture folder of the My Project workspace.</li></ul>
+<p>Examples:</p>
+<div class="code-card"><pre><code class="language-text">Before answering, read the Architecture note in the Docs folder of the My Project workspace.</code></pre></div>
+<div class="code-card"><pre><code class="language-text">Save our architecture discussion in the Architecture folder of the My App workspace.</code></pre></div>
+<div class="code-card"><pre><code class="language-text">Read docs/ and document this app in the Documentation folder of the Mianotes workspace.</code></pre></div>
+<p>When saving into a Mianotes workspace and folder, create a useful title from the content if the user did not provide one.</p>
+<h2>Converting source material</h2>
+<p>Agents can ask Mianotes to convert source material into Markdown notes.</p>
+<p>Examples:</p>
+<div class="code-card"><pre><code class="language-text">Import this link into the Sources folder of the Research workspace:
+https://example.com/article</code></pre></div>
+<div class="code-card"><pre><code class="language-text">Read this PDF and save the key points in the Research folder of the My App workspace.</code></pre></div>
+<div class="code-card"><pre><code class="language-text">Convert docs/product-spec.docx into a note in the Specs folder of the My App workspace.</code></pre></div>
+<div class="code-card"><pre><code class="language-text">Transcribe this YouTube video and save it in the Lectures folder of the Course Notes workspace:
+https://www.youtube.com/watch?v=...</code></pre></div>
+<p>Links and files are ingested as background jobs. Agents should create the note, poll the returned job URL until it succeeds, then fetch the final Markdown note.</p>
+      <nav class="article-footer" data-article-footer></nav>
+      <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
+    </article>
+  </section>
+  <aside class="page-toc" data-page-toc></aside>
+</main>
+  </body>
+</html>

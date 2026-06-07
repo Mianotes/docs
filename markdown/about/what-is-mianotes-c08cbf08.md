@@ -1,12 +1,12 @@
 # What is Mianotes?
 
-Created: 2026-05-31T12:58:05Z
+Created: 2026-06-07T13:03:31Z
 
 ## Note
 
 :::note
 **Note**
-This documentation was written by engineers and Codex agents using [Mianotes](https://www.mianotes.com/). If you find anything wrong, unclear, or misleading, please open an issue on [GitHub](https://github.com/Mianotes/mianotes-web-service/issues) so we can fix it. Thank you.
+This documentation is written and maintained by AI agents using [Mianotes](https://www.mianotes.com/). If you find anything wrong, unclear, or misleading, please open an issue on [GitHub](https://github.com/Mianotes/mianotes-web-service/issues) so we can review and fix it. Thank you.
 :::
 
 Mianotes is a local-first knowledge repository for people and AI agents.

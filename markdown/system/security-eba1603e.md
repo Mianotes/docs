@@ -11,8 +11,8 @@ Mianotes is local-first, but local-first does not mean risk-free. Treat any user
 Protected APIs can be accessed by:
 
 * browser users with a cookie-based session
-* local agents using the service-wide `MIANOTES_API_KEY` from `.env`
-* narrower automations using scoped per-user API tokens
+* tools using a user-scoped `MIANOTES_API_KEY` installed by **Settings > Connect tools**
+* narrower automations using scoped per-user API tokens created through `/api/tokens`
 
 Bearer tokens are sent as:
 
@@ -20,7 +20,7 @@ Bearer tokens are sent as:
 Authorization: Bearer <token>
 ```
 
-The service-wide token is private. Mianotes stores only a derived public hash in `data/system.db`, so the same running service can switch workspaces without storing the raw token in any database.
+API tokens are private. Mianotes stores only a derived public hash in `data/system.db`, so the same running service can switch workspaces without storing raw tokens in any database.
 
 ## What authentication does and does not do
 
@@ -35,8 +35,8 @@ Mianotes can audit who sent data. It cannot prove where uploaded bytes originall
 * Do not give untrusted agents filesystem access to sensitive files.
 * Run agents with the least filesystem access they need.
 * Give agents project-specific working directories instead of access to a whole home directory.
-* Use `MIANOTES_API_KEY` only for trusted local agents.
-* Use scoped per-user tokens when an automation needs narrower access.
+* Use **Settings > Connect tools** to install user-scoped credentials for trusted local agents.
+* Use scoped tokens when an automation needs narrower access.
 * Revoke agent tokens when agents no longer need access.
 * Avoid giving hosted or third-party agents direct access to local folders unless you trust the agent and its operator.
 * Review activity logs after allowing a new agent or automation to use Mianotes.

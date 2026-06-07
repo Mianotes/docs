@@ -1,12 +1,12 @@
-# Human workflow
+# Ownership
 
-Created: 2026-05-30T18:08:10Z
+Created: 2026-06-07T13:40:44Z
 
 ## Note
 
-Mianotes is built around shared knowledge with light ownership. Humans and AI agents can both create folders, add notes, improve notes, and leave handoff notes.
+Mianotes is built around shared knowledge with light ownership. People and AI agents can both create folders, add notes, improve notes, and leave handoff notes.
 
-## A normal human workflow
+## A normal workflow
 
 1. Create or join a Mianotes workspace.
 2. Create a folder for a project, topic, class, client, trip, or research area.
@@ -37,20 +37,16 @@ Ownership still matters:
 
 ## Working with agents
 
-Humans supervise the knowledge base. Agents help maintain it.
-
 A useful pattern is:
 
-1. A human creates the project folder.
+1. A person creates the project folder.
 2. An agent creates task notes as it works.
 3. The agent tags the notes by topic or status.
-4. The human reviews the notes, edits what matters, and shares the final result if needed.
+4. The person reviews the notes, edits what matters, and shares the final result if needed.
 
 ## Good folder patterns
 
-Use folders for high-level areas. Use tags for cross-cutting labels.
-
-Examples:
+Use folders for high-level areas. Examples:
 
 | Folder          | Good tags                                |
 | --------------- | ---------------------------------------- |

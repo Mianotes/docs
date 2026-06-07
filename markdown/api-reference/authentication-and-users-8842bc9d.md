@@ -47,7 +47,7 @@ POST /api/auth/join
 
 Authentication: none.
 
-If no Mianotes workspace has been initialized, this endpoint creates the first admin user and stores the master password.
+If no user exists yet, this endpoint creates the first admin user and stores the password verifier.
 
 Request:
 
@@ -105,14 +105,15 @@ POST /api/auth/agent-session
 
 Authentication: bearer API key or scoped API token.
 
-Required headers:
+Required header:
 
 ```http
 Authorization: Bearer <MIANOTES_API_KEY>
-X-Mianotes-Client: Codex
 ```
 
-Mianotes validates the bearer token, maps `X-Mianotes-Client` into a stable client ID, signs that identity into a short-lived session token, and returns the token for follow-up requests. Unknown client names default to `MCP`. The raw API key is not embedded in the session token.
+Mianotes validates the bearer token, identifies the user who owns it, signs that
+user into a short-lived session token, and returns the token for follow-up
+requests. The raw API key is not embedded in the session token.
 
 Response:
 
@@ -120,8 +121,8 @@ Response:
 {
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "token_type": "bearer",
-  "client_key": "codex",
-  "client": "Codex",
+  "client_key": "api",
+  "client": "matt@example.com",
   "expires_at": "2026-05-27T12:00:00Z",
   "user": {
     "id": "c5ddebcc-e434-4e1a-bc8a-48263eb0095d",
@@ -195,7 +196,7 @@ Authentication: session cookie or bearer token with `tokens\:write` or `admin`.
 
 Response: `204 No Content`.
 
-## Create service API key
+## Create service-level API key
 
 ```text
 POST /api/settings/api-key
@@ -203,7 +204,10 @@ POST /api/settings/api-key
 
 Authentication: admin session or bearer token with `admin`.
 
-Creates the service-wide key used by local agents and MCP clients. The service writes the raw key to its environment file and stores only a public verifier in the active database.
+Creates or rotates the service-level key used by trusted service integrations.
+Most users should use **Settings > Connect tools** instead, because that flow
+creates a user-scoped key and installs the Mianotes agent instructions on the
+local machine.
 
 Response:
 
@@ -224,6 +228,8 @@ The raw key is returned only once.
 | `GET`    | `/api/users/{user_id}`       | Get one user           | `users\:read` or admin |
 | `PATCH`  | `/api/users/{user_id}`       | Update profile         | profile owner or admin |
 | `POST`   | `/api/users/{user_id}/photo` | Upload profile photo   | profile owner or admin |
+| `PATCH`  | `/api/users/{user_id}/admin` | Change admin access    | Admin                  |
+| `PATCH`  | `/api/users/{user_id}/password` | Update password     | Admin                  |
 | `DELETE` | `/api/users/{user_id}`       | Delete user            | Admin                  |
 
 Profile photos accept JPG or PNG files, crop and resize to `200x200`, convert to JPEG, and store the resized image under `data/.profiles`.

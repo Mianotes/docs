@@ -6,23 +6,24 @@
   - [Core concepts](markdown/about/core-concepts-4a49d004.md)
 - **Getting Started**
   - [Installation](markdown/getting-started/installation-c29f0f65.md)
-  - [Installing from GitHub](markdown/getting-started/installing-from-github-7e2f8c35.md)
   - [Installing from package](markdown/getting-started/installing-from-package-d2e61f8a.md)
+  - [Installing with Docker](markdown/getting-started/install-with-docker-f1364575.md)
+  - [Installing from GitHub](markdown/getting-started/installing-from-github-7e2f8c35.md)
   - [First run](markdown/getting-started/first-run-6ac5b242.md)
   - [Configuration options](markdown/getting-started/configuration-options-74e79efa.md)
   - [Ollama, OpenAI, and local models](markdown/getting-started/ollama-openai-and-local-models-c21930f4.md)
   - [Troubleshooting](markdown/getting-started/troubleshooting-b9eafe5e.md)
-- **For Humans**
-  - [Human workflow](markdown/for-humans/human-workflow-b6846f16.md)
-  - [Folders, notes, and tags](markdown/for-humans/folders-notes-and-tags-76c04ae9.md)
-  - [Sharing and comments](markdown/for-humans/sharing-and-comments-89a77860.md)
-  - [Publishing static sites](markdown/for-humans/publishing-static-sites-ab6421d9.md)
-- **For Agents**
-  - [Agent overview](markdown/for-agents/agent-overview-c651d147.md)
-  - [API token](markdown/for-agents/api-token-83a5016a.md)
-  - [MCP server](markdown/for-agents/mcp-server-cdfc151e.md)
-  - [Codex, Claude, Cursor, and other agents](markdown/for-agents/codex-claude-cursor-and-other-agents-ca54a688.md)
-  - [Agent playbook](markdown/for-agents/agent-playbook-d4bcc356.md)
+- **Workflow**
+  - [Ownership](markdown/workflow/human-workflow-b6846f16.md)
+  - [Folders, notes, and tags](markdown/workflow/folders-notes-and-tags-76c04ae9.md)
+  - [Sharing](markdown/workflow/sharing-and-comments-89a77860.md)
+  - [Publishing static sites](markdown/workflow/publishing-static-sites-ab6421d9.md)
+- **Connecting tools**
+  - [Agent overview](markdown/connecting-tools/agent-overview-c651d147.md)
+  - [API token](markdown/connecting-tools/api-token-83a5016a.md)
+  - [MCP server](markdown/connecting-tools/mcp-server-cdfc151e.md)
+  - [Codex, Claude, Cursor, and other agents](markdown/connecting-tools/codex-claude-cursor-and-other-agents-ca54a688.md)
+  - [Agent playbook](markdown/connecting-tools/agent-playbook-d4bcc356.md)
 - **Mia**
   - [Meet Mia](markdown/mia/meet-mia-2000d38e.md)
   - [Prompting Mia](markdown/mia/prompting-mia-c1e7392e.md)
@@ -38,7 +39,6 @@
   - [Architecture](markdown/system/architecture-ca5aa4a2.md)
   - [Storage folders and database](markdown/system/storage-folders-and-database-3af026b6.md)
   - [Security](markdown/system/security-eba1603e.md)
-  - [Feature requests](markdown/system/feature-requests-531098f5.md)
 - **Contribute**
   - [Development](markdown/contribute/development-dd9280b5.md)
   - [Maintainer checklist](markdown/contribute/maintainer-checklist-605e959a.md)

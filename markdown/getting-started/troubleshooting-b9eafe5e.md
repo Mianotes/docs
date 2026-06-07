@@ -38,7 +38,8 @@ Make sure the token is in the environment used by the shell, agent, or MCP proce
 
 The token was accepted, but it does not have the scope required for that endpoint.
 
-Use a service-wide key for trusted local agents, or create a scoped token with the right scopes:
+Use **Settings > Connect tools** to install a user-scoped key for trusted local
+agents, or create a scoped token with the right scopes:
 
 ```text
 notes:read
@@ -115,7 +116,7 @@ The MCP process needs access to the same API URL and token as other agent client
 
 ```bash
 export MIANOTES_API_URL="http://127.0.0.1:8200"
-export MIANOTES_API_KEY="mia_or_service_key_here"
+export MIANOTES_API_KEY="mia_user_key_here"
 
 mianotes-mcp
 ```

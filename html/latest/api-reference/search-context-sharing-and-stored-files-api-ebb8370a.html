@@ -43,8 +43,8 @@
 <h2>Get context</h2>
 <div class="code-card"><pre><code class="language-text">GET /api/context</code></pre></div>
 <p>Authentication: session cookie or bearer token with <code>notes\:read</code> or <code>admin</code>.</p>
-<p>This endpoint retrieves full Markdown context from notes in a specific folder. It is designed for agents using shorthand such as:</p>
-<div class="code-card"><pre><code class="language-text">Mia(Mianotes &gt; Settings Page)</code></pre></div>
+<p>This endpoint retrieves Markdown context from notes in a specific folder. It is designed for agents following prompts such as:</p>
+<div class="code-card"><pre><code class="language-text">Before answering, get context from the Settings notes in the Docs workspace.</code></pre></div>
 <p>Query parameters:</p>
 <table class="doc-table"><colgroup><col><col><col></colgroup><thead><tr><th>Parameter</th><th>Required</th><th>Description</th></tr></thead><tbody><tr><td><code>folder</code></td><td>Yes</td><td>Folder name or slug.</td></tr><tr><td><code>title</code></td><td>Yes</td><td>Note title or context phrase.</td></tr><tr><td><code>limit</code></td><td>No</td><td>Maximum notes. Defaults to <code>5</code>; maximum <code>20</code>.</td></tr></tbody></table>
 <p>The service first looks for matching note titles in the requested folder. If no title match is found, it searches Markdown files in that folder and returns matching notes.</p>
@@ -80,14 +80,14 @@ GET /html/{file_path}</code></pre></div>
 <p>Returns generated static HTML files from published sites. The <code>/html</code> root redirects to the latest published version.</p>
 <h2>Get published Markdown</h2>
 <div class="code-card"><pre><code class="language-text">GET /markdown/{file_path}</code></pre></div>
-<p>Authenticated users and bearer-token clients with <code>notes\:read</code> or <code>admin</code> can read stored Markdown files under <code>data/markdown</code>.</p>
 <p>Unauthenticated callers can only read Markdown or source files for notes marked as published.</p>
-<h2>Get stored folder file</h2>
-<div class="code-card"><pre><code class="language-text">GET /{file_path}</code></pre></div>
-<p>Example:</p>
-<div class="code-card"><pre><code class="language-text">GET /mianotes/sources/4a95f146/original.pdf</code></pre></div>
+<h2>Get note-owned stored files</h2>
+<p>Stored file access is database-addressed. Mianotes resolves the workspace, note, and source-file record before serving bytes.</p>
+<div class="code-card"><pre><code class="language-text">GET /api/workspaces/{workspace_id}/notes/{note_id}/markdown
+GET /api/workspaces/{workspace_id}/notes/{note_id}/source-files/{source_file_id}
+GET /api/workspaces/{workspace_id}/notes/{note_id}/images/{file_path}</code></pre></div>
 <p>Authentication: session cookie or bearer token with <code>notes\:read</code> or <code>admin</code>.</p>
-<p>Database files are never served. If a path escapes the data directory or points to private service data such as a SQLite database file or sidecar, the API returns <code>404</code>.</p>
+<p>These routes only return files that belong to the requested note in the requested workspace. Database files and arbitrary workspace files are never served.</p>
       <nav class="article-footer" data-article-footer></nav>
       <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
     </article>

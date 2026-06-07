@@ -47,7 +47,7 @@
 <p>Values beginning with <code>env.</code> are read from the process environment or <code>.env</code>. Do not put raw secrets in <code>settings.json</code>.</p>
 <p>The database adapter is currently <code>sqlite</code>. If <code>MIANOTES_DATABASE_URL</code> is unset, Mianotes uses the default local <code>data/system.db</code>.</p>
 <h2>Common variables</h2>
-<table class="doc-table"><colgroup><col><col><col></colgroup><thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>MIANOTES_HOST</code></td><td><code>0.0.0.0</code> or script default</td><td>Host interface for the web service. Use <code>127.0.0.1</code> for local-only use.</td></tr><tr><td><code>MIANOTES_PORT</code></td><td><code>8200</code></td><td>Web service port.</td></tr><tr><td><code>MIANOTES_LLM_PROVIDER</code></td><td><code>openai</code></td><td>LLM provider: <code>openai</code>, <code>local</code>, or <code>openai-compatible</code>.</td></tr><tr><td><code>MIANOTES_LLM_MODEL</code></td><td><code>gpt-5-nano</code></td><td>Text model used by Mia.</td></tr><tr><td><code>MIANOTES_LLM_BASE_URL</code></td><td>empty</td><td>Base URL for local or OpenAI-compatible providers.</td></tr><tr><td><code>MIANOTES_LLM_API_KEY</code></td><td>empty</td><td>LLM provider API key or local placeholder.</td></tr><tr><td><code>MIANOTES_VLM_API_KEY</code></td><td>empty</td><td>Optional image-capable model provider key.</td></tr><tr><td><code>MIANOTES_LLM_IMAGE_MODEL</code></td><td>empty</td><td>Optional multimodal OpenAI model for image OCR fallback.</td></tr><tr><td><code>MIANOTES_API_KEY</code></td><td>empty</td><td>Service-wide bearer token used by local agents and MCP.</td></tr><tr><td><code>MIANOTES_MAX_PUBLISHED_SITE_DOWNLOAD_BYTES</code></td><td><code>262144000</code></td><td>Maximum bytes allowed for a published-site ZIP download.</td></tr><tr><td><code>MIANOTES_MAX_PUBLISHED_SITE_DOWNLOAD_FILES</code></td><td><code>5000</code></td><td>Maximum file count allowed in a published-site ZIP download.</td></tr></tbody></table>
+<table class="doc-table"><colgroup><col><col><col></colgroup><thead><tr><th>Variable</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>MIANOTES_HOST</code></td><td><code>0.0.0.0</code> or script default</td><td>Host interface for the web service. Use <code>127.0.0.1</code> for local-only use.</td></tr><tr><td><code>MIANOTES_PORT</code></td><td><code>8200</code></td><td>Web service port.</td></tr><tr><td><code>MIANOTES_LLM_PROVIDER</code></td><td><code>openai</code></td><td>LLM provider: <code>openai</code>, <code>local</code>, or <code>openai-compatible</code>.</td></tr><tr><td><code>MIANOTES_LLM_MODEL</code></td><td><code>gpt-5-nano</code></td><td>Text model used by Mia.</td></tr><tr><td><code>MIANOTES_LLM_BASE_URL</code></td><td>empty</td><td>Base URL for local or OpenAI-compatible providers.</td></tr><tr><td><code>MIANOTES_LLM_API_KEY</code></td><td>empty</td><td>LLM provider API key or local placeholder.</td></tr><tr><td><code>MIANOTES_VLM_API_KEY</code></td><td>empty</td><td>Optional image-capable model provider key.</td></tr><tr><td><code>MIANOTES_LLM_IMAGE_MODEL</code></td><td>empty</td><td>Optional multimodal OpenAI model for image OCR fallback.</td></tr><tr><td><code>MIANOTES_API_KEY</code></td><td>empty</td><td>User-scoped bearer token installed by Settings &gt; Connect tools.</td></tr><tr><td><code>MIANOTES_MAX_PUBLISHED_SITE_DOWNLOAD_BYTES</code></td><td><code>262144000</code></td><td>Maximum bytes allowed for a published-site ZIP download.</td></tr><tr><td><code>MIANOTES_MAX_PUBLISHED_SITE_DOWNLOAD_FILES</code></td><td><code>5000</code></td><td>Maximum file count allowed in a published-site ZIP download.</td></tr></tbody></table>
 <h2>Ports</h2>
 <p>Mianotes services use the <code>8200</code> range:</p>
 <div class="code-card"><pre><code class="language-text">8200  web service
@@ -74,13 +74,14 @@ MIANOTES_LLM_API_KEY=ollama</code></pre></div>
 MIANOTES_LLM_MODEL=&lt;model-name&gt;
 MIANOTES_LLM_BASE_URL=&lt;base-url&gt;
 MIANOTES_LLM_API_KEY=&lt;token-or-local-placeholder&gt;</code></pre></div>
-<h2>Agent access variables</h2>
-<p>The service-wide key is for trusted local agents and MCP servers:</p>
+<h2>Tool access variables</h2>
+<p>Settings &gt; Connect tools installs the API URL, user-scoped key, and user email for Codex, Claude Code, and compatible tools:</p>
 <div class="code-card"><pre><code class="language-env">MIANOTES_API_URL=http://127.0.0.1:8200
-MIANOTES_API_KEY=&lt;api_key_generated_in_settings&gt;</code></pre></div>
+MIANOTES_API_KEY=&lt;api_key_generated_by_the_install_script&gt;
+MIANOTES_API_USER=user@example.com</code></pre></div>
 <p>Agent clients send it as:</p>
 <div class="code-card"><pre><code class="language-http">Authorization: Bearer &lt;token&gt;</code></pre></div>
-<p>Scoped per-user API tokens are available through <code>/api/tokens</code> when an automation needs narrower permissions.</p>
+<p>Scoped API tokens are also available through <code>/api/tokens</code> when an automation needs narrower permissions.</p>
       <nav class="article-footer" data-article-footer></nav>
       <footer class="site-footer">© 2026 Mianotes. Open source and local-first.</footer>
     </article>

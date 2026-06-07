@@ -28,16 +28,16 @@ If the agent creates a note from a file or URL, the response will include a `job
 User prompts may look like:
 
 ```text
-Import this link into Mia(workspace: Research, folder: Sources):
+Import this link into the Sources folder of the Research workspace:
 https://example.com/article
 ```
 
 ```text
-Read this PDF and save the key points in Mia(workspace: My App, folder: Research).
+Read this PDF and save the key points in the Research folder of the My App workspace.
 ```
 
 ```text
-Transcribe this YouTube video and save it in Mia(workspace: Course Notes, folder: Lectures):
+Transcribe this YouTube video and save it in the Lectures folder of the Course Notes workspace:
 https://www.youtube.com/watch?v=...
 ```
 
